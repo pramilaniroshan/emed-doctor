@@ -18,4 +18,5 @@ class AppImages {
   static const String backTopImage = 'assets/svgs/Group 185.png';
   static const String qrCodeImage = 'assets/svgs/qrcode.png';
   static const String homeImage = 'assets/images/Home.jpg';
+  static const String calendarIconMenu = 'assets/icons/ico_link.svg';
 }
