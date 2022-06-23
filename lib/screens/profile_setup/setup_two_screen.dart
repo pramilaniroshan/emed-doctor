@@ -1,3 +1,4 @@
+import 'package:emedassistantmobile/screens/doctor_appointment/doctor_appointment_screen.dart';
 import 'package:emedassistantmobile/screens/profile/create_profile_screen.dart';
 import 'package:emedassistantmobile/screens/profile_setup/components/speciality_box.dart';
 import 'package:flutter/material.dart';
@@ -436,7 +437,7 @@ class _ProfileSetupTwoScreenState extends State<ProfileSetupTwoScreen> {
                       const SizedBox(width: 16.0),
                       CustomButton(
                         onTap: (){
-                          Get.to(const CreateProfileScreen());
+                          Get.to(const DoctorAppointmentScreen());
                         },
                         btnText: 'Submit',
                         width: 80.0,
