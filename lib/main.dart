@@ -1,7 +1,6 @@
 import 'package:emedassistantmobile/config/app_images.dart';
 import 'package:emedassistantmobile/screens/auth/home/home_screen.dart';
-import 'package:emedassistantmobile/screens/calendar/calendar_screen.dart';
-import 'package:emedassistantmobile/screens/my_appointments/my_appointment_screen.dart';
+import 'package:emedassistantmobile/screens/doctor_appointment/doctor_appointment_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -57,7 +56,7 @@ class MyApp extends StatelessWidget {
             duration: 3000,
             splash: SvgPicture.asset(AppImages.eMedLogo,height: 50, width: 50,
       fit: BoxFit.scaleDown),
-            nextScreen: isLoggedUser==true ? const MyAppointmentsScreen() : const HomeScreen(),
+            nextScreen: isLoggedUser==true ? const DoctorAppointmentScreen() : const HomeScreen(),
             splashTransition: SplashTransition.fadeTransition,
             backgroundColor: Colors.white));
   }

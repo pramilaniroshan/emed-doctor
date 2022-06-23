@@ -1,7 +1,9 @@
 
 import 'package:emedassistantmobile/models/test_model.dart';
+import 'package:emedassistantmobile/screens/doctor_appointment/doctor_appointment_screen.dart';
 import 'package:emedassistantmobile/screens/my_appointments/my_appointment_screen.dart';
 import 'package:emedassistantmobile/screens/profile/create_profile_screen.dart';
+import 'package:emedassistantmobile/screens/profile_setup/setup_one_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bounceable/flutter_bounceable.dart';
 import 'package:flutter_svg/svg.dart';
@@ -60,7 +62,7 @@ void check_if_already_login() async {
     user = (prefs.getBool('login') ?? false);
     print(prefs.getBool('login'));
     if (user == true) {
-      Get.to(const MyAppointmentsScreen());
+      Get.to(const DoctorAppointmentScreen());
     }
   }
 
@@ -107,7 +109,7 @@ void check_if_already_login() async {
   "Username": emailController.text,
   "UserLoginType": isemailtab ? 0 : 1,
   "CountryCode": 210,
-  "Application": 0
+  "Application": 1
   }).then((res) {
   if (res.statusCode == 200) {
     Get.defaultDialog(
@@ -163,7 +165,7 @@ void check_if_already_login() async {
       prefs.setString('token', body["AccessToken"]);
       prefs.setString('refresh_token', "yes");
       prefs.setBool('login', true);
-   Get.to(const MyAppointmentsScreen());
+   Get.to(const DoctorAppointmentScreen());
    //print(res.data);
   }
   else if (res.statusCode == 400) {
@@ -473,7 +475,9 @@ void check_if_already_login() async {
                     ),
                     const SizedBox(width: 8.0),
                     CustomButton(
-                      onTap: (){},
+                      onTap: (){
+                        Get.to(ProfileSetupOneScreen());
+                      },
                       btnText: 'Doctor',
                       width: 80.0,
                       btnColor: AppColors.white,
@@ -481,24 +485,6 @@ void check_if_already_login() async {
                       borderColor: AppColors.secondary,
                     ),
                     const SizedBox(width: 8.0),
-                    const Text('or',
-                      style: TextStyle(
-                        fontSize: 15.0,
-                        fontWeight: FontWeight.w500,
-                        color: AppColors.black,
-                      ),
-                    ),
-                    const SizedBox(width: 8.0),
-                    CustomButton(
-                      onTap: (){
-                         Get.to(const CreateProfileScreen());
-                      },
-                      btnText: 'Patient',
-                      width: 80.0,
-                      btnColor: AppColors.white,
-                      fontColor: AppColors.secondary,
-                      borderColor: AppColors.secondary,
-                    ),
                    // test();
                   ],
                 ),
