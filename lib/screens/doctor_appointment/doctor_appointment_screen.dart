@@ -47,8 +47,30 @@ class _DoctorAppointmentScreenState extends State<DoctorAppointmentScreen> {
         setState(() {
           DoctorFirstName = res.data['Data']['FirstName'];
         });
-        prefs.setString('name', 'Niroshan');
-        print(DoctorFirstName);
+        prefs.setString('FirstName', res.data['Data']['FirstName']);
+        prefs.setString('Id', res.data['Data']['Id']);
+        prefs.setString('Title', res.data['Data']['Title']);
+        prefs.setString('LastName', res.data['Data']['LastName']);
+        prefs.setString('NationalIdentificationNumber', res.data['Data']['NationalIdentificationNumber']);
+        prefs.setString('Address', res.data['Data']['Address']);
+        prefs.setString('GovDoctorRegNo', res.data['Data']['GovDoctorRegNo']);
+        prefs.setString('NicFrontPicUrl', res.data['Data']['NicFrontPicUrl']);
+        prefs.setString('NicBackPicUrl', res.data['Data']['NicBackPicUrl']);
+        prefs.setString('GovDoctorIdentityPicFrontUrl', res.data['Data']['GovDoctorIdentityPicFrontUrl']);
+        prefs.setString('GovDoctorIdentityPicBackUrl', res.data['Data']['GovDoctorIdentityPicBackUrl']);
+        prefs.setString('VerifiedDate', res.data['Data']['VerifiedDate']);
+        prefs.setString('VerifiedById', res.data['Data']['VerifiedById']);
+        prefs.setString('PhoneNumber', res.data['Data']['PhoneNumber']);
+        prefs.setString('Email', res.data['Data']['Email']);
+        prefs.setString('Description', res.data['Data']['Description']);
+        //prefs.setString('DoctorSpecializations', res.data['Data']['DoctorSpecializations']);
+        prefs.setBool('IsVerified', res.data['Data']['IsVerified']);
+        prefs.setBool('IsActive', res.data['Data']['IsActive']);
+        prefs.setBool('IsPhoneNumberVerified', res.data['Data']['IsPhoneNumberVerified']);
+        prefs.setBool('IsEmailVerified', res.data['Data']['IsEmailVerified']);
+        prefs.setBool('PhoneNumberVisibleToPatient', res.data['Data']['PhoneNumberVisibleToPatient']);
+        prefs.setInt('CityId', res.data['Data']['CityId'] ?? 0);
+        print(prefs.getBool('IsPhoneNumberVerified'));
       });
     } on DioError catch (e) {
       print(e.response!.data);
@@ -70,7 +92,7 @@ class _DoctorAppointmentScreenState extends State<DoctorAppointmentScreen> {
         setState(() {
           Appointments = res.data['Data']['Data'];
         });
-        //print(Appointments);
+        //print(Appointments[3]['Patient']['LastName']);
       });
     } on DioError catch (e) {
       print(e.response!.data);
@@ -287,9 +309,14 @@ class _DoctorAppointmentScreenState extends State<DoctorAppointmentScreen> {
                                             Appointments.length,
                                             (index) => SignleApp(
                                                 Appointments[index]
-                                                    ['PatientNotes'],
+                                                    ['Patient']['LastName'] ?? '',
                                                 Appointments[index]
-                                                    ['PatientNotes']))),
+                                                    ['PatientNotes'] ?? '',
+                                                    Appointments[index]
+                                                    ['Patient']['PhoneNumber'] ?? '',
+                                                    Appointments[index]
+                                                    ['Patient']['Email'] ?? '',
+                                                    ))),
                                 const SizedBox(height: 16.0),
                                 const Divider(
                                   color: AppColors.primary,
@@ -370,7 +397,7 @@ class _DoctorAppointmentScreenState extends State<DoctorAppointmentScreen> {
         ],
       );
 
-  Widget SignleApp(String name, String des) => Row(
+  Widget SignleApp(String name, String des, String phoneNumber, String email) => Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
@@ -409,7 +436,7 @@ class _DoctorAppointmentScreenState extends State<DoctorAppointmentScreen> {
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.start,
-                  children: const [
+                  children:  [
                     Text(
                       'tel. ',
                       style: TextStyle(
@@ -418,7 +445,7 @@ class _DoctorAppointmentScreenState extends State<DoctorAppointmentScreen> {
                       ),
                     ),
                     Text(
-                      '+86527362837',
+                      phoneNumber,
                       style: TextStyle(
                         fontSize: 15.0,
                         color: AppColors.secondary,
@@ -430,7 +457,7 @@ class _DoctorAppointmentScreenState extends State<DoctorAppointmentScreen> {
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.start,
-                  children: const [
+                  children: [
                     Text(
                       'email ',
                       style: TextStyle(
@@ -439,7 +466,7 @@ class _DoctorAppointmentScreenState extends State<DoctorAppointmentScreen> {
                       ),
                     ),
                     Text(
-                      'abcd@gamil.com',
+                      email,
                       style: TextStyle(
                         fontSize: 15.0,
                         color: AppColors.secondary,
