@@ -1,3 +1,5 @@
+import 'package:country_code_picker/country_code.dart';
+import 'package:country_code_picker/country_code_picker.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:emedassistantmobile/screens/book_an_appointment/book_an_appointment_screen.dart';
 import 'package:flutter/material.dart';
@@ -11,13 +13,35 @@ import '../../../widgets/custom_button.dart';
 import '../../../widgets/custom_field.dart';
 
 class PersonalInfoScreen extends StatefulWidget {
-  const PersonalInfoScreen({Key? key}) : super(key: key);
+
+  String? id;
+  String? title;
+  String? firstName;
+  String? lastName;
+  String? nationalIdentificationNumber;
+  String? address;
+  String? email;
+  String? phoneNumber;
+  bool? phoneNumberVisibleToPatient;
+
+   PersonalInfoScreen(
+    this.id,
+    this.title,
+    this.firstName,
+    this.lastName,
+    this.nationalIdentificationNumber,
+    this.address,
+    this.email,
+    this.phoneNumber,
+    this.phoneNumberVisibleToPatient,
+    {Key? key}) : super(key: key);
 
   @override
   State<PersonalInfoScreen> createState() => _PersonalInfoScreenState();
 }
 
 class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
+
 
   TextEditingController nameController = TextEditingController();
   TextEditingController lastNameController = TextEditingController();
@@ -30,10 +54,11 @@ class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
 
   String? selectedValue;
   List<String> items = [
-    '15 minutes',
-    '1 hour',
-    '4 hours',
-    '24 hours',
+	''
+  ];
+  List<String> Title = [
+    'MR',
+    'MRS'
   ];
 
   bool status = false;
@@ -79,14 +104,14 @@ class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
               child: DropdownButtonHideUnderline(
                 child: DropdownButton2(
                   icon: const Icon(Icons.keyboard_arrow_down),
-                  hint: const Text(
-                    '15 minutes', style: TextStyle(
+                  hint: Text(
+                    widget.title ?? '', style: TextStyle(
                     fontSize: 13.0,
                     color: AppColors.lightBlack,
                     fontWeight: FontWeight.w500,
                   ),
                   ),
-                  items: items.map((item) => DropdownMenuItem<String>(
+                  items: Title.map((item) => DropdownMenuItem<String>(
                     value: item,
                     child: Text(
                       item,
@@ -140,6 +165,7 @@ class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
             ),
             CustomField(
               controller: nameController,
+              hintText: widget.firstName,
               height: 40.0,
               keyboardType: TextInputType.name,
               width: width,
@@ -169,6 +195,7 @@ class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
             ),
             CustomField(
               controller: lastNameController,
+              hintText: widget.lastName,
               height: 40.0,
               keyboardType: TextInputType.name,
               width: width,
@@ -198,6 +225,7 @@ class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
             ),
             CustomField(
               controller: emailController,
+              hintText : widget.email,
               height: 40.0,
               keyboardType: TextInputType.emailAddress,
               width: width,
@@ -223,7 +251,7 @@ class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.start,
-                        children: const [
+                        children: [
                           Text('* ',
                             style: TextStyle(
                               fontSize: 18.0,
@@ -238,6 +266,9 @@ class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
                               fontWeight: FontWeight.w500,
                             ),
                           ),
+                          // CountryCodePicker(
+                          //   initialSelection: 'IT',
+                          // ),
                         ],
                       ),
                       Container(
@@ -255,7 +286,7 @@ class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
                           child: DropdownButton2(
                             icon: const Icon(Icons.keyboard_arrow_down),
                             hint: const Text(
-                              '15 minutes', style: TextStyle(
+                              '+94', style: TextStyle(
                               fontSize: 13.0,
                               color: AppColors.lightBlack,
                               fontWeight: FontWeight.w500,
@@ -324,6 +355,7 @@ class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
                 ),
                 CustomField(
                   controller: mobileNumberController,
+                  hintText: widget.phoneNumber,
                   height: 40.0,
                   keyboardType: TextInputType.number,
                   width: width,
@@ -352,7 +384,7 @@ class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
                   inactiveToggleColor: AppColors.lightBackground,
                   activeColor: AppColors.secondary,
                   padding: 3.0,
-                  value: status,
+                  value: widget.phoneNumberVisibleToPatient ?? false,
                   onToggle: (val) {
                     setState(() {
                       status = val;
@@ -386,6 +418,7 @@ class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
             ),
             CustomField(
               controller: nicNumberController,
+              hintText: widget.nationalIdentificationNumber,
               height: 40.0,
               keyboardType: TextInputType.number,
               width: width,
@@ -421,6 +454,7 @@ class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
             ),
             CustomField(
               controller: addressController,
+              hintText: widget.address,
               height: 40.0,
               keyboardType: TextInputType.streetAddress,
               width: width,
