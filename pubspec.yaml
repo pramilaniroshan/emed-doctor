@@ -53,6 +53,7 @@ dependencies:
   form_validator: ">=0.1.1 <2.0.0"
   device_info_plus: ^3.2.3
   flutter_launcher_icons: "^0.9.2"
+  country_code_picker: ^2.0.2
 
 
 
