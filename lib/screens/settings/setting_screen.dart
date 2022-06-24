@@ -20,24 +20,63 @@ class SettingsScreen extends StatefulWidget {
   State<SettingsScreen> createState() => _SettingsScreenState();
 }
 
-class _SettingsScreenState extends State<SettingsScreen> with SingleTickerProviderStateMixin {
-
+class _SettingsScreenState extends State<SettingsScreen>
+    with SingleTickerProviderStateMixin {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-
+  String? id;
+  String? title;
+  String? firstName;
+  String? lastName;
+  String? nationalIdentificationNumber;
+  String? address;
+  Null? cityId;
+  String? govDoctorRegNo;
+  String? nicFrontPicUrl;
+  String? nicBackPicUrl;
+  String? govDoctorIdentityPicFrontUrl;
+  String? govDoctorIdentityPicBackUrl;
+  bool? isVerified;
+  String? verifiedDate;
+  String? verifiedById;
+  bool? isActive;
+  String? phoneNumber;
+  bool? isPhoneNumberVerified;
+  String? email;
+  bool? isEmailVerified;
+  List<Null>? doctorSpecializations;
+  bool? phoneNumberVisibleToPatient;
+  Null? profilePicture;
+  String? description;
 
   TabController? tabController;
   late SharedPreferences prefs;
 
-  void GetProfile () async{
+  void getProfile() async {
     prefs = await SharedPreferences.getInstance();
-    print(prefs.getString('name'));
+    setState(() {
+      firstName = prefs.getString('FirstName') ?? '';
+      id = prefs.getString('Id');
+      title = prefs.getString('Title');
+      lastName = prefs.getString('LastName');
+      nationalIdentificationNumber = prefs.getString('NationalIdentificationNumber');
+      address = prefs.getString('Address');
+      govDoctorRegNo = prefs.getString('GovDoctorRegNo');
+      nicFrontPicUrl = prefs.getString('NicFrontPicUrl');
+      nicBackPicUrl = prefs.getString('NicBackPicUrl');
+      govDoctorIdentityPicFrontUrl = prefs.getString('GovDoctorIdentityPicFrontUrl');
+      govDoctorIdentityPicBackUrl= prefs.getString('GovDoctorIdentityPicBackUrl');
+      phoneNumber= prefs.getString('PhoneNumber');
+      email = prefs.getString('Email');
+      description = prefs.getString('Description');
+      phoneNumberVisibleToPatient = prefs.getBool('PhoneNumberVisibleToPatient') ?? false;
+    });
   }
 
   @override
   void initState() {
     tabController = TabController(length: 5, vsync: this);
     super.initState();
-    GetProfile();
+    getProfile();
   }
 
   @override
@@ -67,8 +106,9 @@ class _SettingsScreenState extends State<SettingsScreen> with SingleTickerProvid
             backgroundImage: AssetImage(AppImages.doctorImage),
           ),
           const SizedBox(width: 8.0),
-          const Center(
-            child: Text('Lorem Arsh',
+          Center(
+            child: Text(
+              firstName ?? '',
               style: TextStyle(
                 fontSize: 14.0,
                 fontWeight: FontWeight.w700,
@@ -80,14 +120,14 @@ class _SettingsScreenState extends State<SettingsScreen> with SingleTickerProvid
         ],
       ),
       endDrawer: DoctorDrawer(),
-
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           const Padding(
             padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
-            child: Text('Settings',
+            child: Text(
+              'Settings',
               style: TextStyle(
                 fontSize: 25.0,
                 color: AppColors.black,
@@ -125,8 +165,8 @@ class _SettingsScreenState extends State<SettingsScreen> with SingleTickerProvid
           Expanded(
             child: TabBarView(
               controller: tabController,
-              children: const [
-                PersonalInfoScreen(),
+              children: [
+                PersonalInfoScreen(id,title,firstName,lastName,nationalIdentificationNumber,address,email,phoneNumber,phoneNumberVisibleToPatient),
                 BillingScreen(),
                 SProfileScreen(),
                 SpecialitiesScreen(),
@@ -140,9 +180,9 @@ class _SettingsScreenState extends State<SettingsScreen> with SingleTickerProvid
   }
 
   Widget menuButton() => TextButton(
-    onPressed: (){
-      _scaffoldKey.currentState!.openEndDrawer();
-    },
-    child: const Icon(Icons.menu, color: AppColors.black, size: 28.0),
-  );
+        onPressed: () {
+          _scaffoldKey.currentState!.openEndDrawer();
+        },
+        child: const Icon(Icons.menu, color: AppColors.black, size: 28.0),
+      );
 }
