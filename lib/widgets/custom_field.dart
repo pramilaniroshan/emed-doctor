@@ -12,6 +12,7 @@ class CustomField extends StatelessWidget {
   final bool? isPrefixIcon;
   final String? hintText;
   final FormFieldValidator<String> ? validator;
+  final bool ? readOnly;
 
   const CustomField({Key? key,
     this.controller,
@@ -23,6 +24,7 @@ class CustomField extends StatelessWidget {
     this.padding,
     this.validator,
     this.hintText = '',
+    this.readOnly = false,
 }) : super(key: key);
 
   @override
@@ -41,6 +43,7 @@ class CustomField extends StatelessWidget {
       child: TextFormField(
         
         controller: controller,
+        readOnly: readOnly ?? false,
         keyboardType: keyboardType,
         validator: validator,
         decoration: InputDecoration(
