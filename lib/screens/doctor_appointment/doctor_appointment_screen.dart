@@ -70,7 +70,7 @@ class _DoctorAppointmentScreenState extends State<DoctorAppointmentScreen> {
         prefs.setBool('IsEmailVerified', res.data['Data']['IsEmailVerified']);
         prefs.setBool('PhoneNumberVisibleToPatient', res.data['Data']['PhoneNumberVisibleToPatient']);
         prefs.setInt('CityId', res.data['Data']['CityId'] ?? 0);
-        print(prefs.getBool('IsPhoneNumberVerified'));
+        print(prefs.getString('token'));
       });
     } on DioError catch (e) {
       print(e.response!.data);
