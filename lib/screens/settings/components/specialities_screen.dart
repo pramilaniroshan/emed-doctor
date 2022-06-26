@@ -1,4 +1,7 @@
+import 'package:chips_choice/chips_choice.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:dio/dio.dart';
 
 import 'package:emedassistantmobile/config/app_colors.dart';
 import '../../../widgets/custom_button.dart';
@@ -32,6 +35,46 @@ class _SpecialitiesScreenState extends State<SpecialitiesScreen> {
     'Urologists',
   ];
 
+  List<String> doctor_sp = [
+    'Allergists/Immunologists',
+    'Psychiatrists'
+  ];
+
+  bool selected = false;
+
+  late SharedPreferences prefs;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    //doctorUpdateSpecialization();
+  }
+
+  void doctorUpdateSpecialization() async {
+    print('Doctor DoctorUpdateSpecialization');
+    prefs = await SharedPreferences.getInstance();
+    String token = prefs.getString("token") ?? '';
+    try {
+      var dio = Dio();
+      dio.options.headers["authorization"] = "Bearer " + token;
+      await dio
+          .post
+        ('https://localhost:5001/api/v1/Doctor/UpdateSpecialization',data : {
+          "DoctorSpecializations": doctor_sp
+        }
+      )
+          .then((res) {
+        setState(() {
+          
+        });
+        //print(Appointments[3]['Patient']['LastName']);
+      });
+    } on DioError catch (e) {
+      print(e.response!.data);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
@@ -57,17 +100,48 @@ class _SpecialitiesScreenState extends State<SpecialitiesScreen> {
               ),
             ),
             const SizedBox(height: 16.0),
-            Wrap(
-              children: items
-                  .map((item) {
-                var index = items.indexOf(item);
-                return SpecialityBox(
-                  onTap: () {},
-                  text: items[index],
-                );
-              }).toList(),
-            ),
+            // Wrap(
+            //   children: items
+            //       .map((item) {
+            //     var index = items.indexOf(item);
+
+            //     return FilterChip(
+            //   label: Text(items[index]),
+            //   selected: items.contains('Urologists'),
+            //   onSelected: (bool value) {},
+            // );
+            //     // return SpecialityBox(
+            //     //   onTap: () {},
+            //     //   text: items[index],
+            //     // );
+            //   }).toList(),
+            // ),
             const SizedBox(height: 20.0),
+            ChipsChoice<String>.multiple(
+            value: doctor_sp,
+            onChanged: (val) => setState(() => doctor_sp = val),
+            choiceItems: C2Choice.listFrom<String, String>(
+              source: items,
+              value: (i, v) => v,
+              label: (i, v) => v,
+            ),
+            choiceStyle: C2ChoiceStyle(
+              borderColor: AppColors.primary,
+              color: AppColors.black,
+              labelPadding: EdgeInsets.all(5),
+            ),
+            choiceActiveStyle: C2ChoiceStyle(
+              borderColor: Color.fromRGBO(56, 158, 13, 1),
+              color: AppColors.black,
+              labelStyle: TextStyle(
+                fontWeight: FontWeight.bold
+              )
+            ),
+            spacing: 30,
+            runSpacing: 10,
+            wrapped: true,
+            ),
+            
             Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.end,
@@ -86,6 +160,7 @@ class _SpecialitiesScreenState extends State<SpecialitiesScreen> {
                 CustomButton(
                   onTap: (){
                     //Get.to(const ProfileSetupTwoScreen());
+                    print(doctor_sp);
                   },
                   btnText: 'Submit',
                   width: 80.0,
