@@ -225,6 +225,7 @@ class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
             ),
             CustomField(
               controller: emailController,
+              readOnly: true,
               hintText : widget.email,
               height: 40.0,
               keyboardType: TextInputType.emailAddress,
@@ -355,6 +356,7 @@ class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
                 ),
                 CustomField(
                   controller: mobileNumberController,
+                  readOnly: true,
                   hintText: widget.phoneNumber,
                   height: 40.0,
                   keyboardType: TextInputType.number,
@@ -418,6 +420,7 @@ class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
             ),
             CustomField(
               controller: nicNumberController,
+              readOnly: true,
               hintText: widget.nationalIdentificationNumber,
               height: 40.0,
               keyboardType: TextInputType.number,
