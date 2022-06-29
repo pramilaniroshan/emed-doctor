@@ -9,6 +9,7 @@ import 'package:dio/dio.dart';
 
 import 'package:emedassistantmobile/config/app_colors.dart';
 import 'package:emedassistantmobile/config/app_images.dart';
+import '../../config/constants.dart';
 import '../../widgets/custom_button.dart';
 import 'component/appoinment_dialog.dart';
 
@@ -32,7 +33,7 @@ class _DoctorAppointmentScreenState extends State<DoctorAppointmentScreen> {
   List Appointments = [];
   String DoctorFirstName = '';
 
-  void GetDoctorProfile() async {
+  void getDoctorProfile() async {
     print('Doctor Profile');
     prefs = await SharedPreferences.getInstance();
     String token = prefs.getString("token") ?? '';
@@ -41,14 +42,43 @@ class _DoctorAppointmentScreenState extends State<DoctorAppointmentScreen> {
       dio.options.headers["authorization"] = "Bearer " + token;
       await dio
           .get(
-        'https://localhost:5001/api/v1/Doctor',
+        Constants().getBaseUrl() + '/Doctor',
       )
           .then((res) {
         setState(() {
           DoctorFirstName = res.data['Data']['FirstName'];
         });
-        prefs.setString('name', 'Niroshan');
-        print(DoctorFirstName);
+        if (prefs.getString("token") != null) {
+          prefs.setString('FirstName', res.data['Data']['FirstName']);
+          prefs.setString('Id', res.data['Data']['Id']);
+          prefs.setString('Title', res.data['Data']['Title']);
+          prefs.setString('LastName', res.data['Data']['LastName']);
+          prefs.setString('NationalIdentificationNumber',
+              res.data['Data']['NationalIdentificationNumber']);
+          prefs.setString('Address', res.data['Data']['Address']);
+          prefs.setString('GovDoctorRegNo', res.data['Data']['GovDoctorRegNo']);
+          prefs.setString('NicFrontPicUrl', res.data['Data']['NicFrontPicUrl']);
+          prefs.setString('NicBackPicUrl', res.data['Data']['NicBackPicUrl']);
+          prefs.setString('GovDoctorIdentityPicFrontUrl',
+              res.data['Data']['GovDoctorIdentityPicFrontUrl']);
+          prefs.setString('GovDoctorIdentityPicBackUrl',
+              res.data['Data']['GovDoctorIdentityPicBackUrl']);
+          prefs.setString('VerifiedDate', res.data['Data']['VerifiedDate']);
+          prefs.setString('VerifiedById', res.data['Data']['VerifiedById']);
+          prefs.setString('PhoneNumber', res.data['Data']['PhoneNumber']);
+          prefs.setString('Email', res.data['Data']['Email']);
+          prefs.setString('Description', res.data['Data']['Description']);
+          //prefs.setString('DoctorSpecializations', res.data['Data']['DoctorSpecializations']);
+          prefs.setBool('IsVerified', res.data['Data']['IsVerified']);
+          prefs.setBool('IsActive', res.data['Data']['IsActive']);
+          prefs.setBool('IsPhoneNumberVerified',
+              res.data['Data']['IsPhoneNumberVerified']);
+          prefs.setBool('IsEmailVerified', res.data['Data']['IsEmailVerified']);
+          prefs.setBool('PhoneNumberVisibleToPatient',
+              res.data['Data']['PhoneNumberVisibleToPatient']);
+          prefs.setInt('CityId', res.data['Data']['CityId'] ?? 0);
+          print(prefs.getString('token'));
+        }
       });
     } on DioError catch (e) {
       print(e.response!.data);
@@ -64,13 +94,12 @@ class _DoctorAppointmentScreenState extends State<DoctorAppointmentScreen> {
       dio.options.headers["authorization"] = "Bearer " + token;
       await dio
           .get(
-        'https://localhost:5001/api/v1/Doctor/Appointment',
+        Constants().getBaseUrl() + '/Doctor/Appointment',
       )
           .then((res) {
         setState(() {
           Appointments = res.data['Data']['Data'];
         });
-        //print(Appointments);
       });
     } on DioError catch (e) {
       print(e.response!.data);
@@ -81,7 +110,7 @@ class _DoctorAppointmentScreenState extends State<DoctorAppointmentScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    GetDoctorProfile();
+    getDoctorProfile();
     getApp();
     print(selectedValue);
   }
@@ -286,10 +315,19 @@ class _DoctorAppointmentScreenState extends State<DoctorAppointmentScreen> {
                                         children: List.generate(
                                             Appointments.length,
                                             (index) => SignleApp(
-                                                Appointments[index]
-                                                    ['PatientNotes'],
-                                                Appointments[index]
-                                                    ['PatientNotes']))),
+                                                  Appointments[index]['Patient']
+                                                          ['LastName'] ??
+                                                      '',
+                                                  Appointments[index]
+                                                          ['PatientNotes'] ??
+                                                      '',
+                                                  Appointments[index]['Patient']
+                                                          ['PhoneNumber'] ??
+                                                      '',
+                                                  Appointments[index]['Patient']
+                                                          ['Email'] ??
+                                                      '',
+                                                ))),
                                 const SizedBox(height: 16.0),
                                 const Divider(
                                   color: AppColors.primary,
@@ -364,13 +402,24 @@ class _DoctorAppointmentScreenState extends State<DoctorAppointmentScreen> {
               ],
             ),
           ),
-          SvgPicture.asset(AppImages.deleteDisableIcon),
+          //SvgPicture.asset(AppImages.deleteDisableIcon),
+          Image.asset(
+            AppImages.deleteDisableIcon,
+            width: 40,
+            height: 40,
+          ),
           const SizedBox(width: 16.0),
-          SvgPicture.asset(AppImages.editButtonIcon),
+          //SvgPicture.asset(AppImages.editButtonIcon),
+          Image.asset(
+            AppImages.editButtonIcon,
+            width: 40,
+            height: 40,
+          ),
         ],
       );
 
-  Widget SignleApp(String name, String des) => Row(
+  Widget SignleApp(String name, String des, String phoneNumber, String email) =>
+      Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
@@ -409,7 +458,7 @@ class _DoctorAppointmentScreenState extends State<DoctorAppointmentScreen> {
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.start,
-                  children: const [
+                  children: [
                     Text(
                       'tel. ',
                       style: TextStyle(
@@ -418,7 +467,7 @@ class _DoctorAppointmentScreenState extends State<DoctorAppointmentScreen> {
                       ),
                     ),
                     Text(
-                      '+86527362837',
+                      phoneNumber,
                       style: TextStyle(
                         fontSize: 15.0,
                         color: AppColors.secondary,
@@ -430,7 +479,7 @@ class _DoctorAppointmentScreenState extends State<DoctorAppointmentScreen> {
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.start,
-                  children: const [
+                  children: [
                     Text(
                       'email ',
                       style: TextStyle(
@@ -439,7 +488,7 @@ class _DoctorAppointmentScreenState extends State<DoctorAppointmentScreen> {
                       ),
                     ),
                     Text(
-                      'abcd@gamil.com',
+                      email,
                       style: TextStyle(
                         fontSize: 15.0,
                         color: AppColors.secondary,

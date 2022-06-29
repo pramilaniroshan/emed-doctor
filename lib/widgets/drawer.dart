@@ -1,5 +1,6 @@
 import 'package:emedassistantmobile/screens/auth/home/home_screen.dart';
 import 'package:emedassistantmobile/screens/calendar/calendar_screen.dart';
+import 'package:emedassistantmobile/screens/doctor_appointment/doctor_appointment_screen.dart';
 import 'package:emedassistantmobile/screens/scan_qr/scan_qr_screen.dart';
 import 'package:emedassistantmobile/screens/settings/setting_screen.dart';
 import 'package:flutter/material.dart';
@@ -41,7 +42,9 @@ class DoctorDrawer extends StatelessWidget {
             ),
             const SizedBox(height: 20.0),
             ListTile(
-              onTap: (){},
+              onTap: (){
+                Get.to(DoctorAppointmentScreen());
+              },
               leading: Padding(
                 padding: const EdgeInsets.only(top: 6.0, left: 12.0),
                 child: SvgPicture.asset(
