@@ -9,33 +9,28 @@ import 'package:dio/dio.dart';
 import 'package:emedassistantmobile/config/app_colors.dart';
 import 'package:emedassistantmobile/config/app_images.dart';
 
-class PatientBookingScreen extends StatefulWidget {
+import '../../config/constants.dart';
 
-   final String? timeSlotText;
+class PatientBookingScreen extends StatefulWidget {
+  final String? timeSlotText;
   final String id;
   final int? consultationFee;
   final String? doctorFullName;
 
   const PatientBookingScreen(
-    this.timeSlotText,
-    this.consultationFee,
-    this.doctorFullName,
-    this.id,
-    {Key? key}) : super(key: key);
+      this.timeSlotText, this.consultationFee, this.doctorFullName, this.id,
+      {Key? key})
+      : super(key: key);
 
   @override
   State<PatientBookingScreen> createState() => _PatientBookingScreenState();
 }
 
-
-
 class _PatientBookingScreenState extends State<PatientBookingScreen> {
-
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   TextEditingController descController = TextEditingController();
   late SharedPreferences prefs;
-
 
   void makeApp() async {
     print('Make App');
@@ -44,17 +39,13 @@ class _PatientBookingScreenState extends State<PatientBookingScreen> {
     try {
       var dio = Dio();
       dio.options.headers["authorization"] = "Bearer " + token;
-      await dio.post(
-          'https://localhost:5001/api/v1/Patient/Appointment',data :
-        {
-  "DoctorAvailabilityId": widget.id,
-  "Time": widget.timeSlotText,
-  "PatientNotes": descController.text,
-} ).then((res) {
-            print(res.data);
-        setState(() {
-          
-        });
+      await dio.post(Constants().getBaseUrl() + '/Patient/Appointment', data: {
+        "DoctorAvailabilityId": widget.id,
+        "Time": widget.timeSlotText,
+        "PatientNotes": descController.text,
+      }).then((res) {
+        print(res.data);
+        setState(() {});
         print(res.data);
       });
     } on DioError catch (e) {
@@ -97,7 +88,6 @@ class _PatientBookingScreenState extends State<PatientBookingScreen> {
         elevation: 0.0,
         child: endDrawerData(height),
       ),
-
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -157,8 +147,10 @@ class _PatientBookingScreenState extends State<PatientBookingScreen> {
             const SizedBox(height: 16.0),
             Container(
               width: width,
-              padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 16.0),
-              margin: const EdgeInsets.only(left: 16.0, right: 16.0, bottom: 16.0),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 8.0, vertical: 16.0),
+              margin:
+                  const EdgeInsets.only(left: 16.0, right: 16.0, bottom: 16.0),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(12.0),
                 color: AppColors.white,
@@ -171,7 +163,6 @@ class _PatientBookingScreenState extends State<PatientBookingScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-
                   /// Doctor name and image
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -181,8 +172,9 @@ class _PatientBookingScreenState extends State<PatientBookingScreen> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.start,
-                          children:  [
-                            Text(widget.doctorFullName ?? '',
+                          children: [
+                            Text(
+                              widget.doctorFullName ?? '',
                               style: TextStyle(
                                 fontSize: 24.0,
                                 fontWeight: FontWeight.bold,
@@ -191,7 +183,8 @@ class _PatientBookingScreenState extends State<PatientBookingScreen> {
                               ),
                             ),
                             SizedBox(height: 6.0),
-                            Text('Lorem Ipsum - Lorem Ipsum',
+                            Text(
+                              'Lorem Ipsum - Lorem Ipsum',
                               style: TextStyle(
                                 fontSize: 15.0,
                                 fontWeight: FontWeight.w500,
@@ -223,7 +216,8 @@ class _PatientBookingScreenState extends State<PatientBookingScreen> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        const Icon(Icons.calendar_today, color: AppColors.primary, size: 20.0),
+                        const Icon(Icons.calendar_today,
+                            color: AppColors.primary, size: 20.0),
                         const SizedBox(width: 8.0),
                         Expanded(
                           child: Column(
@@ -231,7 +225,7 @@ class _PatientBookingScreenState extends State<PatientBookingScreen> {
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
                               RichText(
-                                text:  TextSpan(
+                                text: TextSpan(
                                   children: [
                                     TextSpan(
                                       text: 'Tuesday, ',
@@ -260,7 +254,8 @@ class _PatientBookingScreenState extends State<PatientBookingScreen> {
                                   ],
                                 ),
                               ),
-                              const Text('6° slot',
+                              const Text(
+                                '6° slot',
                                 style: TextStyle(
                                   fontSize: 22.0,
                                   color: AppColors.secondary,
@@ -276,12 +271,14 @@ class _PatientBookingScreenState extends State<PatientBookingScreen> {
 
                   /// cost row
                   Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 12.0),
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 20.0, horizontal: 12.0),
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        const Icon(CupertinoIcons.money_dollar_circle, color: AppColors.primary, size: 20.0),
+                        const Icon(CupertinoIcons.money_dollar_circle,
+                            color: AppColors.primary, size: 20.0),
                         const SizedBox(width: 8.0),
                         Expanded(
                           child: Column(
@@ -289,7 +286,7 @@ class _PatientBookingScreenState extends State<PatientBookingScreen> {
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
                               RichText(
-                                text:  TextSpan(
+                                text: TextSpan(
                                   children: [
                                     TextSpan(
                                       text: '\$ ',
@@ -327,12 +324,14 @@ class _PatientBookingScreenState extends State<PatientBookingScreen> {
 
                   /// location row
                   Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 12.0),
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 20.0, horizontal: 12.0),
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        const Icon(CupertinoIcons.location, color: AppColors.primary, size: 20.0),
+                        const Icon(CupertinoIcons.location,
+                            color: AppColors.primary, size: 20.0),
                         const SizedBox(width: 8.0),
                         Expanded(
                           child: Column(
@@ -351,7 +350,8 @@ class _PatientBookingScreenState extends State<PatientBookingScreen> {
                                       ),
                                     ),
                                     TextSpan(
-                                      text: '- Hospital St, Colombo 00100, Sri Lanka',
+                                      text:
+                                          '- Hospital St, Colombo 00100, Sri Lanka',
                                       style: TextStyle(
                                         fontSize: 18.0,
                                         color: AppColors.black,
@@ -372,12 +372,13 @@ class _PatientBookingScreenState extends State<PatientBookingScreen> {
                   const SizedBox(height: 32.0),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                    child: Text('Please add a brief description about the reason for the visit',
-                    style: TextStyle(
-                      fontSize: 15.0,
-                      color: AppColors.black.withOpacity(0.8),
-                      fontWeight: FontWeight.w500,
-                    ),
+                    child: Text(
+                      'Please add a brief description about the reason for the visit',
+                      style: TextStyle(
+                        fontSize: 15.0,
+                        color: AppColors.black.withOpacity(0.8),
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
                   ),
                   const SizedBox(height: 12.0),
@@ -419,7 +420,7 @@ class _PatientBookingScreenState extends State<PatientBookingScreen> {
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         CustomButton(
-                          onTap: (){},
+                          onTap: () {},
                           btnColor: AppColors.white,
                           fontColor: AppColors.black,
                           btnText: 'Cancel',
@@ -429,7 +430,7 @@ class _PatientBookingScreenState extends State<PatientBookingScreen> {
                         ),
                         const SizedBox(width: 12.0),
                         CustomButton(
-                          onTap: (){
+                          onTap: () {
                             makeApp();
                           },
                           btnText: 'Confirm',
@@ -439,7 +440,6 @@ class _PatientBookingScreenState extends State<PatientBookingScreen> {
                       ],
                     ),
                   ),
-
                 ],
               ),
             ),
@@ -450,168 +450,168 @@ class _PatientBookingScreenState extends State<PatientBookingScreen> {
   }
 
   Widget endDrawerData(height) => Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    mainAxisAlignment: MainAxisAlignment.start,
-    children: [
-      const SizedBox(height: 40.0),
-      Align(
-        alignment: Alignment.bottomRight,
-        child: IconButton(
-          onPressed: () {
-            Get.back();
-          },
-          icon: SvgPicture.asset(
-            AppImages.closeIcon,
-          ),
-        ),
-      ),
-      const SizedBox(height: 20.0),
-      ListTile(
-        onTap: () {},
-        leading: Padding(
-          padding: const EdgeInsets.only(top: 6.0, left: 12.0),
-          child: SvgPicture.asset(
-            AppImages.supportIcon,
-            height: 13.0,
-            width: 13.0,
-            fit: BoxFit.scaleDown,
-            color: AppColors.secondary,
-          ),
-        ),
-        title: const Align(
-          alignment: Alignment(-1.3, 0),
-          child: Text(
-            'Support',
-            style: TextStyle(
-              fontSize: 21.0,
-              color: AppColors.black,
-              fontWeight: FontWeight.w400,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          const SizedBox(height: 40.0),
+          Align(
+            alignment: Alignment.bottomRight,
+            child: IconButton(
+              onPressed: () {
+                Get.back();
+              },
+              icon: SvgPicture.asset(
+                AppImages.closeIcon,
+              ),
             ),
           ),
-        ),
-      ),
-      ListTile(
-        onTap: () {},
-        leading: Padding(
-          padding: const EdgeInsets.only(top: 6.0, left: 12.0),
-          child: SvgPicture.asset(
-            AppImages.contactIcon,
-            height: 13.0,
-            width: 13.0,
-            fit: BoxFit.scaleDown,
-            color: AppColors.secondary,
-          ),
-        ),
-        title: const Align(
-          alignment: Alignment(-1.3, 0),
-          child: Text(
-            'Contact',
-            style: TextStyle(
-              fontSize: 21.0,
-              color: AppColors.black,
-              fontWeight: FontWeight.w400,
+          const SizedBox(height: 20.0),
+          ListTile(
+            onTap: () {},
+            leading: Padding(
+              padding: const EdgeInsets.only(top: 6.0, left: 12.0),
+              child: SvgPicture.asset(
+                AppImages.supportIcon,
+                height: 13.0,
+                width: 13.0,
+                fit: BoxFit.scaleDown,
+                color: AppColors.secondary,
+              ),
+            ),
+            title: const Align(
+              alignment: Alignment(-1.3, 0),
+              child: Text(
+                'Support',
+                style: TextStyle(
+                  fontSize: 21.0,
+                  color: AppColors.black,
+                  fontWeight: FontWeight.w400,
+                ),
+              ),
             ),
           ),
-        ),
-      ),
-      ListTile(
-        onTap: () {},
-        leading: Padding(
-          padding: const EdgeInsets.only(top: 6.0, left: 12.0),
-          child: SvgPicture.asset(
-            AppImages.termsIcon,
-            height: 13.0,
-            width: 13.0,
-            fit: BoxFit.scaleDown,
-            color: AppColors.secondary,
-          ),
-        ),
-        title: const Align(
-          alignment: Alignment(-1.3, 0),
-          child: Text(
-            'Terms',
-            style: TextStyle(
-              fontSize: 21.0,
-              color: AppColors.black,
-              fontWeight: FontWeight.w400,
+          ListTile(
+            onTap: () {},
+            leading: Padding(
+              padding: const EdgeInsets.only(top: 6.0, left: 12.0),
+              child: SvgPicture.asset(
+                AppImages.contactIcon,
+                height: 13.0,
+                width: 13.0,
+                fit: BoxFit.scaleDown,
+                color: AppColors.secondary,
+              ),
+            ),
+            title: const Align(
+              alignment: Alignment(-1.3, 0),
+              child: Text(
+                'Contact',
+                style: TextStyle(
+                  fontSize: 21.0,
+                  color: AppColors.black,
+                  fontWeight: FontWeight.w400,
+                ),
+              ),
             ),
           ),
-        ),
-      ),
-      ListTile(
-        onTap: () {},
-        leading: Padding(
-          padding: const EdgeInsets.only(top: 6.0, left: 12.0),
-          child: SvgPicture.asset(
-            AppImages.linkIcon,
-            height: 13.0,
-            width: 13.0,
-            fit: BoxFit.scaleDown,
-            color: AppColors.secondary,
-          ),
-        ),
-        title: const Align(
-          alignment: Alignment(-1.3, 0),
-          child: Text(
-            'eMed.com',
-            style: TextStyle(
-              fontSize: 21.0,
-              color: AppColors.black,
-              fontWeight: FontWeight.w400,
+          ListTile(
+            onTap: () {},
+            leading: Padding(
+              padding: const EdgeInsets.only(top: 6.0, left: 12.0),
+              child: SvgPicture.asset(
+                AppImages.termsIcon,
+                height: 13.0,
+                width: 13.0,
+                fit: BoxFit.scaleDown,
+                color: AppColors.secondary,
+              ),
+            ),
+            title: const Align(
+              alignment: Alignment(-1.3, 0),
+              child: Text(
+                'Terms',
+                style: TextStyle(
+                  fontSize: 21.0,
+                  color: AppColors.black,
+                  fontWeight: FontWeight.w400,
+                ),
+              ),
             ),
           ),
-        ),
-      ),
-      SizedBox(height: height * 0.06),
-      ListTile(
-        onTap: () {},
-        leading: Padding(
-          padding: const EdgeInsets.only(top: 6.0, left: 12.0),
-          child: SvgPicture.asset(
-            AppImages.globeIcon,
-            height: 13.0,
-            width: 13.0,
-            fit: BoxFit.scaleDown,
-            color: AppColors.secondary,
-          ),
-        ),
-        title: const Align(
-          alignment: Alignment(-1.1, 0),
-          child: Text(
-            'English',
-            style: TextStyle(
-              fontSize: 16.0,
-              color: AppColors.black,
-              fontWeight: FontWeight.w400,
+          ListTile(
+            onTap: () {},
+            leading: Padding(
+              padding: const EdgeInsets.only(top: 6.0, left: 12.0),
+              child: SvgPicture.asset(
+                AppImages.linkIcon,
+                height: 13.0,
+                width: 13.0,
+                fit: BoxFit.scaleDown,
+                color: AppColors.secondary,
+              ),
+            ),
+            title: const Align(
+              alignment: Alignment(-1.3, 0),
+              child: Text(
+                'eMed.com',
+                style: TextStyle(
+                  fontSize: 21.0,
+                  color: AppColors.black,
+                  fontWeight: FontWeight.w400,
+                ),
+              ),
             ),
           ),
-        ),
-        trailing: const Icon(Icons.keyboard_arrow_down_outlined,
-            color: AppColors.black),
-      ),
-    ],
-  );
+          SizedBox(height: height * 0.06),
+          ListTile(
+            onTap: () {},
+            leading: Padding(
+              padding: const EdgeInsets.only(top: 6.0, left: 12.0),
+              child: SvgPicture.asset(
+                AppImages.globeIcon,
+                height: 13.0,
+                width: 13.0,
+                fit: BoxFit.scaleDown,
+                color: AppColors.secondary,
+              ),
+            ),
+            title: const Align(
+              alignment: Alignment(-1.1, 0),
+              child: Text(
+                'English',
+                style: TextStyle(
+                  fontSize: 16.0,
+                  color: AppColors.black,
+                  fontWeight: FontWeight.w400,
+                ),
+              ),
+            ),
+            trailing: const Icon(Icons.keyboard_arrow_down_outlined,
+                color: AppColors.black),
+          ),
+        ],
+      );
 
   Widget menuButton() => TextButton(
-    onPressed: () {
-      _scaffoldKey.currentState!.openEndDrawer();
-    },
-    child: Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: const [
-        Text(
-          'Mr. Abcdjajd',
-          style: TextStyle(
-            fontSize: 16.0,
-            fontWeight: FontWeight.w500,
-            color: AppColors.black,
-          ),
+        onPressed: () {
+          _scaffoldKey.currentState!.openEndDrawer();
+        },
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: const [
+            Text(
+              'Mr. Abcdjajd',
+              style: TextStyle(
+                fontSize: 16.0,
+                fontWeight: FontWeight.w500,
+                color: AppColors.black,
+              ),
+            ),
+            SizedBox(width: 12.0),
+            Icon(Icons.menu, color: AppColors.black, size: 28.0),
+            SizedBox(width: 12.0),
+          ],
         ),
-        SizedBox(width: 12.0),
-        Icon(Icons.menu, color: AppColors.black, size: 28.0),
-        SizedBox(width: 12.0),
-      ],
-    ),
-  );
+      );
 }

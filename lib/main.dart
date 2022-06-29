@@ -7,11 +7,10 @@ import 'package:get/get.dart';
 import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-
-Future<void> main() async{
+Future<void> main() async {
 // SharedPreferences prefs = await SharedPreferences.getInstance();
 // bool isLoggedIn = true;
- runApp( const MyApp());  
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -20,7 +19,6 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-
 //  bool checkLogin()  {
 
 //   // Future<SharedPreferences> prefs =  SharedPreferences.getInstance();
@@ -36,40 +34,39 @@ class MyApp extends StatelessWidget {
 //   return false;
 // //   }
 // checkLogin();
-    Future<SharedPreferences> prefs =  SharedPreferences.getInstance();
+    Future<SharedPreferences> prefs = SharedPreferences.getInstance();
     var isLoggedUser = prefs.then((value) {
       value.setString('counter', "yes");
       return value.containsKey('counter');
     });
 
-    
     return GetMaterialApp(
-      
-      debugShowCheckedModeBanner: false,
-      title: 'eMed App',
-      theme: Themes.light,
-      darkTheme: Themes.dark,
-      //themeMode: ThemeService().theme, 
-      
-      //home: CreateProfileScreen(),
-      home: AnimatedSplashScreen(
+        debugShowCheckedModeBanner: false,
+        title: 'eMed App',
+        theme: Themes.light,
+        darkTheme: Themes.dark,
+        //themeMode: ThemeService().theme,
+
+        //home: CreateProfileScreen(),
+        home: AnimatedSplashScreen(
             duration: 3000,
-            splash: SvgPicture.asset(AppImages.eMedLogo,height: 50, width: 50,
-      fit: BoxFit.scaleDown),
-            nextScreen: isLoggedUser==true ? const DoctorAppointmentScreen() : const HomeScreen(),
+            splash: SvgPicture.asset(AppImages.eMedLogo,
+                height: 50, width: 50, fit: BoxFit.scaleDown),
+            nextScreen: isLoggedUser == true
+                ? const DoctorAppointmentScreen()
+                : const HomeScreen(),
             splashTransition: SplashTransition.fadeTransition,
             backgroundColor: Colors.white));
   }
-  
 }
 
 class Themes {
   static final light = ThemeData(
-        primarySwatch: Colors.blue,
-        fontFamily: 'Roboto',
-      );
+    primarySwatch: Colors.blue,
+    fontFamily: 'Roboto',
+  );
   static final dark = ThemeData(
-        primarySwatch: Colors.blue,
-        fontFamily: 'Roboto',
-      );
+    primarySwatch: Colors.blue,
+    fontFamily: 'Roboto',
+  );
 }

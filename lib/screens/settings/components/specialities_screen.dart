@@ -4,6 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:dio/dio.dart';
 
 import 'package:emedassistantmobile/config/app_colors.dart';
+import '../../../config/constants.dart';
 import '../../../widgets/custom_button.dart';
 import '../../profile_setup/components/speciality_box.dart';
 
@@ -15,7 +16,6 @@ class SpecialitiesScreen extends StatefulWidget {
 }
 
 class _SpecialitiesScreenState extends State<SpecialitiesScreen> {
-
   List<String> items = [
     'Allergists/Immunologists',
     'Anesthesiologists',
@@ -35,10 +35,7 @@ class _SpecialitiesScreenState extends State<SpecialitiesScreen> {
     'Urologists',
   ];
 
-  List<String> doctor_sp = [
-    'Allergists/Immunologists',
-    'Psychiatrists'
-  ];
+  List<String> doctor_sp = ['Allergists/Immunologists', 'Psychiatrists'];
 
   bool selected = false;
 
@@ -58,16 +55,9 @@ class _SpecialitiesScreenState extends State<SpecialitiesScreen> {
     try {
       var dio = Dio();
       dio.options.headers["authorization"] = "Bearer " + token;
-      await dio
-          .post
-        ('https://localhost:5001/api/v1/Doctor/UpdateSpecialization',data : {
-          "DoctorSpecializations": doctor_sp
-        }
-      )
-          .then((res) {
-        setState(() {
-          
-        });
+      await dio.post(Constants().getBaseUrl() + '/Doctor/UpdateSpecialization',
+          data: {"DoctorSpecializations": doctor_sp}).then((res) {
+        setState(() {});
         //print(Appointments[3]['Patient']['LastName']);
       });
     } on DioError catch (e) {
@@ -92,7 +82,8 @@ class _SpecialitiesScreenState extends State<SpecialitiesScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            const Text('Your professional specialities',
+            const Text(
+              'Your professional specialities',
               style: TextStyle(
                 fontSize: 18.0,
                 color: AppColors.black,
@@ -118,36 +109,33 @@ class _SpecialitiesScreenState extends State<SpecialitiesScreen> {
             // ),
             const SizedBox(height: 20.0),
             ChipsChoice<String>.multiple(
-            value: doctor_sp,
-            onChanged: (val) => setState(() => doctor_sp = val),
-            choiceItems: C2Choice.listFrom<String, String>(
-              source: items,
-              value: (i, v) => v,
-              label: (i, v) => v,
+              value: doctor_sp,
+              onChanged: (val) => setState(() => doctor_sp = val),
+              choiceItems: C2Choice.listFrom<String, String>(
+                source: items,
+                value: (i, v) => v,
+                label: (i, v) => v,
+              ),
+              choiceStyle: C2ChoiceStyle(
+                borderColor: AppColors.primary,
+                color: AppColors.black,
+                labelPadding: EdgeInsets.all(5),
+              ),
+              choiceActiveStyle: C2ChoiceStyle(
+                  borderColor: Color.fromRGBO(56, 158, 13, 1),
+                  color: AppColors.black,
+                  labelStyle: TextStyle(fontWeight: FontWeight.bold)),
+              spacing: 30,
+              runSpacing: 10,
+              wrapped: true,
             ),
-            choiceStyle: C2ChoiceStyle(
-              borderColor: AppColors.primary,
-              color: AppColors.black,
-              labelPadding: EdgeInsets.all(5),
-            ),
-            choiceActiveStyle: C2ChoiceStyle(
-              borderColor: Color.fromRGBO(56, 158, 13, 1),
-              color: AppColors.black,
-              labelStyle: TextStyle(
-                fontWeight: FontWeight.bold
-              )
-            ),
-            spacing: 30,
-            runSpacing: 10,
-            wrapped: true,
-            ),
-            
+
             Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 CustomButton(
-                  onTap: (){},
+                  onTap: () {},
                   btnText: 'Back',
                   width: 80.0,
                   height: 36.0,
@@ -158,7 +146,7 @@ class _SpecialitiesScreenState extends State<SpecialitiesScreen> {
                 ),
                 const SizedBox(width: 16.0),
                 CustomButton(
-                  onTap: (){
+                  onTap: () {
                     //Get.to(const ProfileSetupTwoScreen());
                     print(doctor_sp);
                   },
