@@ -11,6 +11,7 @@ import 'package:dio/dio.dart';
 
 import 'package:emedassistantmobile/config/app_colors.dart';
 import 'package:emedassistantmobile/config/app_images.dart';
+import '../../config/constants.dart';
 import '../../widgets/custom_field.dart';
 import 'components/doctor_availability_dialog.dart';
 import 'components/search_doctor_box.dart';
@@ -31,7 +32,7 @@ class _BookAnAppointmentScreenState extends State<BookAnAppointmentScreen> {
 
   late SharedPreferences prefs;
 
-  List doctorlist= [];
+  List doctorlist = [];
 
   String? selectedValue;
   List<String> items = [
@@ -59,16 +60,13 @@ class _BookAnAppointmentScreenState extends State<BookAnAppointmentScreen> {
       var dio = Dio();
       dio.options.headers["authorization"] = "Bearer " + token;
       await dio.get(
-          'https://localhost:5001/api/v1/Patient/SearchDoctorAvailability',
+          Constants().getBaseUrl() + '/Patient/SearchDoctorAvailability',
           queryParameters: {"DoctorName": nameController.text}).then((res) {
-
-            var rdata = res.data['Data']['Data'];
-            for (var i in rdata) {
-              doctorlist.add(i);
-            }
-        setState(() {
-          
-        });
+        var rdata = res.data['Data']['Data'];
+        for (var i in rdata) {
+          doctorlist.add(i);
+        }
+        setState(() {});
         print(res.data);
       });
     } on DioError catch (e) {
@@ -136,7 +134,6 @@ class _BookAnAppointmentScreenState extends State<BookAnAppointmentScreen> {
         child: endDrawerData(height),
       ),
       body: SingleChildScrollView(
-
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.start,
@@ -434,10 +431,18 @@ class _BookAnAppointmentScreenState extends State<BookAnAppointmentScreen> {
                 ),
               ),
             ),
-            doctorlist.isEmpty ? Center(child: CircularProgressIndicator()) :Column(
-              children: List.generate(doctorlist.length, (index) => SearchDoctorBox(doctorlist[index]["IanaTimeZoneId"],doctorlist[index]["Id"],doctorlist[index]["DoctorFullName"],doctorlist[index]["FreeSlots"],doctorlist[index]["ConsultationFee"]))
-            )
-            
+            doctorlist.isEmpty
+                ? Center(child: CircularProgressIndicator())
+                : Column(
+                    children: List.generate(
+                        doctorlist.length,
+                        (index) => SearchDoctorBox(
+                            doctorlist[index]["IanaTimeZoneId"],
+                            doctorlist[index]["Id"],
+                            doctorlist[index]["DoctorFullName"],
+                            doctorlist[index]["FreeSlots"],
+                            doctorlist[index]["ConsultationFee"])))
+
             /// List of search items
             //getDoctorList(doctorlist),
             // ListView.builder(
@@ -451,7 +456,6 @@ class _BookAnAppointmentScreenState extends State<BookAnAppointmentScreen> {
             //       );
             //     }),
             ///const SizedBox(height: 40.0),
-            
           ],
         ),
       ),
