@@ -1,19 +1,56 @@
+import 'package:emedassistantmobile/widgets/toast.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:dio/dio.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 import 'package:emedassistantmobile/config/app_colors.dart';
 import 'package:emedassistantmobile/config/app_images.dart';
+import '../../../config/constants.dart';
 import '../../../widgets/custom_button.dart';
+import '../../../widgets/toast.dart';
 
 class SProfileScreen extends StatefulWidget {
-  const SProfileScreen({Key? key}) : super(key: key);
+  const SProfileScreen({String? des = '', String? profPicUrl, Key? key})
+      : super(key: key);
 
   @override
   State<SProfileScreen> createState() => _SProfileScreenState();
 }
 
 class _SProfileScreenState extends State<SProfileScreen> {
-
   TextEditingController profileDescController = TextEditingController();
+  late SharedPreferences prefs;
+  FToast? fToast;
+
+  void doctorUpdateProfileInfo() async {
+    print('Search Doctor');
+    prefs = await SharedPreferences.getInstance();
+    String token = prefs.getString("token") ?? '';
+    print(token);
+    try {
+      var dio = Dio();
+      dio.options.headers["authorization"] = "Bearer " + token;
+      await dio
+          .post(Constants().getBaseUrl() + '/Doctor/UpdateProfileInfo', data: {
+        "Description": profileDescController.text,
+      }).then((res) {
+        print(res.data);
+      });
+    } on DioError catch (e) {
+      showErrorToast(fToast: fToast, isError: true);
+      print(e.response!.data);
+    }
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    fToast = FToast();
+    fToast!.init(context);
+    doctorUpdateProfileInfo();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +70,8 @@ class _SProfileScreenState extends State<SProfileScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            const Text('Profile description',
+            const Text(
+              'Profile description',
               style: TextStyle(
                 fontSize: 18.0,
                 color: AppColors.black,
@@ -41,8 +79,9 @@ class _SProfileScreenState extends State<SProfileScreen> {
               ),
             ),
             const SizedBox(height: 16.0),
-            const Text('Please add a brief description of your competences and your '
-                'professional career.',
+            const Text(
+              'Please add a brief description of your competences and your '
+              'professional career.',
               style: TextStyle(
                 fontSize: 16.0,
                 color: AppColors.primary,
@@ -67,20 +106,11 @@ class _SProfileScreenState extends State<SProfileScreen> {
                 decoration: const InputDecoration(
                   border: InputBorder.none,
                   contentPadding: EdgeInsets.only(
-                    left: 16.0, top: 16.0, right: 16.0,
+                    left: 16.0,
+                    top: 16.0,
+                    right: 16.0,
                   ),
-                  hintText: 'A compassionate Medical Doctor and GMC Registered General '
-                      'Practitioner with a successful background in the diagnosys, '
-                      'treatment and management of patient illnesses and diseases. '
-                      'Acclaimed for making informed decisions to manage a variety of '
-                      'patient ailments. Skilled in the delivery of medical '
-                      'advice with a focus on patient assessments, correct '
-                      'diagnosis and effective treatment. Experienced in the '
-                      'recommendation and prescription of appropriate medication. '
-                      'Maintains a focus on collaboratina with medical teams and '
-                      'health care workers concerning medical issues and patient care. '
-                      'Ensures adherence to healthcare quidelines and standard practice. '
-                      'Passionate about public health and family medicine.',
+                  hintText: '',
                   hintStyle: TextStyle(
                     fontSize: 15.0,
                     color: AppColors.black,
@@ -97,7 +127,8 @@ class _SProfileScreenState extends State<SProfileScreen> {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Text('Profile Picture \n(.jpg .png .pdf - max 5mb)',
+                const Text(
+                  'Profile Picture \n(.jpg .png .pdf - max 5mb)',
                   style: TextStyle(
                     fontSize: 15.0,
                     color: AppColors.lightBlack,
@@ -106,10 +137,11 @@ class _SProfileScreenState extends State<SProfileScreen> {
                 ),
                 Material(
                   child: InkWell(
-                    onTap: (){},
+                    onTap: () {},
                     borderRadius: BorderRadius.circular(4.0),
                     child: Ink(
-                      padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 12.0, vertical: 8.0),
                       decoration: BoxDecoration(
                         color: AppColors.white,
                         borderRadius: BorderRadius.circular(4.0),
@@ -123,9 +155,11 @@ class _SProfileScreenState extends State<SProfileScreen> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         mainAxisSize: MainAxisSize.min,
                         children: const [
-                          Icon(Icons.upload_outlined, color: AppColors.black, size: 20.0),
+                          Icon(Icons.upload_outlined,
+                              color: AppColors.black, size: 20.0),
                           SizedBox(width: 8.0),
-                          Text('Click to Upload',
+                          Text(
+                            'Click to Upload',
                             style: TextStyle(
                               fontSize: 14.0,
                               color: AppColors.black,
@@ -144,7 +178,8 @@ class _SProfileScreenState extends State<SProfileScreen> {
             const SizedBox(height: 8.0),
             Container(
               width: width,
-              padding: const EdgeInsets.only(left: 8.0, bottom: 12.0, top: 12.0),
+              padding:
+                  const EdgeInsets.only(left: 8.0, bottom: 12.0, top: 12.0),
               decoration: BoxDecoration(
                 border: Border.all(
                   color: AppColors.primary,
@@ -156,14 +191,16 @@ class _SProfileScreenState extends State<SProfileScreen> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Image.asset(AppImages.frontSideImage,
+                  Image.asset(
+                    AppImages.frontSideImage,
                     height: 40.0,
                     width: 60.0,
                     fit: BoxFit.fill,
                   ),
                   const SizedBox(width: 8.0),
                   const Expanded(
-                    child: Text('me.png',
+                    child: Text(
+                      'me.png',
                       style: TextStyle(
                         fontSize: 14.0,
                         color: AppColors.secondary,
@@ -172,8 +209,9 @@ class _SProfileScreenState extends State<SProfileScreen> {
                     ),
                   ),
                   IconButton(
-                    onPressed: (){},
-                    icon: const Icon(Icons.delete_outline, color: AppColors.primary),
+                    onPressed: () {},
+                    icon: const Icon(Icons.delete_outline,
+                        color: AppColors.primary),
                   ),
                 ],
               ),
@@ -185,7 +223,7 @@ class _SProfileScreenState extends State<SProfileScreen> {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 CustomButton(
-                  onTap: (){},
+                  onTap: () {},
                   btnText: 'Cancel',
                   width: 80.0,
                   height: 36.0,
@@ -196,8 +234,10 @@ class _SProfileScreenState extends State<SProfileScreen> {
                 ),
                 const SizedBox(width: 16.0),
                 CustomButton(
-                  onTap: (){
-                    //Get.to(const ProfileSetupTwoScreen());
+                  onTap: () {
+                    // CustomToast(type: '', context: context);
+                    print('toast');
+                    doctorUpdateProfileInfo();
                   },
                   btnText: 'Update',
                   width: 80.0,
