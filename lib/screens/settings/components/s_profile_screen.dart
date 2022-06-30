@@ -1,3 +1,4 @@
+import 'package:emedassistantmobile/services/get_doctor_profile.dart';
 import 'package:emedassistantmobile/widgets/toast.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
@@ -38,8 +39,9 @@ class _SProfileScreenState extends State<SProfileScreen> {
       await dio
           .post(Constants().getBaseUrl() + '/Doctor/UpdateProfileInfo', data: {
         "Description": profileDescController.text,
-        "ProfilePicture": '',
+        "ProfilePicture": 'null',
       }).then((res) {
+        getDoctorProfile();
         showErrorToast(fToast: fToast, isError: false, msg: 'Done');
         print(res.data);
       });
