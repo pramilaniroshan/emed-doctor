@@ -127,33 +127,32 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
-  int otp() {
+  void otp() async {
     var dio = Dio();
-    dio.post(Constants().getBaseUrl() + '/Authentication/Login', data: {
-      "UserName": emailController.text,
-      "Otp": codeController.text,
-      "DeviceId": "210"
-    }).then((res) async {
-      if (res.statusCode == 200) {
+    try {
+      var dio = Dio();
+      await dio.post(Constants().getBaseUrl() + '/Authentication/Login', data: {
+        "UserName": emailController.text,
+        "Otp": codeController.text,
+        "DeviceId": "210"
+      }).then((res) async {
         showErrorToast(fToast: fToast, isError: false, msg: 'Done');
         final body = res.data["Data"];
-        //print(body["AccessToken"]);
         prefs = await SharedPreferences.getInstance();
         prefs.setString('token', body["AccessToken"]);
         prefs.setString('refresh_token', "yes");
         prefs.setBool('login', true);
         Get.to(const DoctorAppointmentScreen());
-        //print(res.data);
-      } else if (res.statusCode == 400) {
-        showErrorToast(fToast: fToast, isError: true, msg: 'Error');
-      }
-      return res.statusCode;
-    }).onError((error, stackTrace) {
-      showErrorToast(fToast: fToast, isError: true, msg: 'Error');
-      return null;
-    });
-    return 0;
-    //print(response);
+        print(res.data);
+      });
+    } on DioError catch (e) {
+      String error = e.response!.data['Error'] +
+          'Remaining' +
+          '${e.response!.data['Data']}' +
+          'Attempts';
+      showErrorToast(
+          fToast: fToast, isError: true, msg: e.response!.data['Error']);
+    }
   }
 
   @override
