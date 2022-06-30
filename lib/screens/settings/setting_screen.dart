@@ -58,17 +58,21 @@ class _SettingsScreenState extends State<SettingsScreen>
       id = prefs.getString('Id');
       title = prefs.getString('Title');
       lastName = prefs.getString('LastName');
-      nationalIdentificationNumber = prefs.getString('NationalIdentificationNumber');
+      nationalIdentificationNumber =
+          prefs.getString('NationalIdentificationNumber');
       address = prefs.getString('Address');
       govDoctorRegNo = prefs.getString('GovDoctorRegNo');
       nicFrontPicUrl = prefs.getString('NicFrontPicUrl');
       nicBackPicUrl = prefs.getString('NicBackPicUrl');
-      govDoctorIdentityPicFrontUrl = prefs.getString('GovDoctorIdentityPicFrontUrl');
-      govDoctorIdentityPicBackUrl= prefs.getString('GovDoctorIdentityPicBackUrl');
-      phoneNumber= prefs.getString('PhoneNumber');
+      govDoctorIdentityPicFrontUrl =
+          prefs.getString('GovDoctorIdentityPicFrontUrl');
+      govDoctorIdentityPicBackUrl =
+          prefs.getString('GovDoctorIdentityPicBackUrl');
+      phoneNumber = prefs.getString('PhoneNumber');
       email = prefs.getString('Email');
       description = prefs.getString('Description');
-      phoneNumberVisibleToPatient = prefs.getBool('PhoneNumberVisibleToPatient') ?? false;
+      phoneNumberVisibleToPatient =
+          prefs.getBool('PhoneNumberVisibleToPatient') ?? false;
     });
   }
 
@@ -166,9 +170,21 @@ class _SettingsScreenState extends State<SettingsScreen>
             child: TabBarView(
               controller: tabController,
               children: [
-                PersonalInfoScreen(id,title,firstName,lastName,nationalIdentificationNumber,address,email,phoneNumber,phoneNumberVisibleToPatient),
+                PersonalInfoScreen(
+                    id,
+                    title,
+                    firstName,
+                    lastName,
+                    nationalIdentificationNumber,
+                    address,
+                    email,
+                    phoneNumber,
+                    phoneNumberVisibleToPatient),
                 BillingScreen(),
-                SProfileScreen(),
+                SProfileScreen(
+                  des: description ?? '',
+                  profPicUrl: '',
+                ),
                 SpecialitiesScreen(),
                 LocationsScreen(),
               ],
