@@ -57,6 +57,7 @@ dependencies:
   chips_choice: ^2.0.1
   fluttertoast: ^8.0.9
   file_picker: ^4.6.1
+  flutter_easyloading: ^3.0.5
 
 
 

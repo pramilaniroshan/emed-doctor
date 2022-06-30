@@ -1,5 +1,6 @@
 import 'package:emedassistantmobile/widgets/toast.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:dio/dio.dart';
 import 'dart:convert';
@@ -39,6 +40,7 @@ class _SpecialitiesScreenState extends State<SpecialitiesScreen> {
   List<String> doctor_sp = ['Allergists/Immunologists', 'Psychiatrists'];
 
   bool selected = false;
+  FToast? fToast;
 
   late SharedPreferences prefs;
 
@@ -46,6 +48,8 @@ class _SpecialitiesScreenState extends State<SpecialitiesScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    fToast = FToast();
+    fToast!.init(context);
     //doctorUpdateSpecialization();
   }
 
@@ -62,11 +66,11 @@ class _SpecialitiesScreenState extends State<SpecialitiesScreen> {
             "DoctorSpecializations": ["7"]
           }).then((res) {
         //setState(() {});
-        showErrorToast(isError: false, msg: 'Done');
+        showErrorToast(fToast: fToast, isError: false, msg: 'Done');
       });
     } on DioError catch (e) {
       //print(e.response!.data);
-      showErrorToast(isError: true, msg: '');
+      showErrorToast(fToast: fToast, isError: true, msg: '');
     }
   }
 

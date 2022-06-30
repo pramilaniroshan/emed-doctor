@@ -4,11 +4,14 @@ import 'package:emedassistantmobile/screens/doctor_appointment/doctor_appointmen
 import 'package:emedassistantmobile/screens/my_appointments/my_appointment_screen.dart';
 import 'package:emedassistantmobile/screens/profile/create_profile_screen.dart';
 import 'package:emedassistantmobile/screens/profile_setup/setup_one_screen.dart';
+import 'package:emedassistantmobile/widgets/toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bounceable/flutter_bounceable.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:form_validator/form_validator.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 import 'package:emedassistantmobile/config/app_colors.dart';
 import 'package:emedassistantmobile/config/app_images.dart';
@@ -41,18 +44,7 @@ class _HomeScreenState extends State<HomeScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final _formKey = GlobalKey<FormState>();
   final _otpFormKey = GlobalKey<FormState>();
-
-//    void get_posts () {
-//    var dio = Dio();
-//    dio.get('https://jsonplaceholder.typicode.com/posts',).then((res) {
-//      var ress = res.data;
-//      for (var item in ress){
-//        posts.add(Posts.fromJson(item));
-//        print(posts[0].title);
-//      }
-//    });
-//    //print(response);
-//  }
+  FToast? fToast;
 
   void check_if_already_login() async {
     prefs = await SharedPreferences.getInstance();
@@ -65,40 +57,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Future<void> login(double width) async {
-    //     try{
-    //  var dio = Dio();
-    //  await dio.post('https://localhost:5001/api/v1/Authentication/Login-init',data: {
-    // "Username": emailController.text,
-    // "UserLoginType": isemailtab ? 0 : 1,
-    // "CountryCode": 210,
-    // "Application": 0
-    // }).then((res) {
-    // if (res.statusCode == 200) {
-    //   Get.defaultDialog(
-    //                       backgroundColor: AppColors.lightBackground,
-    //                       radius: 2.0,
-    //                       title: '',
-    //                       content: bottomSheetColumn(width),
-    //                     );
-    // }
-    // // }else if (res.statusCode == 400) {
-    // //   print(res.statusCode);
-    // // }
-    // // else if (res.statusCode == 400) {
-    // //   print('gyhghgh');
-    // // }
-    //   // print(res.data);
-    //    //return res.statusCode;
-    //  }).onError((error, stackTrace) {
-    //    print(error);
-    //  });
-
-    //     }catch(e){
-    //     print(e.toString());
-    //     }
-
-    //print(response);
-    //--------------------------------------------------//
+    EasyLoading.show(status: 'loading...');
     try {
       print(Constants().getBaseUrl());
       var dio = Dio();
@@ -110,6 +69,8 @@ class _HomeScreenState extends State<HomeScreen> {
         "Application": 1
       }).then((res) {
         if (res.statusCode == 200) {
+          EasyLoading.dismiss();
+          //showErrorToast(fToast: fToast, isError: false, msg: 'Code sent');
           Get.defaultDialog(
             backgroundColor: AppColors.lightBackground,
             radius: 2.0,
@@ -122,24 +83,46 @@ class _HomeScreenState extends State<HomeScreen> {
       // The request was made and the server responded with a status code
       // that falls out of the range of 2xx and is also not 304.
       if (e.response != null) {
+        EasyLoading.dismiss();
         var t = e.response!.data["Error"];
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(t),
-            backgroundColor: AppColors.redColor,
-          ),
-        );
+        showErrorToast(
+            fToast: fToast, isError: true, msg: e.response!.data["Error"]);
         setState(() {
           error = t;
         });
-        print(t);
-        //print(e.response.data);
-        // print(e.response.headers);
-        // print(e.response.requestOptions);
       } else {
-        // Something happened in setting up or sending the request that triggered an Error
-        print(e.requestOptions);
-        print(e.message);
+        showErrorToast(fToast: fToast, isError: true, msg: e.message);
+      }
+    }
+  }
+
+  Future<void> loginResend() async {
+    try {
+      print(Constants().getBaseUrl());
+      var dio = Dio();
+      await dio
+          .post(Constants().getBaseUrl() + '/Authentication/Login-init', data: {
+        "Username": emailController.text,
+        "UserLoginType": isemailtab ? 0 : 1,
+        "CountryCode": 210,
+        "Application": 1
+      }).then((res) {
+        if (res.statusCode == 200) {
+          showErrorToast(fToast: fToast, isError: false, msg: 'Code sent');
+        }
+      });
+    } on DioError catch (e) {
+      // The request was made and the server responded with a status code
+      // that falls out of the range of 2xx and is also not 304.
+      if (e.response != null) {
+        var t = e.response!.data["Error"];
+        showErrorToast(
+            fToast: fToast, isError: true, msg: e.response!.data["Error"]);
+        setState(() {
+          error = t;
+        });
+      } else {
+        showErrorToast(fToast: fToast, isError: true, msg: e.message);
       }
     }
   }
@@ -152,12 +135,7 @@ class _HomeScreenState extends State<HomeScreen> {
       "DeviceId": "210"
     }).then((res) async {
       if (res.statusCode == 200) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Done Logged In'),
-            backgroundColor: Colors.green,
-          ),
-        );
+        showErrorToast(fToast: fToast, isError: false, msg: 'Done');
         final body = res.data["Data"];
         //print(body["AccessToken"]);
         prefs = await SharedPreferences.getInstance();
@@ -167,12 +145,11 @@ class _HomeScreenState extends State<HomeScreen> {
         Get.to(const DoctorAppointmentScreen());
         //print(res.data);
       } else if (res.statusCode == 400) {
-        print('error');
+        showErrorToast(fToast: fToast, isError: true, msg: 'Error');
       }
-      print(res.data);
       return res.statusCode;
     }).onError((error, stackTrace) {
-      print(stackTrace);
+      showErrorToast(fToast: fToast, isError: true, msg: 'Error');
       return null;
     });
     return 0;
@@ -186,6 +163,16 @@ class _HomeScreenState extends State<HomeScreen> {
     // get_posts ();
     // print(isemailtab);
     check_if_already_login();
+    fToast = FToast();
+    fToast!.init(context);
+
+    //EasyLoading.showSuccess('Great Success!');
+
+    //EasyLoading.showError('Failed with Error');
+
+    //EasyLoading.showInfo('Useful Information.');
+
+    //EasyLoading.showToast('Toast');
   }
 
   @override
@@ -445,9 +432,6 @@ class _HomeScreenState extends State<HomeScreen> {
                         if (_formKey.currentState!.validate()) {
                           // If the form is valid, display a snackbar. In the real world,
                           // you'd often call a server or save the information in a database.
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(content: Text('Processing Data')),
-                          );
                           login(width);
                         }
                       },
@@ -790,10 +774,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                 if (_otpFormKey.currentState!.validate()) {
                                   // If the form is valid, display a snackbar. In the real world,
                                   // you'd often call a server or save the information in a database.
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                        content: Text('Processing Data')),
-                                  );
                                   var statuscode = otp();
                                 }
                               },
@@ -804,7 +784,9 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                       ),
                       TextButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          loginResend();
+                        },
                         child: const Text(
                           'Send me again the verification code',
                           style: TextStyle(

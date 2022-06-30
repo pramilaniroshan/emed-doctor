@@ -6,6 +6,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 Future<void> main() async {
 // SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -41,22 +42,24 @@ class MyApp extends StatelessWidget {
     });
 
     return GetMaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'eMed App',
-        theme: Themes.light,
-        darkTheme: Themes.dark,
-        //themeMode: ThemeService().theme,
+      debugShowCheckedModeBanner: false,
+      title: 'eMed App',
+      theme: Themes.light,
+      darkTheme: Themes.dark,
+      //themeMode: ThemeService().theme,
 
-        //home: CreateProfileScreen(),
-        home: AnimatedSplashScreen(
-            duration: 3000,
-            splash: SvgPicture.asset(AppImages.eMedLogo,
-                height: 50, width: 50, fit: BoxFit.scaleDown),
-            nextScreen: isLoggedUser == true
-                ? const DoctorAppointmentScreen()
-                : const HomeScreen(),
-            splashTransition: SplashTransition.fadeTransition,
-            backgroundColor: Colors.white));
+      //home: CreateProfileScreen(),
+      home: AnimatedSplashScreen(
+          duration: 3000,
+          splash: SvgPicture.asset(AppImages.eMedLogo,
+              height: 50, width: 50, fit: BoxFit.scaleDown),
+          nextScreen: isLoggedUser == true
+              ? const DoctorAppointmentScreen()
+              : const HomeScreen(),
+          splashTransition: SplashTransition.fadeTransition,
+          backgroundColor: Colors.white),
+      builder: EasyLoading.init(),
+    );
   }
 }
 
