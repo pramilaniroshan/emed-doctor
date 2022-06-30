@@ -182,7 +182,7 @@ class _SettingsScreenState extends State<SettingsScreen>
                     phoneNumberVisibleToPatient),
                 BillingScreen(),
                 SProfileScreen(
-                  des: description,
+                  des: description ?? '',
                   profPicUrl: '',
                 ),
                 SpecialitiesScreen(),

@@ -1,4 +1,5 @@
 import 'package:emedassistantmobile/widgets/toast.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:dio/dio.dart';
@@ -11,7 +12,10 @@ import '../../../widgets/custom_button.dart';
 import '../../../widgets/toast.dart';
 
 class SProfileScreen extends StatefulWidget {
-  const SProfileScreen({String? des = '', String? profPicUrl, Key? key})
+  final String? des;
+  final String? profPicUrl;
+
+  const SProfileScreen({Key? key, this.des, required this.profPicUrl})
       : super(key: key);
 
   @override
@@ -34,12 +38,15 @@ class _SProfileScreenState extends State<SProfileScreen> {
       await dio
           .post(Constants().getBaseUrl() + '/Doctor/UpdateProfileInfo', data: {
         "Description": profileDescController.text,
+        "ProfilePicture": '',
       }).then((res) {
+        showErrorToast(fToast: fToast, isError: false, msg: 'Done');
         print(res.data);
       });
     } on DioError catch (e) {
-      showErrorToast(fToast: fToast, isError: true);
-      print(e.response!.data);
+      showErrorToast(
+          fToast: fToast, isError: true, msg: e.response!.data['Error']);
+      print(e.response!.data['Error']);
     }
   }
 
@@ -49,7 +56,6 @@ class _SProfileScreenState extends State<SProfileScreen> {
     super.initState();
     fToast = FToast();
     fToast!.init(context);
-    doctorUpdateProfileInfo();
   }
 
   @override
@@ -103,14 +109,14 @@ class _SProfileScreenState extends State<SProfileScreen> {
                 maxLines: 22,
                 controller: profileDescController,
                 keyboardType: TextInputType.text,
-                decoration: const InputDecoration(
+                decoration: InputDecoration(
                   border: InputBorder.none,
                   contentPadding: EdgeInsets.only(
                     left: 16.0,
                     top: 16.0,
                     right: 16.0,
                   ),
-                  hintText: '',
+                  hintText: widget.des,
                   hintStyle: TextStyle(
                     fontSize: 15.0,
                     color: AppColors.black,
@@ -137,7 +143,24 @@ class _SProfileScreenState extends State<SProfileScreen> {
                 ),
                 Material(
                   child: InkWell(
-                    onTap: () {},
+                    onTap: () async {
+                      try {
+                        FilePickerResult? result =
+                            await FilePicker.platform.pickFiles(
+                          type: FileType.custom,
+                          allowedExtensions: ['jpg', 'png'],
+                        );
+                        if (result != null) {
+                          final file = result.files.first;
+
+                          print(file.name);
+                        } else {
+                          // User canceled the picker
+                        }
+                      } catch (e) {
+                        print(e);
+                      }
+                    },
                     borderRadius: BorderRadius.circular(4.0),
                     child: Ink(
                       padding: const EdgeInsets.symmetric(
@@ -235,8 +258,6 @@ class _SProfileScreenState extends State<SProfileScreen> {
                 const SizedBox(width: 16.0),
                 CustomButton(
                   onTap: () {
-                    // CustomToast(type: '', context: context);
-                    print('toast');
                     doctorUpdateProfileInfo();
                   },
                   btnText: 'Update',

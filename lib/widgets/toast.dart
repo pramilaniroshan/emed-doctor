@@ -3,7 +3,8 @@ import 'package:fluttertoast/fluttertoast.dart';
 
 import '../config/app_colors.dart';
 
-void showErrorToast({FToast? fToast, required bool isError}) {
+void showErrorToast(
+    {FToast? fToast, required bool isError, required String msg}) {
   Widget error = Container(
     padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
     decoration: BoxDecoration(
@@ -12,7 +13,7 @@ void showErrorToast({FToast? fToast, required bool isError}) {
     ),
     child: Row(
       mainAxisSize: MainAxisSize.min,
-      children: const [
+      children: [
         Icon(
           Icons.close,
           color: AppColors.white,
@@ -20,8 +21,7 @@ void showErrorToast({FToast? fToast, required bool isError}) {
         SizedBox(
           width: 12.0,
         ),
-        Text("This is a Custom Toast",
-            style: TextStyle(color: AppColors.white)),
+        Text(msg, style: TextStyle(color: AppColors.white)),
       ],
     ),
   );
@@ -36,14 +36,13 @@ void showErrorToast({FToast? fToast, required bool isError}) {
       mainAxisSize: MainAxisSize.min,
       children: const [
         Icon(
-          Icons.close,
+          Icons.check,
           color: AppColors.white,
         ),
         SizedBox(
           width: 12.0,
         ),
-        Text("This is a Custom Toast",
-            style: TextStyle(color: AppColors.white)),
+        Text("Done", style: TextStyle(color: AppColors.white)),
       ],
     ),
   );
