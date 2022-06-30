@@ -1,12 +1,13 @@
-import 'package:chips_choice/chips_choice.dart';
+import 'package:emedassistantmobile/widgets/toast.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:dio/dio.dart';
+import 'dart:convert';
+import 'package:chips_choice/chips_choice.dart';
 
 import 'package:emedassistantmobile/config/app_colors.dart';
 import '../../../config/constants.dart';
 import '../../../widgets/custom_button.dart';
-import '../../profile_setup/components/speciality_box.dart';
 
 class SpecialitiesScreen extends StatefulWidget {
   const SpecialitiesScreen({Key? key}) : super(key: key);
@@ -55,13 +56,17 @@ class _SpecialitiesScreenState extends State<SpecialitiesScreen> {
     try {
       var dio = Dio();
       dio.options.headers["authorization"] = "Bearer " + token;
-      await dio.post(Constants().getBaseUrl() + '/Doctor/UpdateSpecialization',
-          data: {"DoctorSpecializations": doctor_sp}).then((res) {
-        setState(() {});
-        //print(Appointments[3]['Patient']['LastName']);
+      // TODO
+      await dio.post(Constants().getBaseUrl() + 'Doctor/UpdateSpecializationS',
+          data: {
+            "DoctorSpecializations": ["7"]
+          }).then((res) {
+        //setState(() {});
+        showErrorToast(isError: false, msg: 'Done');
       });
     } on DioError catch (e) {
-      print(e.response!.data);
+      //print(e.response!.data);
+      showErrorToast(isError: true, msg: '');
     }
   }
 
@@ -148,7 +153,7 @@ class _SpecialitiesScreenState extends State<SpecialitiesScreen> {
                 CustomButton(
                   onTap: () {
                     //Get.to(const ProfileSetupTwoScreen());
-                    print(doctor_sp);
+                    doctorUpdateSpecialization();
                   },
                   btnText: 'Submit',
                   width: 80.0,

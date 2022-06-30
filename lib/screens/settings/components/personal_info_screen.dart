@@ -13,7 +13,6 @@ import '../../../widgets/custom_button.dart';
 import '../../../widgets/custom_field.dart';
 
 class PersonalInfoScreen extends StatefulWidget {
-
   String? id;
   String? title;
   String? firstName;
@@ -24,25 +23,24 @@ class PersonalInfoScreen extends StatefulWidget {
   String? phoneNumber;
   bool? phoneNumberVisibleToPatient;
 
-   PersonalInfoScreen(
-    this.id,
-    this.title,
-    this.firstName,
-    this.lastName,
-    this.nationalIdentificationNumber,
-    this.address,
-    this.email,
-    this.phoneNumber,
-    this.phoneNumberVisibleToPatient,
-    {Key? key}) : super(key: key);
+  PersonalInfoScreen(
+      this.id,
+      this.title,
+      this.firstName,
+      this.lastName,
+      this.nationalIdentificationNumber,
+      this.address,
+      this.email,
+      this.phoneNumber,
+      this.phoneNumberVisibleToPatient,
+      {Key? key})
+      : super(key: key);
 
   @override
   State<PersonalInfoScreen> createState() => _PersonalInfoScreenState();
 }
 
 class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
-
-
   TextEditingController nameController = TextEditingController();
   TextEditingController lastNameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
@@ -51,15 +49,9 @@ class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
   TextEditingController addressController = TextEditingController();
   TextEditingController slmcNumberController = TextEditingController();
 
-
   String? selectedValue;
-  List<String> items = [
-	''
-  ];
-  List<String> Title = [
-    'MR',
-    'MRS'
-  ];
+  List<String> items = [''];
+  List<String> Title = ['MR', 'MRS'];
 
   bool status = false;
 
@@ -81,7 +73,8 @@ class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            const Text('Title',
+            const Text(
+              'Title',
               style: TextStyle(
                 fontSize: 15.0,
                 color: AppColors.lightBlack,
@@ -105,24 +98,26 @@ class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
                 child: DropdownButton2(
                   icon: const Icon(Icons.keyboard_arrow_down),
                   hint: Text(
-                    widget.title ?? '', style: TextStyle(
-                    fontSize: 13.0,
-                    color: AppColors.lightBlack,
-                    fontWeight: FontWeight.w500,
+                    widget.title ?? '',
+                    style: TextStyle(
+                      fontSize: 13.0,
+                      color: AppColors.lightBlack,
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
-                  ),
-                  items: Title.map((item) => DropdownMenuItem<String>(
-                    value: item,
-                    child: Text(
-                      item,
-                      style: const TextStyle(
-                        fontSize: 15.0,
-                        color: Colors.white,
-                        fontWeight: FontWeight.w500,
+                  items: Title.map(
+                    (item) => DropdownMenuItem<String>(
+                      value: item,
+                      child: Text(
+                        item,
+                        style: const TextStyle(
+                          fontSize: 15.0,
+                          color: Colors.white,
+                          fontWeight: FontWeight.w500,
+                        ),
                       ),
                     ),
-                  ),)
-                      .toList(),
+                  ).toList(),
                   value: selectedValue,
                   onChanged: (value) {
                     setState(() {
@@ -133,7 +128,7 @@ class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
                   buttonWidth: 140,
                   itemHeight: 36.0,
                   dropdownWidth: 150,
-                  buttonPadding: const EdgeInsets.symmetric(horizontal: 8.0) ,
+                  buttonPadding: const EdgeInsets.symmetric(horizontal: 8.0),
                   dropdownDecoration: const BoxDecoration(
                     color: AppColors.lightBlack,
                   ),
@@ -147,14 +142,16 @@ class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.start,
               children: const [
-                Text('* ',
+                Text(
+                  '* ',
                   style: TextStyle(
                     fontSize: 18.0,
                     color: Colors.red,
                     fontWeight: FontWeight.w500,
                   ),
                 ),
-                Text('Name',
+                Text(
+                  'Name',
                   style: TextStyle(
                     fontSize: 15.0,
                     color: AppColors.lightBlack,
@@ -177,14 +174,16 @@ class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.start,
               children: const [
-                Text('* ',
+                Text(
+                  '* ',
                   style: TextStyle(
                     fontSize: 18.0,
                     color: Colors.red,
                     fontWeight: FontWeight.w500,
                   ),
                 ),
-                Text('Last Name',
+                Text(
+                  'Last Name',
                   style: TextStyle(
                     fontSize: 15.0,
                     color: AppColors.lightBlack,
@@ -207,14 +206,16 @@ class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.start,
               children: const [
-                Text('* ',
+                Text(
+                  '* ',
                   style: TextStyle(
                     fontSize: 18.0,
                     color: Colors.red,
                     fontWeight: FontWeight.w500,
                   ),
                 ),
-                Text('Email',
+                Text(
+                  'Email',
                   style: TextStyle(
                     fontSize: 15.0,
                     color: AppColors.lightBlack,
@@ -226,13 +227,14 @@ class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
             CustomField(
               controller: emailController,
               readOnly: true,
-              hintText : widget.email,
+              hintText: widget.email,
               height: 40.0,
               keyboardType: TextInputType.emailAddress,
               width: width,
               isPrefixIcon: true,
               prefixIcon: Padding(
-                padding: const EdgeInsets.only(left: 0.0, top: 10.0, bottom: 10.0),
+                padding:
+                    const EdgeInsets.only(left: 0.0, top: 10.0, bottom: 10.0),
                 child: SvgPicture.asset(AppImages.contactIcon),
               ),
               padding: const EdgeInsets.only(top: 4.0),
@@ -253,14 +255,16 @@ class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          Text('* ',
+                          Text(
+                            '* ',
                             style: TextStyle(
                               fontSize: 18.0,
                               color: Colors.red,
                               fontWeight: FontWeight.w500,
                             ),
                           ),
-                          Text('Country Code',
+                          Text(
+                            'Country Code',
                             style: TextStyle(
                               fontSize: 15.0,
                               color: AppColors.lightBlack,
@@ -287,23 +291,27 @@ class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
                           child: DropdownButton2(
                             icon: const Icon(Icons.keyboard_arrow_down),
                             hint: const Text(
-                              '+94', style: TextStyle(
-                              fontSize: 13.0,
-                              color: AppColors.lightBlack,
-                              fontWeight: FontWeight.w500,
-                            ),
-                            ),
-                            items: items.map((item) => DropdownMenuItem<String>(
-                              value: item,
-                              child: Text(
-                                item,
-                                style: const TextStyle(
-                                  fontSize: 15.0,
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w500,
-                                ),
+                              '+94',
+                              style: TextStyle(
+                                fontSize: 13.0,
+                                color: AppColors.lightBlack,
+                                fontWeight: FontWeight.w500,
                               ),
-                            ),)
+                            ),
+                            items: items
+                                .map(
+                                  (item) => DropdownMenuItem<String>(
+                                    value: item,
+                                    child: Text(
+                                      item,
+                                      style: const TextStyle(
+                                        fontSize: 15.0,
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                  ),
+                                )
                                 .toList(),
                             value: selectedValue,
                             onChanged: (value) {
@@ -338,14 +346,16 @@ class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: const [
-                    Text('* ',
+                    Text(
+                      '* ',
                       style: TextStyle(
                         fontSize: 18.0,
                         color: Colors.red,
                         fontWeight: FontWeight.w500,
                       ),
                     ),
-                    Text('Mobile Number',
+                    Text(
+                      'Mobile Number',
                       style: TextStyle(
                         fontSize: 15.0,
                         color: AppColors.lightBlack,
@@ -367,7 +377,8 @@ class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
 
             /// Visible to Patients
             const SizedBox(height: 16.0),
-            const Text('Visible to patients',
+            const Text(
+              'Visible to patients',
               style: TextStyle(
                 fontSize: 15.0,
                 color: AppColors.lightBlack,
@@ -402,14 +413,16 @@ class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.start,
               children: const [
-                Text('* ',
+                Text(
+                  '* ',
                   style: TextStyle(
                     fontSize: 18.0,
                     color: Colors.red,
                     fontWeight: FontWeight.w500,
                   ),
                 ),
-                Text('NIC number',
+                Text(
+                  'NIC number',
                   style: TextStyle(
                     fontSize: 15.0,
                     color: AppColors.lightBlack,
@@ -427,8 +440,10 @@ class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
               width: width,
               isPrefixIcon: true,
               prefixIcon: Padding(
-                padding: const EdgeInsets.only(left: 0.0, top: 10.0, bottom: 10.0),
-                child: SvgPicture.asset(AppImages.doctorIcon, color: AppColors.black),
+                padding:
+                    const EdgeInsets.only(left: 0.0, top: 10.0, bottom: 10.0),
+                child: SvgPicture.asset(AppImages.doctorIcon,
+                    color: AppColors.black),
               ),
               padding: const EdgeInsets.only(top: 4.0),
             ),
@@ -439,14 +454,16 @@ class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.start,
               children: const [
-                Text('* ',
+                Text(
+                  '* ',
                   style: TextStyle(
                     fontSize: 18.0,
                     color: Colors.red,
                     fontWeight: FontWeight.w500,
                   ),
                 ),
-                Text('Your home location: City, Street name...',
+                Text(
+                  'Your home location: City, Street name...',
                   style: TextStyle(
                     fontSize: 15.0,
                     color: AppColors.lightBlack,
@@ -463,8 +480,10 @@ class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
               width: width,
               isPrefixIcon: true,
               prefixIcon: Padding(
-                padding: const EdgeInsets.only(left: 0.0, top: 10.0, bottom: 10.0),
-                child: SvgPicture.asset(AppImages.locationIcon, color: AppColors.black),
+                padding:
+                    const EdgeInsets.only(left: 0.0, top: 10.0, bottom: 10.0),
+                child: SvgPicture.asset(AppImages.locationIcon,
+                    color: AppColors.black),
               ),
               padding: const EdgeInsets.only(top: 4.0),
             ),
@@ -475,14 +494,16 @@ class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.start,
               children: const [
-                Text('* ',
+                Text(
+                  '* ',
                   style: TextStyle(
                     fontSize: 18.0,
                     color: Colors.red,
                     fontWeight: FontWeight.w500,
                   ),
                 ),
-                Text('SLMC number',
+                Text(
+                  'SLMC number',
                   style: TextStyle(
                     fontSize: 15.0,
                     color: AppColors.lightBlack,
@@ -498,15 +519,17 @@ class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
               width: width,
               isPrefixIcon: true,
               prefixIcon: Padding(
-                padding: const EdgeInsets.only(left: 0.0, top: 10.0, bottom: 10.0),
-                child: SvgPicture.asset(AppImages.doctorIcon, color: AppColors.black),
+                padding:
+                    const EdgeInsets.only(left: 0.0, top: 10.0, bottom: 10.0),
+                child: SvgPicture.asset(AppImages.doctorIcon,
+                    color: AppColors.black),
               ),
               padding: const EdgeInsets.only(top: 4.0),
             ),
 
-
             const SizedBox(height: 24.0),
-            const Text('SLMC Identity Card details \n(.jpg .png .pdf - max 5mb)',
+            const Text(
+              'SLMC Identity Card details \n(.jpg .png .pdf - max 5mb)',
               style: TextStyle(
                 fontSize: 15.0,
                 color: AppColors.lightBlack,
@@ -516,10 +539,11 @@ class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
             const SizedBox(height: 12.0),
             Material(
               child: InkWell(
-                onTap: (){},
+                onTap: () {},
                 borderRadius: BorderRadius.circular(4.0),
                 child: Ink(
-                  padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 12.0, vertical: 8.0),
                   decoration: BoxDecoration(
                     color: AppColors.white,
                     borderRadius: BorderRadius.circular(4.0),
@@ -533,9 +557,11 @@ class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     mainAxisSize: MainAxisSize.min,
                     children: const [
-                      Icon(Icons.upload_outlined, color: AppColors.black, size: 20.0),
+                      Icon(Icons.upload_outlined,
+                          color: AppColors.black, size: 20.0),
                       SizedBox(width: 8.0),
-                      Text('Click to Upload',
+                      Text(
+                        'Click to Upload',
                         style: TextStyle(
                           fontSize: 14.0,
                           color: AppColors.black,
@@ -552,7 +578,8 @@ class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
             const SizedBox(height: 12.0),
             Container(
               width: width,
-              padding: const EdgeInsets.only(left: 8.0, bottom: 16.0, top: 16.0),
+              padding:
+                  const EdgeInsets.only(left: 8.0, bottom: 16.0, top: 16.0),
               decoration: BoxDecoration(
                 border: Border.all(
                   color: AppColors.primary,
@@ -564,14 +591,16 @@ class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Image.asset(AppImages.frontSideImage,
+                  Image.asset(
+                    AppImages.frontSideImage,
                     height: 40.0,
                     width: 60.0,
                     fit: BoxFit.fill,
                   ),
                   const SizedBox(width: 8.0),
                   const Expanded(
-                    child: Text('front.png',
+                    child: Text(
+                      'front.png',
                       style: TextStyle(
                         fontSize: 14.0,
                         color: AppColors.secondary,
@@ -580,8 +609,9 @@ class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
                     ),
                   ),
                   IconButton(
-                    onPressed: (){},
-                    icon: const Icon(Icons.delete_outline, color: AppColors.primary),
+                    onPressed: () {},
+                    icon: const Icon(Icons.delete_outline,
+                        color: AppColors.primary),
                   ),
                 ],
               ),
@@ -591,7 +621,8 @@ class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
             const SizedBox(height: 12.0),
             Container(
               width: width,
-              padding: const EdgeInsets.only(left: 8.0, bottom: 16.0, top: 16.0),
+              padding:
+                  const EdgeInsets.only(left: 8.0, bottom: 16.0, top: 16.0),
               decoration: BoxDecoration(
                 border: Border.all(
                   color: AppColors.primary,
@@ -603,14 +634,16 @@ class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Image.asset(AppImages.frontSideImage,
+                  Image.asset(
+                    AppImages.frontSideImage,
                     height: 40.0,
                     width: 60.0,
                     fit: BoxFit.fill,
                   ),
                   const SizedBox(width: 8.0),
                   const Expanded(
-                    child: Text('back.png',
+                    child: Text(
+                      'back.png',
                       style: TextStyle(
                         fontSize: 14.0,
                         color: AppColors.secondary,
@@ -619,8 +652,9 @@ class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
                     ),
                   ),
                   IconButton(
-                    onPressed: (){},
-                    icon: const Icon(Icons.delete_outline, color: AppColors.primary),
+                    onPressed: () {},
+                    icon: const Icon(Icons.delete_outline,
+                        color: AppColors.primary),
                   ),
                 ],
               ),
@@ -632,7 +666,7 @@ class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 CustomButton(
-                  onTap: (){},
+                  onTap: () {},
                   btnText: 'Cancel',
                   width: 80.0,
                   height: 36.0,
@@ -643,7 +677,7 @@ class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
                 ),
                 const SizedBox(width: 16.0),
                 CustomButton(
-                  onTap: (){
+                  onTap: () {
                     //Get.to(const ProfileSetupTwoScreen());
                     Get.to(const BookAnAppointmentScreen());
                   },

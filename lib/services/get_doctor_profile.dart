@@ -1,5 +1,6 @@
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:dio/dio.dart';
+import 'dart:convert';
 
 import '../config/constants.dart';
 
@@ -45,7 +46,8 @@ void getDoctorProfile() async {
         prefs.setBool('PhoneNumberVisibleToPatient',
             res.data['Data']['PhoneNumberVisibleToPatient']);
         prefs.setInt('CityId', res.data['Data']['CityId'] ?? 0);
-        print(prefs.getString('token'));
+        prefs.setString('user', jsonEncode(res.data['Data']).toString());
+        //print(jsonEncode(res.data['Data']));
       }
     });
   } on DioError catch (e) {
