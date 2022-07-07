@@ -4,7 +4,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import '../config/app_colors.dart';
 
 void showErrorToast(
-    {FToast? fToast, required bool isError, required String msg}) {
+    {required FToast? fToast, required bool isError, required String msg}) {
   Widget error = Container(
     padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
     decoration: BoxDecoration(
