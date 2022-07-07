@@ -11,7 +11,8 @@ class AppImages {
   static const String locationIcon = 'assets/icons/ico_location.svg';
   static const String doctorIcon = 'assets/icons/ico_doctor.svg';
   static const String frontSideImage = 'assets/images/front side.jpg';
-  static const String deleteDisableIcon = 'assets/icons/button_deletedisabled.png';
+  static const String deleteDisableIcon =
+      'assets/icons/button_deletedisabled.png';
   static const String editButtonIcon = 'assets/icons/button_edit.png';
   static const String calenderIcon = 'assets/icons/ico_calendar.svg';
   static const String arrivedIcon = 'assets/icons/button_arrived.svg';
@@ -19,4 +20,6 @@ class AppImages {
   static const String qrCodeImage = 'assets/svgs/qrcode.png';
   static const String homeImage = 'assets/images/Home.jpg';
   static const String calendarIconMenu = 'assets/icons/ico_link.svg';
+  static const String userGreen = 'assets/icons/user_green.png';
+  static const String deleteBlue = 'assets/icons/delete_blue.png';
 }
