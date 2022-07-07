@@ -1,4 +1,5 @@
 import 'package:date_picker_timeline/date_picker_widget.dart';
+import 'package:emedassistantmobile/screens/calendar/component/plannerAdd.dart';
 import 'package:emedassistantmobile/widgets/drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -185,7 +186,9 @@ class _DoctorAppointmentScreenState extends State<DoctorAppointmentScreen> {
                 ),
                 Expanded(
                   child: CustomButton(
-                    onTap: () {},
+                    onTap: () {
+                      Get.dialog(const PlannerAddDialog());
+                    },
                     btnText: 'Today',
                     btnColor: AppColors.white,
                     borderColor: AppColors.primary,
@@ -313,21 +316,24 @@ class _DoctorAppointmentScreenState extends State<DoctorAppointmentScreen> {
                                     ? Center(child: CircularProgressIndicator())
                                     : Column(
                                         children: List.generate(
-                                            Appointments.length,
-                                            (index) => SignleApp(
+                                        Appointments.length,
+                                        (index) => signleApp(
+                                          Appointments[index]['Patient']
+                                                      ['FirstName'] +
+                                                  ' ' +
                                                   Appointments[index]['Patient']
-                                                          ['LastName'] ??
-                                                      '',
-                                                  Appointments[index]
-                                                          ['PatientNotes'] ??
-                                                      '',
-                                                  Appointments[index]['Patient']
-                                                          ['PhoneNumber'] ??
-                                                      '',
-                                                  Appointments[index]['Patient']
-                                                          ['Email'] ??
-                                                      '',
-                                                ))),
+                                                      ['LastName'] ??
+                                              '',
+                                          Appointments[index]['PatientNotes'] ??
+                                              '',
+                                          Appointments[index]['Patient']
+                                                  ['PhoneNumber'] ??
+                                              '',
+                                          Appointments[index]['Patient']
+                                                  ['Email'] ??
+                                              '',
+                                        ),
+                                      )),
                                 const SizedBox(height: 16.0),
                                 const Divider(
                                   color: AppColors.primary,
@@ -418,19 +424,20 @@ class _DoctorAppointmentScreenState extends State<DoctorAppointmentScreen> {
         ],
       );
 
-  Widget SignleApp(String name, String des, String phoneNumber, String email) =>
+  Widget signleApp(String name, String des, String phoneNumber, String email) =>
       Row(
         crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Expanded(
+            flex: 8,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Text(
                   name,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 20.0,
                     color: AppColors.black,
                     fontWeight: FontWeight.w700,
@@ -439,7 +446,7 @@ class _DoctorAppointmentScreenState extends State<DoctorAppointmentScreen> {
                 const SizedBox(height: 12.0),
                 Text(
                   des,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 13.0,
                     color: AppColors.black,
                     fontWeight: FontWeight.w500,
@@ -456,10 +463,10 @@ class _DoctorAppointmentScreenState extends State<DoctorAppointmentScreen> {
                 ),
                 const SizedBox(height: 8.0),
                 Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    Text(
+                    const Text(
                       'tel. ',
                       style: TextStyle(
                         fontSize: 15.0,
@@ -468,7 +475,7 @@ class _DoctorAppointmentScreenState extends State<DoctorAppointmentScreen> {
                     ),
                     Text(
                       phoneNumber,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 15.0,
                         color: AppColors.secondary,
                       ),
@@ -480,7 +487,7 @@ class _DoctorAppointmentScreenState extends State<DoctorAppointmentScreen> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    Text(
+                    const Text(
                       'email ',
                       style: TextStyle(
                         fontSize: 15.0,
@@ -489,7 +496,7 @@ class _DoctorAppointmentScreenState extends State<DoctorAppointmentScreen> {
                     ),
                     Text(
                       email,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 15.0,
                         color: AppColors.secondary,
                       ),
@@ -499,14 +506,17 @@ class _DoctorAppointmentScreenState extends State<DoctorAppointmentScreen> {
               ],
             ),
           ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              SvgPicture.asset(AppImages.arrivedIcon),
-              const SizedBox(height: 12.0),
-              SvgPicture.asset(AppImages.deleteDisableIcon),
-            ],
+          Expanded(
+            flex: 2,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: const [
+                Image(image: AssetImage(AppImages.userGreen)),
+                SizedBox(height: 12.0),
+                Image(image: AssetImage(AppImages.deleteBlue)),
+              ],
+            ),
           ),
         ],
       );
