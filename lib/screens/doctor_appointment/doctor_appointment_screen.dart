@@ -187,7 +187,7 @@ class _DoctorAppointmentScreenState extends State<DoctorAppointmentScreen> {
                 Expanded(
                   child: CustomButton(
                     onTap: () {
-                      Get.dialog(const PlannerAddDialog());
+                      Get.dialog(const PlannerAddDialog('Wed 28 April 2022 '));
                     },
                     btnText: 'Today',
                     btnColor: AppColors.white,
