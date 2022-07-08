@@ -22,4 +22,13 @@ class AppImages {
   static const String calendarIconMenu = 'assets/icons/ico_link.svg';
   static const String userGreen = 'assets/icons/user_green.png';
   static const String deleteBlue = 'assets/icons/delete_blue.png';
+  static const String calendar = 'assets/icons/Calendar.png';
+  static const String signOut = 'assets/icons/signout.png';
+  static const String settings = 'assets/icons/settings.png';
+  static const String reports = 'assets/icons/reports.png';
+  static const String qr = 'assets/icons/qr.png';
+  static const String messages = 'assets/icons/messages.png';
+  static const String location = 'assets/icons/location.png';
+  static const String doctors = 'assets/icons/doctors.png';
+  static const String assistants = 'assets/icons/assistants.png';
 }
