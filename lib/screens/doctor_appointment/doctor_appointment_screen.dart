@@ -278,15 +278,15 @@ class _DoctorAppointmentScreenState extends State<DoctorAppointmentScreen> {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
-                              CircleAvatar(
+                              const CircleAvatar(
                                 radius: 10.0,
                                 backgroundImage:
                                     AssetImage(AppImages.doctorImage),
                               ),
-                              SizedBox(width: 8.0),
+                              const SizedBox(width: 8.0),
                               Text(
                                 DoctorFirstName,
-                                style: TextStyle(
+                                style: const TextStyle(
                                   fontSize: 15.0,
                                   color: AppColors.black,
                                   fontWeight: FontWeight.w700,
