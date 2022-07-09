@@ -31,4 +31,8 @@ class AppImages {
   static const String location = 'assets/icons/location.png';
   static const String doctors = 'assets/icons/doctors.png';
   static const String assistants = 'assets/icons/assistants.png';
+  static const String peopleCircle_1 = 'assets/images/People_Circle.png';
+  static const String peopleCircle_2 = 'assets/images/People_2.png';
+  static const String peopleCircle_3 = 'assets/images/People_3.png';
+  static const String peopleCircle_4 = 'assets/images/People_4.png';
 }
