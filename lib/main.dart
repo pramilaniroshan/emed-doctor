@@ -50,7 +50,7 @@ class MyApp extends StatelessWidget {
 
       //home: CreateProfileScreen(),
       home: AnimatedSplashScreen(
-          duration: 3000,
+          duration: 20,
           splash: SvgPicture.asset(AppImages.eMedLogo,
               height: 50, width: 50, fit: BoxFit.scaleDown),
           nextScreen: isLoggedUser == true
