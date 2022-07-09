@@ -1,3 +1,4 @@
+import 'package:emedassistantmobile/screens/assistants/assistansts.dart';
 import 'package:emedassistantmobile/screens/auth/home/home_screen.dart';
 import 'package:emedassistantmobile/screens/calendar/calendar_screen.dart';
 import 'package:emedassistantmobile/screens/doctor_appointment/doctor_appointment_screen.dart';
@@ -117,7 +118,9 @@ class DoctorDrawer extends StatelessWidget {
             ),
           ),
           ListTile(
-            onTap: () {},
+            onTap: () {
+              Get.to(const AssistantsScreen());
+            },
             leading: Padding(
               padding: const EdgeInsets.only(top: 6.0, left: 12.0),
               child: Image.asset(AppImages.assistants),
