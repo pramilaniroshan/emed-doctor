@@ -1,9 +1,11 @@
+import 'package:emedassistantmobile/screens/assistants/components/add_assistants.dart';
 import 'package:emedassistantmobile/widgets/drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 import 'package:emedassistantmobile/config/app_colors.dart';
 import 'package:emedassistantmobile/config/app_images.dart';
+import 'package:get/get.dart';
 import '../../widgets/custom_button.dart';
 
 class AssistantsScreen extends StatefulWidget {
@@ -104,7 +106,9 @@ class _AssistantsScreen extends State<AssistantsScreen> {
                 const SizedBox(width: 24.0),
                 Column(children: [
                   CustomButton(
-                    onTap: () {},
+                    onTap: () {
+                      Get.dialog(const AddAssistantsDialog());
+                    },
                     btnText: 'Add New',
                     width: 5.0,
                   ),
