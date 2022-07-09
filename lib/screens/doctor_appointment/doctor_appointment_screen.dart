@@ -140,7 +140,7 @@ class _DoctorAppointmentScreenState extends State<DoctorAppointmentScreen> {
           Center(
             child: Text(
               DoctorFirstName,
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 14.0,
                 fontWeight: FontWeight.w700,
                 color: AppColors.lightBlack,
@@ -176,7 +176,7 @@ class _DoctorAppointmentScreenState extends State<DoctorAppointmentScreen> {
                 Expanded(
                   child: Text(
                     DateFormat.yMMMMd('en_US').format((DateTime.now())),
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 16.0,
                       color: AppColors.black,
                       fontWeight: FontWeight.w600,
@@ -187,7 +187,7 @@ class _DoctorAppointmentScreenState extends State<DoctorAppointmentScreen> {
                 Expanded(
                   child: CustomButton(
                     onTap: () {
-                      Get.dialog(const PlannerAddDialog());
+                      Get.dialog(const PlannerAddDialog('Wed 28 April 2022 '));
                     },
                     btnText: 'Today',
                     btnColor: AppColors.white,
@@ -278,15 +278,15 @@ class _DoctorAppointmentScreenState extends State<DoctorAppointmentScreen> {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
-                              CircleAvatar(
+                              const CircleAvatar(
                                 radius: 10.0,
                                 backgroundImage:
                                     AssetImage(AppImages.doctorImage),
                               ),
-                              SizedBox(width: 8.0),
+                              const SizedBox(width: 8.0),
                               Text(
                                 DoctorFirstName,
-                                style: TextStyle(
+                                style: const TextStyle(
                                   fontSize: 15.0,
                                   color: AppColors.black,
                                   fontWeight: FontWeight.w700,

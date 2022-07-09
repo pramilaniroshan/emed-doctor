@@ -1,19 +1,36 @@
-import 'package:emedassistantmobile/screens/settings/setting_screen.dart';
-import 'package:emedassistantmobile/widgets/custom_button.dart';
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import 'package:emedassistantmobile/config/app_colors.dart';
+import 'package:emedassistantmobile/widgets/custom_button.dart';
 
 class PlannerAddDialog extends StatefulWidget {
-  const PlannerAddDialog({Key? key}) : super(key: key);
+  final String? date;
+  const PlannerAddDialog(this.date, {Key? key}) : super(key: key);
 
   @override
   State<PlannerAddDialog> createState() => _PlannerAddDialogState();
 }
 
 class _PlannerAddDialogState extends State<PlannerAddDialog> {
-  TextEditingController customMessageController = TextEditingController();
+  String? selectedValue;
+  List<String> items = [
+    '09:00 AM',
+    '10:00 AM',
+    '11:00 AM',
+    '12:00 AM',
+  ];
+  String? selectedValueOne;
+  List<String> itemsOne = [
+    '09:00 PM',
+    '10:00 PM',
+    '11:00 PM',
+    '12:00 PM',
+  ];
+
+  TextEditingController appointmentNumberController = TextEditingController();
+  TextEditingController eachTimeController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -33,12 +50,13 @@ class _PlannerAddDialogState extends State<PlannerAddDialog> {
             mainAxisAlignment: MainAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Center(
+              /// schedule new slot text
+              Center(
                 child: Padding(
-                  padding: EdgeInsets.symmetric(vertical: 16.0),
+                  padding: const EdgeInsets.symmetric(vertical: 16.0),
                   child: Text(
-                    'Schedule a new slot on Wed 26 Jan 2022',
-                    style: TextStyle(
+                    'Schedule a new slot on ${widget.date}',
+                    style: const TextStyle(
                       fontSize: 17.0,
                       color: AppColors.black,
                       fontWeight: FontWeight.w600,
@@ -46,133 +64,372 @@ class _PlannerAddDialogState extends State<PlannerAddDialog> {
                   ),
                 ),
               ),
+
+              /// times box
               Container(
                 width: width,
-                padding: const EdgeInsets.symmetric(vertical: 24.0),
+                padding: const EdgeInsets.symmetric(vertical: 20.0),
                 decoration: const BoxDecoration(
                   color: AppColors.white,
                 ),
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                  child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Expanded(
-                          flex: 5,
-                          child: Column(children: const [
-                            Text('Start Time',
-                                style: TextStyle(
-                                  fontSize: 15.0,
-                                  color: AppColors.lightBlack,
-                                  fontWeight: FontWeight.w500,
-                                )),
-                            Text('data')
-                            // CalendarDatePicker(
-                            //     initialDate: DateTime(2015, 8),
-                            //     firstDate: DateTime(2015, 8),
-                            //     lastDate: DateTime(2035, 8),
-                            //     onDateChanged: (DateTime value) {})
-                          ]),
-                        ),
-                        const Expanded(
-                          flex: 5,
-                          child: Text(
-                            'End Time',
-                            style: TextStyle(
-                              fontSize: 15.0,
-                              color: AppColors.lightBlack,
-                              fontWeight: FontWeight.w500,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      /// select time for slot
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                const Text(
+                                  'Start Time',
+                                  style: TextStyle(
+                                    fontSize: 15.0,
+                                    color: AppColors.lightBlack,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                                const SizedBox(height: 10.0),
+                                Container(
+                                  width: width,
+                                  height: 40.0,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(2.0),
+                                    color: AppColors.white,
+                                    border: Border.all(
+                                      color: AppColors.primary,
+                                      width: 1.0,
+                                    ),
+                                  ),
+                                  child: DropdownButtonHideUnderline(
+                                    child: DropdownButton2(
+                                      icon:
+                                          const Icon(Icons.keyboard_arrow_down),
+                                      hint: const Text(
+                                        '',
+                                        style: TextStyle(
+                                          fontSize: 13.0,
+                                          color: AppColors.lightBlack,
+                                          fontWeight: FontWeight.w500,
+                                        ),
+                                      ),
+                                      items: items
+                                          .map(
+                                            (item) => DropdownMenuItem<String>(
+                                              value: item,
+                                              child: Text(
+                                                item,
+                                                style: const TextStyle(
+                                                  fontSize: 15.0,
+                                                  color: AppColors.lightBlack,
+                                                  fontWeight: FontWeight.w500,
+                                                ),
+                                              ),
+                                            ),
+                                          )
+                                          .toList(),
+                                      value: selectedValue,
+                                      onChanged: (value) {
+                                        setState(() {
+                                          selectedValue = value as String;
+                                        });
+                                      },
+                                      buttonHeight: 40,
+                                      buttonWidth: 140,
+                                      itemHeight: 36.0,
+                                      dropdownWidth: 150,
+                                      buttonPadding: const EdgeInsets.symmetric(
+                                          horizontal: 8.0),
+                                      dropdownDecoration: const BoxDecoration(
+                                        color: AppColors.white,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
+                          const SizedBox(width: 8.0),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                const Text(
+                                  'End Time',
+                                  style: TextStyle(
+                                    fontSize: 15.0,
+                                    color: AppColors.lightBlack,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                                const SizedBox(height: 10.0),
+                                Container(
+                                  width: width,
+                                  height: 40.0,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(2.0),
+                                    color: AppColors.white,
+                                    border: Border.all(
+                                      color: AppColors.primary,
+                                      width: 1.0,
+                                    ),
+                                  ),
+                                  child: DropdownButtonHideUnderline(
+                                    child: DropdownButton2(
+                                      icon:
+                                          const Icon(Icons.keyboard_arrow_down),
+                                      hint: const Text(
+                                        '',
+                                        style: TextStyle(
+                                          fontSize: 13.0,
+                                          color: AppColors.lightBlack,
+                                          fontWeight: FontWeight.w500,
+                                        ),
+                                      ),
+                                      items: itemsOne
+                                          .map(
+                                            (item) => DropdownMenuItem<String>(
+                                              value: item,
+                                              child: Text(
+                                                item,
+                                                style: const TextStyle(
+                                                  fontSize: 15.0,
+                                                  color: AppColors.lightBlack,
+                                                  fontWeight: FontWeight.w500,
+                                                ),
+                                              ),
+                                            ),
+                                          )
+                                          .toList(),
+                                      value: selectedValueOne,
+                                      onChanged: (value) {
+                                        setState(() {
+                                          selectedValueOne = value as String;
+                                        });
+                                      },
+                                      buttonHeight: 40,
+                                      buttonWidth: 140,
+                                      itemHeight: 36.0,
+                                      dropdownWidth: 150,
+                                      buttonPadding: const EdgeInsets.symmetric(
+                                          horizontal: 8.0),
+                                      dropdownDecoration: const BoxDecoration(
+                                        color: AppColors.white,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+
+                      /// no appointment and time for each
+                      const SizedBox(height: 24.0),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const Text(
+                                  'No appointments',
+                                  style: TextStyle(
+                                    fontSize: 15.0,
+                                    color: AppColors.lightBlack,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                                const SizedBox(height: 10.0),
+                                Container(
+                                  width: width,
+                                  height: 40.0,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(2.0),
+                                    color: AppColors.white,
+                                    border: Border.all(
+                                      color: AppColors.primary,
+                                      width: 1.0,
+                                    ),
+                                  ),
+                                  child: TextFormField(
+                                    controller: appointmentNumberController,
+                                    keyboardType: TextInputType.number,
+                                    style: const TextStyle(
+                                      fontSize: 15.0,
+                                      color: AppColors.lightBlack,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                    decoration: const InputDecoration(
+                                      border: InputBorder.none,
+                                      contentPadding: EdgeInsets.only(
+                                          left: 12.0, bottom: 10.0),
+                                      hintText: '1',
+                                      hintStyle: TextStyle(
+                                        fontSize: 15.0,
+                                        color: AppColors.lightBlack,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          const SizedBox(width: 8.0),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const Text(
+                                  'Time for each',
+                                  style: TextStyle(
+                                    fontSize: 15.0,
+                                    color: AppColors.lightBlack,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                                const SizedBox(height: 10.0),
+                                Container(
+                                  width: width,
+                                  height: 40.0,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(2.0),
+                                    color: AppColors.white,
+                                    border: Border.all(
+                                      color: AppColors.primary,
+                                      width: 1.0,
+                                    ),
+                                  ),
+                                  child: TextFormField(
+                                    controller: eachTimeController,
+                                    keyboardType: TextInputType.number,
+                                    style: const TextStyle(
+                                      fontSize: 15.0,
+                                      color: AppColors.lightBlack,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                    decoration: const InputDecoration(
+                                      border: InputBorder.none,
+                                      contentPadding: EdgeInsets.only(
+                                          left: 12.0, bottom: 10.0),
+                                      hintText: '1',
+                                      hintStyle: TextStyle(
+                                        fontSize: 15.0,
+                                        color: AppColors.lightBlack,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: height * 0.2),
+
+                      /// not a repetitive slot button with dialog
+                      TextButton(
+                        onPressed: () {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                elevation: 0.0,
+                                backgroundColor: AppColors.white,
+                                contentPadding: const EdgeInsets.all(0.0),
+                                content: Container(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 16.0, vertical: 24.0),
+                                  decoration: BoxDecoration(
+                                    color: AppColors.lightBlue.withOpacity(0.1),
+                                    borderRadius: BorderRadius.circular(4.0),
+                                  ),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: const [
+                                      Text(
+                                        'It is not a repetitive slot',
+                                        style: TextStyle(
+                                          fontSize: 15.0,
+                                          color: AppColors.black,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ),
+                                      SizedBox(height: 16.0),
+                                      Text(
+                                        'It repeats everyday',
+                                        style: TextStyle(
+                                          fontSize: 14.0,
+                                          color: AppColors.lightBlack,
+                                          fontWeight: FontWeight.w400,
+                                        ),
+                                      ),
+                                      SizedBox(height: 16.0),
+                                      Text(
+                                        'It is repeated every working day of the week',
+                                        style: TextStyle(
+                                          fontSize: 14.0,
+                                          color: AppColors.lightBlack,
+                                          fontWeight: FontWeight.w400,
+                                        ),
+                                      ),
+                                      SizedBox(height: 16.0),
+                                      Text(
+                                        'It repeats every week on Wednesday',
+                                        style: TextStyle(
+                                          fontSize: 14.0,
+                                          color: AppColors.lightBlack,
+                                          fontWeight: FontWeight.w400,
+                                        ),
+                                      ),
+                                      SizedBox(height: 16.0),
+                                      Text(
+                                        'It repeats every month on the third Wednesday',
+                                        style: TextStyle(
+                                          fontSize: 14.0,
+                                          color: AppColors.lightBlack,
+                                          fontWeight: FontWeight.w400,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              );
+                            },
+                          );
+                        },
+                        child: const Text(
+                          'It\'s not a repetitive slot',
+                          style: TextStyle(
+                            fontSize: 15.0,
+                            color: AppColors.secondary,
+                            fontWeight: FontWeight.w600,
+                            decoration: TextDecoration.underline,
+                          ),
                         ),
-                      ]),
+                      ),
+                    ],
+                  ),
                 ),
-                // child: Padding(
-                //   padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                //   child: Row(
-                //     children: [
-                //       Column(
-                //         crossAxisAlignment: CrossAxisAlignment.start,
-                //         mainAxisAlignment: MainAxisAlignment.start,
-                //         children: [
-                //           /// select a preset message
-                //           const SizedBox(height: 24.0),
-                //           const Text(
-                //             'Select a preset message',
-                //             style: TextStyle(
-                //               fontSize: 15.0,
-                //               color: AppColors.lightBlack,
-                //               fontWeight: FontWeight.w500,
-                //             ),
-                //           ),
-                //           const SizedBox(height: 10.0),
-                //           Container(
-                //             width: width,
-                //             height: 40.0,
-                //             decoration: BoxDecoration(
-                //               borderRadius: BorderRadius.circular(2.0),
-                //               color: AppColors.white,
-                //               border: Border.all(
-                //                 color: AppColors.primary,
-                //                 width: 1.0,
-                //               ),
-                //             ),
-                //             child: Row(
-                //               crossAxisAlignment: CrossAxisAlignment.center,
-                //               children: const [
-                //                 Text(''),
-                //                 Spacer(),
-                //                 Icon(Icons.keyboard_arrow_down_rounded,
-                //                     color: AppColors.primary),
-                //                 SizedBox(width: 8.0),
-                //               ],
-                //             ),
-                //           ),
-
-                //           /// or create a custom message
-                //           const SizedBox(height: 24.0),
-                //           const Text(
-                //             'or create a custom message',
-                //             style: TextStyle(
-                //               fontSize: 15.0,
-                //               color: AppColors.lightBlack,
-                //               fontWeight: FontWeight.w500,
-                //             ),
-                //           ),
-
-                //           const SizedBox(height: 10.0),
-                //           Container(
-                //             width: width,
-                //             decoration: BoxDecoration(
-                //               borderRadius: BorderRadius.circular(2.0),
-                //               color: AppColors.white,
-                //               border: Border.all(
-                //                 color: AppColors.primary,
-                //                 width: 1.0,
-                //               ),
-                //             ),
-                //             child: TextFormField(
-                //               maxLines: 5,
-                //               controller: customMessageController,
-                //               keyboardType: TextInputType.text,
-                //               decoration: const InputDecoration(
-                //                 border: InputBorder.none,
-                //                 contentPadding: EdgeInsets.only(
-                //                   left: 16.0,
-                //                   top: 16.0,
-                //                 ),
-                //               ),
-                //             ),
-                //           ),
-
-                //           const SizedBox(height: 24.0),
-                //         ],
-                //       ),
-                //     ],
-                //   ),
-                // ),
               ),
+
+              /// cancel and publish button
               Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.end,
@@ -194,9 +451,7 @@ class _PlannerAddDialogState extends State<PlannerAddDialog> {
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 5.0),
                     child: CustomButton(
-                      onTap: () {
-                        Get.to(const SettingsScreen());
-                      },
+                      onTap: () {},
                       btnText: 'Publish',
                       width: 80.0,
                     ),
@@ -210,21 +465,4 @@ class _PlannerAddDialogState extends State<PlannerAddDialog> {
       ),
     );
   }
-
-  Widget delayBox(borderColor, minText, textColor) => Container(
-        padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
-        decoration: BoxDecoration(
-          border: Border.all(
-            color: borderColor,
-            width: 1.0,
-          ),
-        ),
-        child: Text(
-          minText,
-          style: TextStyle(
-            fontSize: 14.0,
-            color: textColor,
-          ),
-        ),
-      );
 }
