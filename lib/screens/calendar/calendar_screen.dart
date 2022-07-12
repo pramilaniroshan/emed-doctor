@@ -9,9 +9,51 @@ import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 import '../../config/app_images.dart';
 
-class CalendarScreen extends StatelessWidget {
+class CalendarScreen extends StatefulWidget {
   CalendarScreen({Key? key}) : super(key: key);
+
+  @override
+  State<CalendarScreen> createState() => _CalendarScreenState();
+}
+
+class _CalendarScreenState extends State<CalendarScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  List<Appointment> appointmentList = [];
+
+  List<Appointment> getAppointments() {
+    List<Appointment> meetings = <Appointment>[];
+    List<CalendarResource> resources = <CalendarResource>[];
+
+    final DateTime today = DateTime.now();
+    final DateTime startTime = DateTime.now();
+    final DateTime endTime = DateTime.now().add(Duration(hours: 2));
+
+    meetings.add(Appointment(
+        notes: "This is a note",
+        location: "Rathnapura",
+        //recurrenceId: <Object>['0001'],
+        startTime: startTime,
+        endTime: endTime,
+        subject: 'Conference',
+        color: Colors.blue.withOpacity(0.1)));
+
+    meetings.add(Appointment(
+        startTime: DateTime.now(),
+        endTime: DateTime.now().add(const Duration(hours: 4)),
+        subject: 'Night Out',
+        color: Colors.red));
+
+    resources.add(
+        CalendarResource(displayName: 'John', id: '0001', color: Colors.red));
+
+    return meetings;
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -55,8 +97,9 @@ class CalendarScreen extends StatelessWidget {
       body: Row(children: [
         SfCalendar(
           //backgroundColor: AppColors.lightBackground,
-          view: CalendarView.timelineWorkWeek,
+          view: CalendarView.day,
           showDatePickerButton: true,
+          allowViewNavigation: true,
           timeSlotViewSettings: const TimeSlotViewSettings(),
           allowedViews: const <CalendarView>[
             CalendarView.day,
@@ -71,10 +114,13 @@ class CalendarScreen extends StatelessWidget {
             DateTime date = details.date!;
             if (details.appointments == null) {
               Get.dialog(PlannerAddDialog(date));
+              setState(() {
+                appointmentList = getAppointments();
+              });
             }
             print(date);
           },
-          dataSource: MeetingDataSource(getAppointments()),
+          dataSource: MeetingDataSource(appointmentList),
           appointmentBuilder: appointmentBuilder,
         ),
       ]),
@@ -112,35 +158,6 @@ class CalendarScreen extends StatelessWidget {
       ],
     );
   }
-}
-
-List<Appointment> getAppointments() {
-  List<Appointment> meetings = <Appointment>[];
-  List<CalendarResource> resources = <CalendarResource>[];
-
-  final DateTime today = DateTime.now();
-  final DateTime startTime = DateTime.now();
-  final DateTime endTime = DateTime.now().add(Duration(hours: 2));
-
-  meetings.add(Appointment(
-      notes: "This is a note",
-      location: "Rathnapura",
-      //recurrenceId: <Object>['0001'],
-      startTime: startTime,
-      endTime: endTime,
-      subject: 'Conference',
-      color: Colors.blue.withOpacity(0.1)));
-
-  meetings.add(Appointment(
-      startTime: DateTime.now(),
-      endTime: DateTime.now().add(const Duration(hours: 4)),
-      subject: 'Night Out',
-      color: Colors.red));
-
-  resources.add(
-      CalendarResource(displayName: 'John', id: '0001', color: Colors.red));
-
-  return meetings;
 }
 
 class MeetingDataSource extends CalendarDataSource {
