@@ -69,12 +69,12 @@ class CalendarScreen extends StatelessWidget {
           ],
           onTap: (CalendarTapDetails details) {
             DateTime date = details.date!;
-            if (details.appointments != null) {
-              Get.dialog(PlannerAddDialog(date.toString()));
+            if (details.appointments == null) {
+              Get.dialog(PlannerAddDialog(date));
             }
             print(date);
           },
-          dataSource: _getCalendarDataSource(),
+          dataSource: MeetingDataSource(getAppointments()),
           appointmentBuilder: appointmentBuilder,
         ),
       ]),
@@ -88,15 +88,14 @@ class CalendarScreen extends StatelessWidget {
     return Column(
       children: [
         Container(
-            width: calendarAppointmentDetails.bounds.width,
-            height: calendarAppointmentDetails.bounds.height / 2,
-            color: appointment.color,
-            child: Center(
-              child: Icon(
-                Icons.group,
-                color: Colors.black,
-              ),
-            )),
+          width: calendarAppointmentDetails.bounds.width,
+          height: calendarAppointmentDetails.bounds.height / 2,
+          color: appointment.color,
+          child: const Icon(
+            Icons.group,
+            color: Colors.black,
+          ),
+        ),
         Container(
           width: calendarAppointmentDetails.bounds.width,
           height: calendarAppointmentDetails.bounds.height / 2,
@@ -107,7 +106,7 @@ class CalendarScreen extends StatelessWidget {
                 '-' +
                 DateFormat('hh:mm a)').format(appointment.endTime),
             textAlign: TextAlign.center,
-            style: TextStyle(fontSize: 10),
+            style: const TextStyle(fontSize: 10),
           ),
         )
       ],
@@ -120,9 +119,8 @@ List<Appointment> getAppointments() {
   List<CalendarResource> resources = <CalendarResource>[];
 
   final DateTime today = DateTime.now();
-  final DateTime startTime =
-      DateTime(today.year, today.month, today.day, 9, 0, 0);
-  final DateTime endTime = startTime.add(const Duration(days: 2));
+  final DateTime startTime = DateTime.now();
+  final DateTime endTime = DateTime.now().add(Duration(hours: 2));
 
   meetings.add(Appointment(
       notes: "This is a note",
@@ -131,15 +129,16 @@ List<Appointment> getAppointments() {
       startTime: startTime,
       endTime: endTime,
       subject: 'Conference',
-      color: Colors.blue));
-  // meetings.add(Appointment(
-  //     startTime: DateTime(2022, 7, 10),
-  //     endTime: DateTime(2022, 7, 11),
-  //     subject: 'Night Out',
-  //     color: Colors.red));
+      color: Colors.blue.withOpacity(0.1)));
 
-  // resources.add(
-  //     CalendarResource(displayName: 'John', id: '0001', color: Colors.red));
+  meetings.add(Appointment(
+      startTime: DateTime.now(),
+      endTime: DateTime.now().add(const Duration(hours: 4)),
+      subject: 'Night Out',
+      color: Colors.red));
+
+  resources.add(
+      CalendarResource(displayName: 'John', id: '0001', color: Colors.red));
 
   return meetings;
 }
@@ -174,7 +173,7 @@ DataSource _getCalendarDataSource() {
       subject: 'Meeting',
       notes: 'This is a sample note',
       location: 'Rathnapura',
-      color: Colors.red,
+      color: AppColors.lightBlue.withOpacity(0.1),
       resourceIds: <Object>['0001'],
       startTimeZone: '',
       endTimeZone: ''));
@@ -185,7 +184,7 @@ DataSource _getCalendarDataSource() {
       isAllDay: false,
       subject: 'Meeting',
       color: Colors.blue,
-      resourceIds: <Object>['0002'],
+      //resourceIds: <Object>['0002'],
       startTimeZone: '',
       endTimeZone: ''));
 
@@ -195,7 +194,7 @@ DataSource _getCalendarDataSource() {
       isAllDay: false,
       subject: 'Meeting',
       color: Colors.green,
-      resourceIds: <Object>['0003'],
+      //resourceIds: <Object>['0003'],
       startTimeZone: '',
       endTimeZone: ''));
 
@@ -205,15 +204,16 @@ DataSource _getCalendarDataSource() {
       isAllDay: false,
       subject: 'Meeting',
       color: Colors.blueAccent,
-      resourceIds: <Object>['0004'],
+      //resourceIds: <Object>['0004'],
       startTimeZone: '',
       endTimeZone: ''));
 
   resources.add(CalendarResource(
-      displayName: 'Pramila',
-      id: '0001',
-      color: Colors.red,
-      image: const ExactAssetImage(AppImages.peopleCircle_1)));
+    //displayName: 'Pramila',
+    id: '0001',
+    color: Colors.red,
+    //image: const ExactAssetImage(AppImages.peopleCircle_1)
+  ));
 
   resources.add(CalendarResource(
       displayName: 'Niroshan',
