@@ -173,82 +173,82 @@ class MeetingDataSource extends CalendarDataSource {
 //   }
 // }
 
-class DataSource extends CalendarDataSource {
-  DataSource(List<Appointment> source, List<CalendarResource> resourceColl) {
-    appointments = source;
-    resources = resourceColl;
-  }
-}
+// class DataSource extends CalendarDataSource {
+//   DataSource(List<Appointment> source, List<CalendarResource> resourceColl) {
+//     appointments = source;
+//     resources = resourceColl;
+//   }
+// }
 
-DataSource _getCalendarDataSource() {
-  List<Appointment> appointments = <Appointment>[];
-  List<CalendarResource> resources = <CalendarResource>[];
-  appointments.add(Appointment(
-      startTime: DateTime.now().add(Duration(hours: 2)),
-      endTime: DateTime.now().add(Duration(hours: 5)),
-      isAllDay: false,
-      subject: 'Meeting',
-      notes: 'This is a sample note',
-      location: 'Rathnapura',
-      color: AppColors.lightBlue.withOpacity(0.1),
-      resourceIds: <Object>['0001'],
-      startTimeZone: '',
-      endTimeZone: ''));
+// DataSource _getCalendarDataSource() {
+//   List<Appointment> appointments = <Appointment>[];
+//   List<CalendarResource> resources = <CalendarResource>[];
+//   appointments.add(Appointment(
+//       startTime: DateTime.now().add(Duration(hours: 2)),
+//       endTime: DateTime.now().add(Duration(hours: 5)),
+//       isAllDay: false,
+//       subject: 'Meeting',
+//       notes: 'This is a sample note',
+//       location: 'Rathnapura',
+//       color: AppColors.lightBlue.withOpacity(0.1),
+//       resourceIds: <Object>['0001'],
+//       startTimeZone: '',
+//       endTimeZone: ''));
 
-  appointments.add(Appointment(
-      startTime: DateTime.now(),
-      endTime: DateTime.now().add(Duration(hours: 2)),
-      isAllDay: false,
-      subject: 'Meeting',
-      color: Colors.blue,
-      //resourceIds: <Object>['0002'],
-      startTimeZone: '',
-      endTimeZone: ''));
+//   appointments.add(Appointment(
+//       startTime: DateTime.now(),
+//       endTime: DateTime.now().add(Duration(hours: 2)),
+//       isAllDay: false,
+//       subject: 'Meeting',
+//       color: Colors.blue,
+//       //resourceIds: <Object>['0002'],
+//       startTimeZone: '',
+//       endTimeZone: ''));
 
-  appointments.add(Appointment(
-      startTime: DateTime.now().add(Duration(hours: 5)),
-      endTime: DateTime.now().add(Duration(hours: 10)),
-      isAllDay: false,
-      subject: 'Meeting',
-      color: Colors.green,
-      //resourceIds: <Object>['0003'],
-      startTimeZone: '',
-      endTimeZone: ''));
+//   appointments.add(Appointment(
+//       startTime: DateTime.now().add(Duration(hours: 5)),
+//       endTime: DateTime.now().add(Duration(hours: 10)),
+//       isAllDay: false,
+//       subject: 'Meeting',
+//       color: Colors.green,
+//       //resourceIds: <Object>['0003'],
+//       startTimeZone: '',
+//       endTimeZone: ''));
 
-  appointments.add(Appointment(
-      startTime: DateTime.now().add(Duration(hours: 6)),
-      endTime: DateTime.now().add(Duration(hours: 11)),
-      isAllDay: false,
-      subject: 'Meeting',
-      color: Colors.blueAccent,
-      //resourceIds: <Object>['0004'],
-      startTimeZone: '',
-      endTimeZone: ''));
+//   appointments.add(Appointment(
+//       startTime: DateTime.now().add(Duration(hours: 6)),
+//       endTime: DateTime.now().add(Duration(hours: 11)),
+//       isAllDay: false,
+//       subject: 'Meeting',
+//       color: Colors.blueAccent,
+//       //resourceIds: <Object>['0004'],
+//       startTimeZone: '',
+//       endTimeZone: ''));
 
-  resources.add(CalendarResource(
-    //displayName: 'Pramila',
-    id: '0001',
-    color: Colors.red,
-    //image: const ExactAssetImage(AppImages.peopleCircle_1)
-  ));
+//   resources.add(CalendarResource(
+//     //displayName: 'Pramila',
+//     id: '0001',
+//     color: Colors.red,
+//     //image: const ExactAssetImage(AppImages.peopleCircle_1)
+//   ));
 
-  resources.add(CalendarResource(
-      displayName: 'Niroshan',
-      id: '0002',
-      color: Colors.blue,
-      image: const ExactAssetImage(AppImages.peopleCircle_2)));
+//   resources.add(CalendarResource(
+//       displayName: 'Niroshan',
+//       id: '0002',
+//       color: Colors.blue,
+//       image: const ExactAssetImage(AppImages.peopleCircle_2)));
 
-  resources.add(CalendarResource(
-      displayName: 'Madara',
-      id: '0003',
-      color: Colors.green,
-      image: const ExactAssetImage(AppImages.peopleCircle_3)));
+//   resources.add(CalendarResource(
+//       displayName: 'Madara',
+//       id: '0003',
+//       color: Colors.green,
+//       image: const ExactAssetImage(AppImages.peopleCircle_3)));
 
-  resources.add(CalendarResource(
-      displayName: 'Bagya',
-      id: '0004',
-      color: Colors.cyanAccent,
-      image: const ExactAssetImage(AppImages.peopleCircle_4)));
+//   resources.add(CalendarResource(
+//       displayName: 'Bagya',
+//       id: '0004',
+//       color: Colors.cyanAccent,
+//       image: const ExactAssetImage(AppImages.peopleCircle_4)));
 
-  return DataSource(appointments, resources);
-}
+//   return DataSource(appointments, resources);
+// }
