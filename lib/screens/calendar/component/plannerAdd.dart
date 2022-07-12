@@ -4,9 +4,10 @@ import 'package:get/get.dart';
 
 import 'package:emedassistantmobile/config/app_colors.dart';
 import 'package:emedassistantmobile/widgets/custom_button.dart';
+import 'package:intl/intl.dart';
 
 class PlannerAddDialog extends StatefulWidget {
-  final String? date;
+  final DateTime? date;
   const PlannerAddDialog(this.date, {Key? key}) : super(key: key);
 
   @override
@@ -55,9 +56,9 @@ class _PlannerAddDialogState extends State<PlannerAddDialog> {
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 16.0),
                   child: Text(
-                    'Schedule a new slot on ${widget.date}',
+                    'Schedule a new slot on ${DateFormat('EEE MMM d y  h:mm a').format(widget.date!)}',
                     style: const TextStyle(
-                      fontSize: 17.0,
+                      fontSize: 15.0,
                       color: AppColors.black,
                       fontWeight: FontWeight.w600,
                     ),

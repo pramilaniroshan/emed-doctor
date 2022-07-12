@@ -35,4 +35,7 @@ class AppImages {
   static const String peopleCircle_2 = 'assets/images/People_2.png';
   static const String peopleCircle_3 = 'assets/images/People_3.png';
   static const String peopleCircle_4 = 'assets/images/People_4.png';
+  static const String eyeIcon = 'assets/icons/eye.png';
+  static const String editIcon = 'assets/icons/edit.png';
+  static const String eyeClose = 'assets/icons/eyeClose.png';
 }

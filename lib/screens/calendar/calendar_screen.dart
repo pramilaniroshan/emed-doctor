@@ -9,9 +9,51 @@ import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 import '../../config/app_images.dart';
 
-class CalendarScreen extends StatelessWidget {
+class CalendarScreen extends StatefulWidget {
   CalendarScreen({Key? key}) : super(key: key);
+
+  @override
+  State<CalendarScreen> createState() => _CalendarScreenState();
+}
+
+class _CalendarScreenState extends State<CalendarScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  List<Appointment> appointmentList = [];
+
+  List<Appointment> getAppointments() {
+    List<Appointment> meetings = <Appointment>[];
+    List<CalendarResource> resources = <CalendarResource>[];
+
+    final DateTime today = DateTime.now();
+    final DateTime startTime = DateTime.now();
+    final DateTime endTime = DateTime.now().add(Duration(hours: 2));
+
+    meetings.add(Appointment(
+        notes: "This is a note",
+        location: "Rathnapura",
+        //recurrenceId: <Object>['0001'],
+        startTime: startTime,
+        endTime: endTime,
+        subject: 'Conference',
+        color: Colors.blue.withOpacity(0.1)));
+
+    meetings.add(Appointment(
+        startTime: DateTime.now(),
+        endTime: DateTime.now().add(const Duration(hours: 4)),
+        subject: 'Night Out',
+        color: Colors.red));
+
+    resources.add(
+        CalendarResource(displayName: 'John', id: '0001', color: Colors.red));
+
+    return meetings;
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -55,8 +97,9 @@ class CalendarScreen extends StatelessWidget {
       body: Row(children: [
         SfCalendar(
           //backgroundColor: AppColors.lightBackground,
-          view: CalendarView.timelineWorkWeek,
+          view: CalendarView.day,
           showDatePickerButton: true,
+          allowViewNavigation: true,
           timeSlotViewSettings: const TimeSlotViewSettings(),
           allowedViews: const <CalendarView>[
             CalendarView.day,
@@ -69,12 +112,15 @@ class CalendarScreen extends StatelessWidget {
           ],
           onTap: (CalendarTapDetails details) {
             DateTime date = details.date!;
-            if (details.appointments != null) {
-              Get.dialog(PlannerAddDialog(date.toString()));
+            if (details.appointments == null) {
+              Get.dialog(PlannerAddDialog(date));
+              setState(() {
+                appointmentList = getAppointments();
+              });
             }
             print(date);
           },
-          dataSource: _getCalendarDataSource(),
+          dataSource: MeetingDataSource(appointmentList),
           appointmentBuilder: appointmentBuilder,
         ),
       ]),
@@ -88,15 +134,14 @@ class CalendarScreen extends StatelessWidget {
     return Column(
       children: [
         Container(
-            width: calendarAppointmentDetails.bounds.width,
-            height: calendarAppointmentDetails.bounds.height / 2,
-            color: appointment.color,
-            child: Center(
-              child: Icon(
-                Icons.group,
-                color: Colors.black,
-              ),
-            )),
+          width: calendarAppointmentDetails.bounds.width,
+          height: calendarAppointmentDetails.bounds.height / 2,
+          color: appointment.color,
+          child: const Icon(
+            Icons.group,
+            color: Colors.black,
+          ),
+        ),
         Container(
           width: calendarAppointmentDetails.bounds.width,
           height: calendarAppointmentDetails.bounds.height / 2,
@@ -107,41 +152,12 @@ class CalendarScreen extends StatelessWidget {
                 '-' +
                 DateFormat('hh:mm a)').format(appointment.endTime),
             textAlign: TextAlign.center,
-            style: TextStyle(fontSize: 10),
+            style: const TextStyle(fontSize: 10),
           ),
         )
       ],
     );
   }
-}
-
-List<Appointment> getAppointments() {
-  List<Appointment> meetings = <Appointment>[];
-  List<CalendarResource> resources = <CalendarResource>[];
-
-  final DateTime today = DateTime.now();
-  final DateTime startTime =
-      DateTime(today.year, today.month, today.day, 9, 0, 0);
-  final DateTime endTime = startTime.add(const Duration(days: 2));
-
-  meetings.add(Appointment(
-      notes: "This is a note",
-      location: "Rathnapura",
-      //recurrenceId: <Object>['0001'],
-      startTime: startTime,
-      endTime: endTime,
-      subject: 'Conference',
-      color: Colors.blue));
-  // meetings.add(Appointment(
-  //     startTime: DateTime(2022, 7, 10),
-  //     endTime: DateTime(2022, 7, 11),
-  //     subject: 'Night Out',
-  //     color: Colors.red));
-
-  // resources.add(
-  //     CalendarResource(displayName: 'John', id: '0001', color: Colors.red));
-
-  return meetings;
 }
 
 class MeetingDataSource extends CalendarDataSource {
@@ -157,81 +173,82 @@ class MeetingDataSource extends CalendarDataSource {
 //   }
 // }
 
-class DataSource extends CalendarDataSource {
-  DataSource(List<Appointment> source, List<CalendarResource> resourceColl) {
-    appointments = source;
-    resources = resourceColl;
-  }
-}
+// class DataSource extends CalendarDataSource {
+//   DataSource(List<Appointment> source, List<CalendarResource> resourceColl) {
+//     appointments = source;
+//     resources = resourceColl;
+//   }
+// }
 
-DataSource _getCalendarDataSource() {
-  List<Appointment> appointments = <Appointment>[];
-  List<CalendarResource> resources = <CalendarResource>[];
-  appointments.add(Appointment(
-      startTime: DateTime.now().add(Duration(hours: 2)),
-      endTime: DateTime.now().add(Duration(hours: 5)),
-      isAllDay: false,
-      subject: 'Meeting',
-      notes: 'This is a sample note',
-      location: 'Rathnapura',
-      color: Colors.red,
-      resourceIds: <Object>['0001'],
-      startTimeZone: '',
-      endTimeZone: ''));
+// DataSource _getCalendarDataSource() {
+//   List<Appointment> appointments = <Appointment>[];
+//   List<CalendarResource> resources = <CalendarResource>[];
+//   appointments.add(Appointment(
+//       startTime: DateTime.now().add(Duration(hours: 2)),
+//       endTime: DateTime.now().add(Duration(hours: 5)),
+//       isAllDay: false,
+//       subject: 'Meeting',
+//       notes: 'This is a sample note',
+//       location: 'Rathnapura',
+//       color: AppColors.lightBlue.withOpacity(0.1),
+//       resourceIds: <Object>['0001'],
+//       startTimeZone: '',
+//       endTimeZone: ''));
 
-  appointments.add(Appointment(
-      startTime: DateTime.now(),
-      endTime: DateTime.now().add(Duration(hours: 2)),
-      isAllDay: false,
-      subject: 'Meeting',
-      color: Colors.blue,
-      resourceIds: <Object>['0002'],
-      startTimeZone: '',
-      endTimeZone: ''));
+//   appointments.add(Appointment(
+//       startTime: DateTime.now(),
+//       endTime: DateTime.now().add(Duration(hours: 2)),
+//       isAllDay: false,
+//       subject: 'Meeting',
+//       color: Colors.blue,
+//       //resourceIds: <Object>['0002'],
+//       startTimeZone: '',
+//       endTimeZone: ''));
 
-  appointments.add(Appointment(
-      startTime: DateTime.now().add(Duration(hours: 5)),
-      endTime: DateTime.now().add(Duration(hours: 10)),
-      isAllDay: false,
-      subject: 'Meeting',
-      color: Colors.green,
-      resourceIds: <Object>['0003'],
-      startTimeZone: '',
-      endTimeZone: ''));
+//   appointments.add(Appointment(
+//       startTime: DateTime.now().add(Duration(hours: 5)),
+//       endTime: DateTime.now().add(Duration(hours: 10)),
+//       isAllDay: false,
+//       subject: 'Meeting',
+//       color: Colors.green,
+//       //resourceIds: <Object>['0003'],
+//       startTimeZone: '',
+//       endTimeZone: ''));
 
-  appointments.add(Appointment(
-      startTime: DateTime.now().add(Duration(hours: 6)),
-      endTime: DateTime.now().add(Duration(hours: 11)),
-      isAllDay: false,
-      subject: 'Meeting',
-      color: Colors.blueAccent,
-      resourceIds: <Object>['0004'],
-      startTimeZone: '',
-      endTimeZone: ''));
+//   appointments.add(Appointment(
+//       startTime: DateTime.now().add(Duration(hours: 6)),
+//       endTime: DateTime.now().add(Duration(hours: 11)),
+//       isAllDay: false,
+//       subject: 'Meeting',
+//       color: Colors.blueAccent,
+//       //resourceIds: <Object>['0004'],
+//       startTimeZone: '',
+//       endTimeZone: ''));
 
-  resources.add(CalendarResource(
-      displayName: 'Pramila',
-      id: '0001',
-      color: Colors.red,
-      image: const ExactAssetImage(AppImages.peopleCircle_1)));
+//   resources.add(CalendarResource(
+//     //displayName: 'Pramila',
+//     id: '0001',
+//     color: Colors.red,
+//     //image: const ExactAssetImage(AppImages.peopleCircle_1)
+//   ));
 
-  resources.add(CalendarResource(
-      displayName: 'Niroshan',
-      id: '0002',
-      color: Colors.blue,
-      image: const ExactAssetImage(AppImages.peopleCircle_2)));
+//   resources.add(CalendarResource(
+//       displayName: 'Niroshan',
+//       id: '0002',
+//       color: Colors.blue,
+//       image: const ExactAssetImage(AppImages.peopleCircle_2)));
 
-  resources.add(CalendarResource(
-      displayName: 'Madara',
-      id: '0003',
-      color: Colors.green,
-      image: const ExactAssetImage(AppImages.peopleCircle_3)));
+//   resources.add(CalendarResource(
+//       displayName: 'Madara',
+//       id: '0003',
+//       color: Colors.green,
+//       image: const ExactAssetImage(AppImages.peopleCircle_3)));
 
-  resources.add(CalendarResource(
-      displayName: 'Bagya',
-      id: '0004',
-      color: Colors.cyanAccent,
-      image: const ExactAssetImage(AppImages.peopleCircle_4)));
+//   resources.add(CalendarResource(
+//       displayName: 'Bagya',
+//       id: '0004',
+//       color: Colors.cyanAccent,
+//       image: const ExactAssetImage(AppImages.peopleCircle_4)));
 
-  return DataSource(appointments, resources);
-}
+//   return DataSource(appointments, resources);
+// }
