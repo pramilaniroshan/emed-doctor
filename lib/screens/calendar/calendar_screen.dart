@@ -1,6 +1,7 @@
 import 'package:emedassistantmobile/config/app_colors.dart';
 import 'package:emedassistantmobile/screens/calendar/component/plannerAdd.dart';
 import 'package:emedassistantmobile/widgets/drawer.dart';
+import 'package:emedassistantmobile/widgets/user_avatar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -10,7 +11,7 @@ import 'package:syncfusion_flutter_calendar/calendar.dart';
 import '../../config/app_images.dart';
 
 class CalendarScreen extends StatefulWidget {
-  const CalendarScreen({Key? key}) : super(key: key);
+  CalendarScreen({Key? key}) : super(key: key);
 
   @override
   State<CalendarScreen> createState() => _CalendarScreenState();
@@ -70,27 +71,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
         ),
         leadingWidth: 110.0,
         actions: [
-          const CircleAvatar(
-            radius: 14.0,
-            backgroundImage: AssetImage(AppImages.doctorImage),
-          ),
-          const SizedBox(width: 8.0),
-          const Center(
-            child: Text(
-              'Name',
-              style: TextStyle(
-                fontSize: 14.0,
-                fontWeight: FontWeight.w700,
-                color: AppColors.lightBlack,
-              ),
-            ),
-          ),
-          TextButton(
-            onPressed: () {
-              _scaffoldKey.currentState!.openEndDrawer();
-            },
-            child: const Icon(Icons.menu, color: AppColors.black, size: 28.0),
-          ),
+          DoctorDrawerAction(),
         ],
       ),
       endDrawer: DoctorDrawer(),

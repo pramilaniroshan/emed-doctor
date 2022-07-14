@@ -1,6 +1,8 @@
 import 'package:date_picker_timeline/date_picker_widget.dart';
+import 'package:emedassistantmobile/controller/doctorController.dart';
 import 'package:emedassistantmobile/screens/calendar/component/plannerAdd.dart';
 import 'package:emedassistantmobile/widgets/drawer.dart';
+import 'package:emedassistantmobile/widgets/user_avatar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -33,7 +35,7 @@ class _DoctorAppointmentScreenState extends State<DoctorAppointmentScreen> {
   late SharedPreferences prefs;
 
   List Appointments = [];
-  String DoctorFirstName = '';
+  final DoctorController doctorController = Get.put(DoctorController());
 
   // void getDoctorProfile() async {
   //   print('Doctor Profile');
@@ -110,7 +112,6 @@ class _DoctorAppointmentScreenState extends State<DoctorAppointmentScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     getDoctorProfile();
     getApp();
@@ -132,22 +133,7 @@ class _DoctorAppointmentScreenState extends State<DoctorAppointmentScreen> {
         ),
         leadingWidth: 110.0,
         actions: [
-          const CircleAvatar(
-            radius: 14.0,
-            backgroundImage: AssetImage(AppImages.doctorImage),
-          ),
-          const SizedBox(width: 8.0),
-          Center(
-            child: Text(
-              DoctorFirstName,
-              style: const TextStyle(
-                fontSize: 14.0,
-                fontWeight: FontWeight.w700,
-                color: AppColors.lightBlack,
-              ),
-            ),
-          ),
-          menuButton(),
+          DoctorDrawerAction(),
         ],
       ),
       endDrawer: DoctorDrawer(),
@@ -187,7 +173,8 @@ class _DoctorAppointmentScreenState extends State<DoctorAppointmentScreen> {
                 Expanded(
                   child: CustomButton(
                     onTap: () {
-                      Get.dialog(PlannerAddDialog(DateTime.now()));
+                      //Get.dialog(PlannerAddDialog(DateTime.now()));
+                      doctorController.setFirstname('Niroshan');
                     },
                     btnText: 'Today',
                     btnColor: AppColors.white,
@@ -284,12 +271,14 @@ class _DoctorAppointmentScreenState extends State<DoctorAppointmentScreen> {
                                     AssetImage(AppImages.doctorImage),
                               ),
                               const SizedBox(width: 8.0),
-                              Text(
-                                DoctorFirstName,
-                                style: const TextStyle(
-                                  fontSize: 15.0,
-                                  color: AppColors.black,
-                                  fontWeight: FontWeight.w700,
+                              GetBuilder<DoctorController>(
+                                builder: (s) => Text(
+                                  s.firstName,
+                                  style: const TextStyle(
+                                    fontSize: 15.0,
+                                    color: AppColors.black,
+                                    fontWeight: FontWeight.w700,
+                                  ),
                                 ),
                               ),
                             ],
