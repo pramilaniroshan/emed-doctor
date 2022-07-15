@@ -84,7 +84,6 @@ class _SettingsScreenState extends State<SettingsScreen>
   void initState() {
     tabController = TabController(length: 5, vsync: this);
     super.initState();
-    //getProfile();
   }
 
   @override
