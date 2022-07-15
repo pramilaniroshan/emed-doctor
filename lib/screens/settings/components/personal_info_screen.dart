@@ -254,7 +254,7 @@ class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
+                        children: const [
                           Text(
                             '* ',
                             style: TextStyle(
@@ -397,7 +397,8 @@ class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
                   inactiveToggleColor: AppColors.lightBackground,
                   activeColor: AppColors.secondary,
                   padding: 3.0,
-                  value: widget.phoneNumberVisibleToPatient ?? false,
+                  showOnOff: true,
+                  value: widget.phoneNumberVisibleToPatient ?? true,
                   onToggle: (val) {
                     setState(() {
                       status = val;
