@@ -10,6 +10,8 @@ import 'package:dio/dio.dart';
 
 import 'package:emedassistantmobile/config/app_colors.dart';
 import 'package:emedassistantmobile/config/app_images.dart';
+import '../../controller/doctorController.dart';
+import '../../widgets/user_avatar.dart';
 import 'components/billing_screen.dart';
 import 'components/personal_info_screen.dart';
 
@@ -23,64 +25,65 @@ class SettingsScreen extends StatefulWidget {
 class _SettingsScreenState extends State<SettingsScreen>
     with SingleTickerProviderStateMixin {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  String? id;
-  String? title;
-  String? firstName;
-  String? lastName;
-  String? nationalIdentificationNumber;
-  String? address;
-  Null? cityId;
-  String? govDoctorRegNo;
-  String? nicFrontPicUrl;
-  String? nicBackPicUrl;
-  String? govDoctorIdentityPicFrontUrl;
-  String? govDoctorIdentityPicBackUrl;
-  bool? isVerified;
-  String? verifiedDate;
-  String? verifiedById;
-  bool? isActive;
-  String? phoneNumber;
-  bool? isPhoneNumberVerified;
-  String? email;
-  bool? isEmailVerified;
-  List<Null>? doctorSpecializations;
-  bool? phoneNumberVisibleToPatient;
-  Null? profilePicture;
-  String? description;
+  // String? id;
+  // String? title;
+  // String? firstName;
+  // String? lastName;
+  // String? nationalIdentificationNumber;
+  // String? address;
+  // Null? cityId;
+  // String? govDoctorRegNo;
+  // String? nicFrontPicUrl;
+  // String? nicBackPicUrl;
+  // String? govDoctorIdentityPicFrontUrl;
+  // String? govDoctorIdentityPicBackUrl;
+  // bool? isVerified;
+  // String? verifiedDate;
+  // String? verifiedById;
+  // bool? isActive;
+  // String? phoneNumber;
+  // bool? isPhoneNumberVerified;
+  // String? email;
+  // bool? isEmailVerified;
+  // List<Null>? doctorSpecializations;
+  // bool? phoneNumberVisibleToPatient;
+  // Null? profilePicture;
+  // String? description;
 
   TabController? tabController;
-  late SharedPreferences prefs;
+  //late SharedPreferences prefs;
 
-  void getProfile() async {
-    prefs = await SharedPreferences.getInstance();
-    setState(() {
-      firstName = prefs.getString('FirstName') ?? '';
-      id = prefs.getString('Id');
-      title = prefs.getString('Title');
-      lastName = prefs.getString('LastName');
-      nationalIdentificationNumber =
-          prefs.getString('NationalIdentificationNumber');
-      address = prefs.getString('Address');
-      govDoctorRegNo = prefs.getString('GovDoctorRegNo');
-      nicFrontPicUrl = prefs.getString('NicFrontPicUrl');
-      nicBackPicUrl = prefs.getString('NicBackPicUrl');
-      govDoctorIdentityPicFrontUrl =
-          prefs.getString('GovDoctorIdentityPicFrontUrl');
-      govDoctorIdentityPicBackUrl =
-          prefs.getString('GovDoctorIdentityPicBackUrl');
-      phoneNumber = prefs.getString('PhoneNumber');
-      email = prefs.getString('Email');
-      description = prefs.getString('Description');
-      phoneNumberVisibleToPatient =
-          prefs.getBool('PhoneNumberVisibleToPatient') ?? false;
-    });
-  }
+  final DoctorController doctorController = Get.put(DoctorController());
+
+  // void getProfile() async {
+  //   prefs = await SharedPreferences.getInstance();
+  //   setState(() {
+  //     firstName = prefs.getString('FirstName') ?? '';
+  //     id = prefs.getString('Id');
+  //     title = prefs.getString('Title');
+  //     lastName = prefs.getString('LastName');
+  //     nationalIdentificationNumber =
+  //         prefs.getString('NationalIdentificationNumber');
+  //     address = prefs.getString('Address');
+  //     govDoctorRegNo = prefs.getString('GovDoctorRegNo');
+  //     nicFrontPicUrl = prefs.getString('NicFrontPicUrl');
+  //     nicBackPicUrl = prefs.getString('NicBackPicUrl');
+  //     govDoctorIdentityPicFrontUrl =
+  //         prefs.getString('GovDoctorIdentityPicFrontUrl');
+  //     govDoctorIdentityPicBackUrl =
+  //         prefs.getString('GovDoctorIdentityPicBackUrl');
+  //     phoneNumber = prefs.getString('PhoneNumber');
+  //     email = prefs.getString('Email');
+  //     description = prefs.getString('Description');
+  //     phoneNumberVisibleToPatient =
+  //         prefs.getBool('PhoneNumberVisibleToPatient') ?? false;
+  //   });
+  // }
 
   @override
   void initState() {
     tabController = TabController(length: 5, vsync: this);
     super.initState();
-    getProfile();
   }
 
   @override
@@ -105,22 +108,7 @@ class _SettingsScreenState extends State<SettingsScreen>
         ),
         leadingWidth: 110.0,
         actions: [
-          const CircleAvatar(
-            radius: 14.0,
-            backgroundImage: AssetImage(AppImages.doctorImage),
-          ),
-          const SizedBox(width: 8.0),
-          Center(
-            child: Text(
-              firstName ?? '',
-              style: TextStyle(
-                fontSize: 14.0,
-                fontWeight: FontWeight.w700,
-                color: AppColors.lightBlack,
-              ),
-            ),
-          ),
-          menuButton(),
+          DoctorDrawerAction(),
         ],
       ),
       endDrawer: DoctorDrawer(),
@@ -170,23 +158,25 @@ class _SettingsScreenState extends State<SettingsScreen>
             child: TabBarView(
               controller: tabController,
               children: [
-                PersonalInfoScreen(
-                    id,
-                    title,
-                    firstName,
-                    lastName,
-                    nationalIdentificationNumber,
-                    address,
-                    email,
-                    phoneNumber,
-                    phoneNumberVisibleToPatient),
-                BillingScreen(),
-                SProfileScreen(
-                  des: description ?? '',
-                  profPicUrl: '',
+                GetBuilder<DoctorController>(
+                  builder: (s) => PersonalInfoScreen(
+                      s.id,
+                      s.title,
+                      s.firstName,
+                      s.lastName,
+                      s.nationalIdentificationNumber,
+                      s.address,
+                      s.email,
+                      s.phoneNumber,
+                      s.phoneNumberVisibleToPatient),
                 ),
-                SpecialitiesScreen(),
-                LocationsScreen(),
+                const BillingScreen(),
+                SProfileScreen(
+                  des: doctorController.description,
+                  profPicUrl: doctorController.profilePicture,
+                ),
+                const SpecialitiesScreen(),
+                const LocationsScreen(),
               ],
             ),
           ),
@@ -194,11 +184,4 @@ class _SettingsScreenState extends State<SettingsScreen>
       ),
     );
   }
-
-  Widget menuButton() => TextButton(
-        onPressed: () {
-          _scaffoldKey.currentState!.openEndDrawer();
-        },
-        child: const Icon(Icons.menu, color: AppColors.black, size: 28.0),
-      );
 }

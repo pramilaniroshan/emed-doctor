@@ -51,7 +51,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
     user = (prefs.getBool('login') ?? false);
     print(prefs.getBool('login'));
-    if (user == false) {
+    if (user == true) {
       Get.to(const DoctorAppointmentScreen());
     }
   }
