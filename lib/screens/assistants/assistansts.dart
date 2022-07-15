@@ -7,6 +7,7 @@ import 'package:emedassistantmobile/config/app_colors.dart';
 import 'package:emedassistantmobile/config/app_images.dart';
 import 'package:get/get.dart';
 import '../../widgets/custom_button.dart';
+import '../../widgets/user_avatar.dart';
 
 class AssistantsScreen extends StatefulWidget {
   const AssistantsScreen({Key? key}) : super(key: key);
@@ -60,24 +61,7 @@ class _AssistantsScreen extends State<AssistantsScreen> {
           child: SvgPicture.asset(AppImages.eMedLogo),
         ),
         leadingWidth: 110.0,
-        actions: [
-          const CircleAvatar(
-            radius: 14.0,
-            backgroundImage: AssetImage(AppImages.doctorImage),
-          ),
-          const SizedBox(width: 8.0),
-          Center(
-            child: Text(
-              'DoctorFirstName',
-              style: const TextStyle(
-                fontSize: 14.0,
-                fontWeight: FontWeight.w700,
-                color: AppColors.lightBlack,
-              ),
-            ),
-          ),
-          menuButton(),
-        ],
+        actions: [DoctorDrawerAction()],
       ),
       endDrawer: DoctorDrawer(),
       body: Column(
@@ -160,13 +144,6 @@ class _AssistantsScreen extends State<AssistantsScreen> {
       ),
     );
   }
-
-  Widget menuButton() => TextButton(
-        onPressed: () {
-          _scaffoldKey.currentState!.openEndDrawer();
-        },
-        child: const Icon(Icons.menu, color: AppColors.black, size: 28.0),
-      );
 
   Widget assistantsList() => Container(
         padding: const EdgeInsets.all(12.0),
