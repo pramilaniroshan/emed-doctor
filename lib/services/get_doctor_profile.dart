@@ -12,7 +12,6 @@ void getDoctorProfile() async {
   prefs = await SharedPreferences.getInstance();
   String token = prefs.getString("token") ?? '';
   try {
-    doctorController.setFirstname('Pramila');
     var dio = Dio();
     dio.options.headers["authorization"] = "Bearer " + token;
     await dio
@@ -21,9 +20,11 @@ void getDoctorProfile() async {
     )
         .then((res) {
       if (prefs.getString("token") != null) {
-        prefs.setString('FirstName', res.data['Data']['FirstName']);
-        // Get.find<DoctorController>().setFirstname('Pramila');
-
+        //prefs.setString('FirstName', res.data['Data']['FirstName']);
+        doctorController.setFirstname(res.data['Data']['FirstName']);
+        doctorController.setDescription(res.data['Data']['Description']);
+        doctorController.setEmail(res.data['Data']['Email']);
+        doctorController.setLastName('Niroshan');
         // prefs.setString('Id', res.data['Data']['Id']);
         // prefs.setString('Title', res.data['Data']['Title']);
         // prefs.setString('LastName', res.data['Data']['LastName']);
@@ -53,6 +54,7 @@ void getDoctorProfile() async {
         // prefs.setInt('CityId', res.data['Data']['CityId'] ?? 0);
         // prefs.setString('user', jsonEncode(res.data['Data']).toString());
         //print(jsonEncode(res.data['Data']));
+        print(res.data['Data']);
       }
     });
   } on DioError catch (e) {
