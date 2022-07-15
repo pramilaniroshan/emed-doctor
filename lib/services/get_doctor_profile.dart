@@ -25,6 +25,14 @@ void getDoctorProfile() async {
         doctorController.setDescription(res.data['Data']['Description']);
         doctorController.setEmail(res.data['Data']['Email']);
         doctorController.setLastName('Niroshan');
+        doctorController.setId(res.data['Data']['Id']);
+        doctorController.setTitle(res.data['Data']['Title']);
+        doctorController.setNationalIdentificationNumber(
+            res.data['Data']['NationalIdentificationNumber']);
+
+        doctorController.setAddress(res.data['Data']['Address']);
+        doctorController.setGovDoctorRegNo(res.data['Data']['GovDoctorRegNo']);
+        doctorController.setPhoneNumber(res.data['Data']['PhoneNumber']);
         // prefs.setString('Id', res.data['Data']['Id']);
         // prefs.setString('Title', res.data['Data']['Title']);
         // prefs.setString('LastName', res.data['Data']['LastName']);
