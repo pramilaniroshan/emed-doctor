@@ -53,7 +53,7 @@ class _SettingsScreenState extends State<SettingsScreen>
   TabController? tabController;
   //late SharedPreferences prefs;
 
-  //final DoctorController doctorController = Get.put(DoctorController());
+  final DoctorController doctorController = Get.put(DoctorController());
 
   // void getProfile() async {
   //   prefs = await SharedPreferences.getInstance();
@@ -173,8 +173,8 @@ class _SettingsScreenState extends State<SettingsScreen>
                 ),
                 const BillingScreen(),
                 SProfileScreen(
-                  des: 'doctorController.description' ?? '',
-                  profPicUrl: 'doctorController.profilePicture',
+                  des: doctorController.description,
+                  profPicUrl: doctorController.profilePicture,
                 ),
                 const SpecialitiesScreen(),
                 const LocationsScreen(),
