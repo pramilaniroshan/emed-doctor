@@ -74,21 +74,6 @@ class _CalendarScreenState extends State<CalendarScreen> {
           color: Colors.blue.withOpacity(0.1)));
     }
 
-    // meetings.add(Appointment(
-    //     notes: "This is a note",
-    //     location: "Rathnapura",
-    //     //recurrenceId: <Object>['0001'],
-    //     startTime: localStartTime,
-    //     endTime: localEndTime,
-    //     subject: 'Conference',
-    //     color: Colors.blue.withOpacity(0.1)));
-
-    // meetings.add(Appointment(
-    //     startTime: DateTime.now(),
-    //     endTime: DateTime.now().add(const Duration(hours: 4)),
-    //     subject: 'Night Out',
-    //     color: Colors.red));
-
     resources.add(
         CalendarResource(displayName: 'John', id: '0001', color: Colors.red));
 
