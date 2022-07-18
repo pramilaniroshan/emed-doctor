@@ -40,6 +40,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
           .then((res) {
         setState(() {
           doctorAvailabilities = res.data['Data']['Data'];
+          appointmentList = getAppointments();
         });
         //print(doctorAvailabilities[0]['StartTime']);
       });
@@ -122,9 +123,6 @@ class _CalendarScreenState extends State<CalendarScreen> {
             DateTime date = details.date!;
             if (details.appointments == null) {
               Get.dialog(PlannerAddDialog(date));
-              setState(() {
-                appointmentList = getAppointments();
-              });
             }
             print(date);
           },
