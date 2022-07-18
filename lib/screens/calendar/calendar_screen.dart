@@ -15,7 +15,7 @@ import '../../config/app_images.dart';
 import '../../config/constants.dart';
 
 class CalendarScreen extends StatefulWidget {
-  CalendarScreen({Key? key}) : super(key: key);
+  const CalendarScreen({Key? key}) : super(key: key);
 
   @override
   State<CalendarScreen> createState() => _CalendarScreenState();
