@@ -1,6 +1,5 @@
 import 'package:dio/dio.dart';
 import 'package:emedassistantmobile/config/app_colors.dart';
-import 'package:emedassistantmobile/screens/book_an_appointment/components/doctor_availability_dialog.dart';
 import 'package:emedassistantmobile/screens/calendar/component/plannerAdd.dart';
 import 'package:emedassistantmobile/widgets/drawer.dart';
 import 'package:emedassistantmobile/widgets/user_avatar.dart';
