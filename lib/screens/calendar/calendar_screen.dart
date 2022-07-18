@@ -1,4 +1,6 @@
+import 'package:dio/dio.dart';
 import 'package:emedassistantmobile/config/app_colors.dart';
+import 'package:emedassistantmobile/screens/book_an_appointment/components/doctor_availability_dialog.dart';
 import 'package:emedassistantmobile/screens/calendar/component/plannerAdd.dart';
 import 'package:emedassistantmobile/widgets/drawer.dart';
 import 'package:emedassistantmobile/widgets/user_avatar.dart';
@@ -6,9 +8,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 import '../../config/app_images.dart';
+import '../../config/constants.dart';
 
 class CalendarScreen extends StatefulWidget {
   CalendarScreen({Key? key}) : super(key: key);
@@ -19,30 +23,71 @@ class CalendarScreen extends StatefulWidget {
 
 class _CalendarScreenState extends State<CalendarScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  late SharedPreferences prefs;
   List<Appointment> appointmentList = [];
+  List doctorAvailabilities = [];
+
+  void getAvailability() async {
+    print('Doctor Availabilities');
+    prefs = await SharedPreferences.getInstance();
+    String token = prefs.getString("token") ?? '';
+    try {
+      var dio = Dio();
+      dio.options.headers["authorization"] = "Bearer " + token;
+      await dio
+          .get(
+        Constants().getBaseUrl() + '/Doctor/Availability',
+      )
+          .then((res) {
+        setState(() {
+          doctorAvailabilities = res.data['Data']['Data'];
+        });
+        //print(doctorAvailabilities[0]['StartTime']);
+      });
+    } on DioError catch (e) {
+      print(e.response!.data);
+    }
+  }
 
   List<Appointment> getAppointments() {
     List<Appointment> meetings = <Appointment>[];
     List<CalendarResource> resources = <CalendarResource>[];
 
-    final DateTime today = DateTime.now();
-    final DateTime startTime = DateTime.now();
-    final DateTime endTime = DateTime.now().add(Duration(hours: 2));
+    var dateFormat = DateFormat('EEE, MMM d ,y,h:mm a');
 
-    meetings.add(Appointment(
-        notes: "This is a note",
-        location: "Rathnapura",
-        //recurrenceId: <Object>['0001'],
-        startTime: startTime,
-        endTime: endTime,
-        subject: 'Conference',
-        color: Colors.blue.withOpacity(0.1)));
+    for (var i = 0; i < doctorAvailabilities.length; i++) {
+      var utcStartDate = dateFormat
+          .format(DateTime.parse(doctorAvailabilities[i]['StartTime']));
+      var utcEndtDate =
+          dateFormat.format(DateTime.parse(doctorAvailabilities[i]['EndTime']));
+      meetings.add(Appointment(
+          notes: doctorAvailabilities[i]['Location']['LocationAddress'] +
+              " " +
+              " $i",
+          location: doctorAvailabilities[i]['Location']['LocationName'],
+          //recurreceId: <Object>['0001'],
+          startTime: dateFormat.parse(utcStartDate, true).toLocal(),
+          endTime: dateFormat.parse(utcEndtDate, true).toLocal(),
+          subject: doctorAvailabilities[i]['Location']['LocationAddress'] +
+              " " +
+              " $i",
+          color: Colors.blue.withOpacity(0.1)));
+    }
 
-    meetings.add(Appointment(
-        startTime: DateTime.now(),
-        endTime: DateTime.now().add(const Duration(hours: 4)),
-        subject: 'Night Out',
-        color: Colors.red));
+    // meetings.add(Appointment(
+    //     notes: "This is a note",
+    //     location: "Rathnapura",
+    //     //recurrenceId: <Object>['0001'],
+    //     startTime: localStartTime,
+    //     endTime: localEndTime,
+    //     subject: 'Conference',
+    //     color: Colors.blue.withOpacity(0.1)));
+
+    // meetings.add(Appointment(
+    //     startTime: DateTime.now(),
+    //     endTime: DateTime.now().add(const Duration(hours: 4)),
+    //     subject: 'Night Out',
+    //     color: Colors.red));
 
     resources.add(
         CalendarResource(displayName: 'John', id: '0001', color: Colors.red));
@@ -54,6 +99,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    getAvailability();
   }
 
   @override
@@ -77,7 +123,6 @@ class _CalendarScreenState extends State<CalendarScreen> {
       endDrawer: DoctorDrawer(),
       body: Row(children: [
         SfCalendar(
-          //backgroundColor: AppColors.lightBackground,
           view: CalendarView.day,
           showDatePickerButton: true,
           allowViewNavigation: true,
