@@ -1,5 +1,9 @@
+import 'dart:io';
+
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:emedassistantmobile/screens/profile_setup/setup_two_screen.dart';
+import 'package:emedassistantmobile/screens/settings/setting_screen.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -41,6 +45,9 @@ class _ProfileSetupOneScreenState extends State<ProfileSetupOneScreen> {
     '+96',
   ];
 
+  PlatformFile? file;
+  File? frontFile;
+  String? frontFileName;
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
@@ -82,7 +89,9 @@ class _ProfileSetupOneScreenState extends State<ProfileSetupOneScreen> {
             ),
             const SizedBox(height: 20.0),
             ListTile(
-              onTap: () {},
+              onTap: () {
+                Get.to(SettingsScreen());
+              },
               leading: Padding(
                 padding: const EdgeInsets.only(top: 6.0, left: 12.0),
                 child: SvgPicture.asset(
@@ -676,9 +685,73 @@ class _ProfileSetupOneScreenState extends State<ProfileSetupOneScreen> {
                     ),
                   ),
                   const SizedBox(height: 12.0),
+
+                  /// front.png image
+                  Container(
+                    width: width,
+                    padding: const EdgeInsets.only(
+                        left: 8.0, bottom: 16.0, top: 16.0),
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: AppColors.primary,
+                        width: 1.5,
+                      ),
+                      borderRadius: BorderRadius.circular(4.0),
+                    ),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Image.asset(
+                          AppImages.frontSideImage,
+                          height: 40.0,
+                          width: 60.0,
+                          fit: BoxFit.fill,
+                        ),
+                        const SizedBox(width: 8.0),
+                        Expanded(
+                          child: Text(
+                            frontFileName ?? 'filename',
+                            style: const TextStyle(
+                              fontSize: 14.0,
+                              color: AppColors.secondary,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ),
+                        IconButton(
+                          onPressed: () {},
+                          icon: const Icon(Icons.delete_outline,
+                              color: AppColors.primary),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 12.0),
                   Material(
                     child: InkWell(
-                      onTap: () {},
+                      onTap: () async {
+                        try {
+                          FilePickerResult? result =
+                              await FilePicker.platform.pickFiles(
+                            type: FileType.custom,
+                            allowedExtensions: ['jpg', 'png'],
+                          );
+                          if (result != null) {
+                            setState(() {
+                              file = result.files.first;
+                              frontFileName = file!.name;
+                              //frontFile = File(file!.path.toString());
+                            });
+                            print(file!.name);
+                            //print(file!.path);
+                          } else {
+                            // User canceled the picker
+                          }
+                        } catch (e) {
+                          print(e);
+                        }
+                      },
                       borderRadius: BorderRadius.circular(4.0),
                       child: Ink(
                         padding: const EdgeInsets.symmetric(
@@ -713,49 +786,6 @@ class _ProfileSetupOneScreenState extends State<ProfileSetupOneScreen> {
                     ),
                   ),
 
-                  /// front.png image
-                  const SizedBox(height: 12.0),
-                  Container(
-                    width: width,
-                    padding: const EdgeInsets.only(
-                        left: 8.0, bottom: 16.0, top: 16.0),
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        color: AppColors.primary,
-                        width: 1.5,
-                      ),
-                      borderRadius: BorderRadius.circular(4.0),
-                    ),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Image.asset(
-                          AppImages.frontSideImage,
-                          height: 40.0,
-                          width: 60.0,
-                          fit: BoxFit.fill,
-                        ),
-                        const SizedBox(width: 8.0),
-                        const Expanded(
-                          child: Text(
-                            'front.png',
-                            style: TextStyle(
-                              fontSize: 14.0,
-                              color: AppColors.secondary,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        ),
-                        IconButton(
-                          onPressed: () {},
-                          icon: const Icon(Icons.delete_outline,
-                              color: AppColors.primary),
-                        ),
-                      ],
-                    ),
-                  ),
-
                   /// back.png image
                   const SizedBox(height: 12.0),
                   Container(
@@ -773,12 +803,12 @@ class _ProfileSetupOneScreenState extends State<ProfileSetupOneScreen> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        Image.asset(
-                          AppImages.frontSideImage,
-                          height: 40.0,
-                          width: 60.0,
-                          fit: BoxFit.fill,
-                        ),
+                        // Image.file(
+                        //   frontFile ?? File(AppImages.frontSideImage),
+                        //   height: 40.0,
+                        //   width: 60.0,
+                        //   fit: BoxFit.fill,
+                        // ),
                         const SizedBox(width: 8.0),
                         const Expanded(
                           child: Text(
@@ -796,6 +826,64 @@ class _ProfileSetupOneScreenState extends State<ProfileSetupOneScreen> {
                               color: AppColors.primary),
                         ),
                       ],
+                    ),
+                  ),
+                  const SizedBox(height: 12.0),
+                  Material(
+                    child: InkWell(
+                      onTap: () async {
+                        try {
+                          FilePickerResult? result =
+                              await FilePicker.platform.pickFiles(
+                            type: FileType.custom,
+                            allowedExtensions: ['jpg', 'png'],
+                          );
+                          if (result != null) {
+                            setState(() {
+                              file = result.files.first;
+                              frontFileName = file!.name;
+                              //frontFile = File(file!.path.toString());
+                            });
+                            print(file!.name);
+                            //print(file!.path);
+                          } else {
+                            // User canceled the picker
+                          }
+                        } catch (e) {
+                          print(e);
+                        }
+                      },
+                      borderRadius: BorderRadius.circular(4.0),
+                      child: Ink(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 12.0, vertical: 8.0),
+                        decoration: BoxDecoration(
+                          color: AppColors.white,
+                          borderRadius: BorderRadius.circular(4.0),
+                          border: Border.all(
+                            color: AppColors.primary,
+                            width: 1.5,
+                          ),
+                        ),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.min,
+                          children: const [
+                            Icon(Icons.upload_outlined,
+                                color: AppColors.black, size: 20.0),
+                            SizedBox(width: 8.0),
+                            Text(
+                              'Click to Upload',
+                              style: TextStyle(
+                                fontSize: 14.0,
+                                color: AppColors.black,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
                   ),
                   const SizedBox(height: 24.0),
