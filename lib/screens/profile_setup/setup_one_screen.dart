@@ -813,10 +813,10 @@ class _ProfileSetupOneScreenState extends State<ProfileSetupOneScreen> {
                         //   fit: BoxFit.fill,
                         // ),
                         const SizedBox(width: 8.0),
-                        const Expanded(
+                        Expanded(
                           child: Text(
-                            'back.png',
-                            style: TextStyle(
+                            backFileName ?? 'back.png',
+                            style: const TextStyle(
                               fontSize: 14.0,
                               color: AppColors.secondary,
                               fontWeight: FontWeight.w500,
@@ -845,8 +845,8 @@ class _ProfileSetupOneScreenState extends State<ProfileSetupOneScreen> {
                           if (result != null) {
                             setState(() {
                               file = result.files.first;
-                              frontFileName = file!.name;
-                              //frontFile = File(file!.path.toString());
+                              backFileName = file!.name;
+                              //backFile = File(file!.path.toString());
                             });
                             print(file!.name);
                             //print(file!.path);
