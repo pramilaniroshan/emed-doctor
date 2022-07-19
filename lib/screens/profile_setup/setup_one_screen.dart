@@ -48,6 +48,8 @@ class _ProfileSetupOneScreenState extends State<ProfileSetupOneScreen> {
   PlatformFile? file;
   File? frontFile;
   String? frontFileName;
+  File? backFile;
+  String? backFileName;
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
