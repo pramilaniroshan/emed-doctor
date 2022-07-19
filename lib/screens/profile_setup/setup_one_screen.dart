@@ -730,6 +730,7 @@ class _ProfileSetupOneScreenState extends State<ProfileSetupOneScreen> {
                     ),
                   ),
                   const SizedBox(height: 12.0),
+                  //Front file picker
                   Material(
                     child: InkWell(
                       onTap: () async {
@@ -831,6 +832,7 @@ class _ProfileSetupOneScreenState extends State<ProfileSetupOneScreen> {
                     ),
                   ),
                   const SizedBox(height: 12.0),
+                  //Back file picker
                   Material(
                     child: InkWell(
                       onTap: () async {
