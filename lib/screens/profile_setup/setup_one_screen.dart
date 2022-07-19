@@ -17,7 +17,6 @@ class ProfileSetupOneScreen extends StatefulWidget {
 }
 
 class _ProfileSetupOneScreenState extends State<ProfileSetupOneScreen> {
-
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   TextEditingController nameController = TextEditingController();
@@ -29,11 +28,17 @@ class _ProfileSetupOneScreenState extends State<ProfileSetupOneScreen> {
   TextEditingController slmcNumberController = TextEditingController();
 
   String? selectedValue;
+  String? selectedCountryCode;
   List<String> items = [
-    '15 minutes',
-    '1 hour',
-    '4 hours',
-    '24 hours',
+    'Mr',
+    'Ms',
+    'Miss',
+  ];
+
+  List<String> countryCodes = [
+    '+94',
+    '+95',
+    '+96',
   ];
 
   @override
@@ -67,7 +72,7 @@ class _ProfileSetupOneScreenState extends State<ProfileSetupOneScreen> {
             Align(
               alignment: Alignment.bottomRight,
               child: IconButton(
-                onPressed: (){
+                onPressed: () {
                   Get.back();
                 },
                 icon: SvgPicture.asset(
@@ -77,7 +82,7 @@ class _ProfileSetupOneScreenState extends State<ProfileSetupOneScreen> {
             ),
             const SizedBox(height: 20.0),
             ListTile(
-              onTap: (){},
+              onTap: () {},
               leading: Padding(
                 padding: const EdgeInsets.only(top: 6.0, left: 12.0),
                 child: SvgPicture.asset(
@@ -90,7 +95,8 @@ class _ProfileSetupOneScreenState extends State<ProfileSetupOneScreen> {
               ),
               title: const Align(
                 alignment: Alignment(-1.3, 0),
-                child: Text('Support',
+                child: Text(
+                  'Support',
                   style: TextStyle(
                     fontSize: 21.0,
                     color: AppColors.black,
@@ -100,7 +106,7 @@ class _ProfileSetupOneScreenState extends State<ProfileSetupOneScreen> {
               ),
             ),
             ListTile(
-              onTap: (){},
+              onTap: () {},
               leading: Padding(
                 padding: const EdgeInsets.only(top: 6.0, left: 12.0),
                 child: SvgPicture.asset(
@@ -113,7 +119,8 @@ class _ProfileSetupOneScreenState extends State<ProfileSetupOneScreen> {
               ),
               title: const Align(
                 alignment: Alignment(-1.3, 0),
-                child: Text('Contact',
+                child: Text(
+                  'Contact',
                   style: TextStyle(
                     fontSize: 21.0,
                     color: AppColors.black,
@@ -123,7 +130,7 @@ class _ProfileSetupOneScreenState extends State<ProfileSetupOneScreen> {
               ),
             ),
             ListTile(
-              onTap: (){},
+              onTap: () {},
               leading: Padding(
                 padding: const EdgeInsets.only(top: 6.0, left: 12.0),
                 child: SvgPicture.asset(
@@ -136,7 +143,8 @@ class _ProfileSetupOneScreenState extends State<ProfileSetupOneScreen> {
               ),
               title: const Align(
                 alignment: Alignment(-1.3, 0),
-                child: Text('Terms',
+                child: Text(
+                  'Terms',
                   style: TextStyle(
                     fontSize: 21.0,
                     color: AppColors.black,
@@ -146,7 +154,7 @@ class _ProfileSetupOneScreenState extends State<ProfileSetupOneScreen> {
               ),
             ),
             ListTile(
-              onTap: (){},
+              onTap: () {},
               leading: Padding(
                 padding: const EdgeInsets.only(top: 6.0, left: 12.0),
                 child: SvgPicture.asset(
@@ -159,7 +167,8 @@ class _ProfileSetupOneScreenState extends State<ProfileSetupOneScreen> {
               ),
               title: const Align(
                 alignment: Alignment(-1.3, 0),
-                child: Text('eMed.com',
+                child: Text(
+                  'eMed.com',
                   style: TextStyle(
                     fontSize: 21.0,
                     color: AppColors.black,
@@ -170,7 +179,7 @@ class _ProfileSetupOneScreenState extends State<ProfileSetupOneScreen> {
             ),
             SizedBox(height: height * 0.06),
             ListTile(
-              onTap: (){},
+              onTap: () {},
               leading: Padding(
                 padding: const EdgeInsets.only(top: 6.0, left: 12.0),
                 child: SvgPicture.asset(
@@ -183,7 +192,8 @@ class _ProfileSetupOneScreenState extends State<ProfileSetupOneScreen> {
               ),
               title: const Align(
                 alignment: Alignment(-1.1, 0),
-                child: Text('English',
+                child: Text(
+                  'English',
                   style: TextStyle(
                     fontSize: 16.0,
                     color: AppColors.black,
@@ -191,12 +201,12 @@ class _ProfileSetupOneScreenState extends State<ProfileSetupOneScreen> {
                   ),
                 ),
               ),
-              trailing: const Icon(Icons.keyboard_arrow_down_outlined, color: AppColors.black),
+              trailing: const Icon(Icons.keyboard_arrow_down_outlined,
+                  color: AppColors.black),
             ),
           ],
         ),
       ),
-
       body: SingleChildScrollView(
         padding: const EdgeInsets.only(bottom: 40.0),
         child: Column(
@@ -210,7 +220,8 @@ class _ProfileSetupOneScreenState extends State<ProfileSetupOneScreen> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: const [
-                  Text('Profile setup',
+                  Text(
+                    'Profile setup',
                     style: TextStyle(
                       fontSize: 32.0,
                       fontWeight: FontWeight.w600,
@@ -218,7 +229,8 @@ class _ProfileSetupOneScreenState extends State<ProfileSetupOneScreen> {
                     ),
                   ),
                   SizedBox(width: 10.0),
-                  Text('1/2',
+                  Text(
+                    '1/2',
                     style: TextStyle(
                       fontSize: 32.0,
                       fontWeight: FontWeight.w600,
@@ -232,7 +244,8 @@ class _ProfileSetupOneScreenState extends State<ProfileSetupOneScreen> {
             Container(
               width: width,
               margin: const EdgeInsets.symmetric(horizontal: 16.0),
-              padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 16.0),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 12.0, vertical: 16.0),
               decoration: BoxDecoration(
                 color: AppColors.white,
                 borderRadius: BorderRadius.circular(8.0),
@@ -241,7 +254,8 @@ class _ProfileSetupOneScreenState extends State<ProfileSetupOneScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  const Text('Title',
+                  const Text(
+                    'Title',
                     style: TextStyle(
                       fontSize: 15.0,
                       color: AppColors.lightBlack,
@@ -265,23 +279,27 @@ class _ProfileSetupOneScreenState extends State<ProfileSetupOneScreen> {
                       child: DropdownButton2(
                         icon: const Icon(Icons.keyboard_arrow_down),
                         hint: const Text(
-                          '15 minutes', style: TextStyle(
-                          fontSize: 13.0,
-                          color: AppColors.lightBlack,
-                          fontWeight: FontWeight.w500,
-                        ),
-                        ),
-                        items: items.map((item) => DropdownMenuItem<String>(
-                          value: item,
-                          child: Text(
-                            item,
-                            style: const TextStyle(
-                              fontSize: 15.0,
-                              color: Colors.white,
-                              fontWeight: FontWeight.w500,
-                            ),
+                          'Mr',
+                          style: TextStyle(
+                            fontSize: 13.0,
+                            color: AppColors.lightBlack,
+                            fontWeight: FontWeight.w500,
                           ),
-                        ),)
+                        ),
+                        items: items
+                            .map(
+                              (item) => DropdownMenuItem<String>(
+                                value: item,
+                                child: Text(
+                                  item,
+                                  style: const TextStyle(
+                                    fontSize: 15.0,
+                                    color: AppColors.lightBlack,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ),
+                            )
                             .toList(),
                         value: selectedValue,
                         onChanged: (value) {
@@ -293,9 +311,10 @@ class _ProfileSetupOneScreenState extends State<ProfileSetupOneScreen> {
                         buttonWidth: 140,
                         itemHeight: 36.0,
                         dropdownWidth: 150,
-                        buttonPadding: const EdgeInsets.symmetric(horizontal: 8.0) ,
+                        buttonPadding:
+                            const EdgeInsets.symmetric(horizontal: 8.0),
                         dropdownDecoration: const BoxDecoration(
-                          color: AppColors.lightBlack,
+                          color: AppColors.lightBackground,
                         ),
                       ),
                     ),
@@ -307,14 +326,16 @@ class _ProfileSetupOneScreenState extends State<ProfileSetupOneScreen> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: const [
-                      Text('* ',
+                      Text(
+                        '* ',
                         style: TextStyle(
                           fontSize: 18.0,
                           color: Colors.red,
                           fontWeight: FontWeight.w500,
                         ),
                       ),
-                      Text('Name',
+                      Text(
+                        'Name',
                         style: TextStyle(
                           fontSize: 15.0,
                           color: AppColors.lightBlack,
@@ -336,14 +357,16 @@ class _ProfileSetupOneScreenState extends State<ProfileSetupOneScreen> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: const [
-                      Text('* ',
+                      Text(
+                        '* ',
                         style: TextStyle(
                           fontSize: 18.0,
                           color: Colors.red,
                           fontWeight: FontWeight.w500,
                         ),
                       ),
-                      Text('Last Name',
+                      Text(
+                        'Last Name',
                         style: TextStyle(
                           fontSize: 15.0,
                           color: AppColors.lightBlack,
@@ -365,14 +388,16 @@ class _ProfileSetupOneScreenState extends State<ProfileSetupOneScreen> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: const [
-                      Text('* ',
+                      Text(
+                        '* ',
                         style: TextStyle(
                           fontSize: 18.0,
                           color: Colors.red,
                           fontWeight: FontWeight.w500,
                         ),
                       ),
-                      Text('Email',
+                      Text(
+                        'Email',
                         style: TextStyle(
                           fontSize: 15.0,
                           color: AppColors.lightBlack,
@@ -388,7 +413,8 @@ class _ProfileSetupOneScreenState extends State<ProfileSetupOneScreen> {
                     width: width,
                     isPrefixIcon: true,
                     prefixIcon: Padding(
-                      padding: const EdgeInsets.only(left: 0.0, top: 10.0, bottom: 10.0),
+                      padding: const EdgeInsets.only(
+                          left: 0.0, top: 10.0, bottom: 10.0),
                       child: SvgPicture.asset(AppImages.contactIcon),
                     ),
                     padding: const EdgeInsets.only(top: 4.0),
@@ -409,14 +435,16 @@ class _ProfileSetupOneScreenState extends State<ProfileSetupOneScreen> {
                               crossAxisAlignment: CrossAxisAlignment.center,
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: const [
-                                Text('* ',
+                                Text(
+                                  '* ',
                                   style: TextStyle(
                                     fontSize: 18.0,
                                     color: Colors.red,
                                     fontWeight: FontWeight.w500,
                                   ),
                                 ),
-                                Text('Country Code',
+                                Text(
+                                  'Country Code',
                                   style: TextStyle(
                                     fontSize: 15.0,
                                     color: AppColors.lightBlack,
@@ -439,28 +467,32 @@ class _ProfileSetupOneScreenState extends State<ProfileSetupOneScreen> {
                                 child: DropdownButton2(
                                   icon: const Icon(Icons.keyboard_arrow_down),
                                   hint: const Text(
-                                    '15 minutes', style: TextStyle(
-                                    fontSize: 13.0,
-                                    color: AppColors.lightBlack,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                  ),
-                                  items: items.map((item) => DropdownMenuItem<String>(
-                                    value: item,
-                                    child: Text(
-                                      item,
-                                      style: const TextStyle(
-                                        fontSize: 15.0,
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.w500,
-                                      ),
+                                    '+94',
+                                    style: TextStyle(
+                                      fontSize: 13.0,
+                                      color: AppColors.lightBlack,
+                                      fontWeight: FontWeight.w500,
                                     ),
-                                  ),)
+                                  ),
+                                  items: countryCodes
+                                      .map(
+                                        (item) => DropdownMenuItem<String>(
+                                          value: item,
+                                          child: Text(
+                                            item,
+                                            style: const TextStyle(
+                                              fontSize: 15.0,
+                                              color: AppColors.lightBlack,
+                                              fontWeight: FontWeight.w500,
+                                            ),
+                                          ),
+                                        ),
+                                      )
                                       .toList(),
-                                  value: selectedValue,
+                                  value: selectedCountryCode,
                                   onChanged: (value) {
                                     setState(() {
-                                      selectedValue = value as String;
+                                      selectedCountryCode = value as String;
                                     });
                                   },
                                   buttonHeight: 40,
@@ -468,7 +500,7 @@ class _ProfileSetupOneScreenState extends State<ProfileSetupOneScreen> {
                                   itemHeight: 36.0,
                                   dropdownWidth: 150,
                                   dropdownDecoration: const BoxDecoration(
-                                    color: AppColors.lightBlack,
+                                    color: AppColors.lightBackground,
                                   ),
                                 ),
                               ),
@@ -487,14 +519,16 @@ class _ProfileSetupOneScreenState extends State<ProfileSetupOneScreen> {
                               crossAxisAlignment: CrossAxisAlignment.center,
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: const [
-                                Text('* ',
+                                Text(
+                                  '* ',
                                   style: TextStyle(
                                     fontSize: 18.0,
                                     color: Colors.red,
                                     fontWeight: FontWeight.w500,
                                   ),
                                 ),
-                                Text('Mobile Number',
+                                Text(
+                                  'Mobile Number',
                                   style: TextStyle(
                                     fontSize: 15.0,
                                     color: AppColors.lightBlack,
@@ -521,14 +555,16 @@ class _ProfileSetupOneScreenState extends State<ProfileSetupOneScreen> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: const [
-                      Text('* ',
+                      Text(
+                        '* ',
                         style: TextStyle(
                           fontSize: 18.0,
                           color: Colors.red,
                           fontWeight: FontWeight.w500,
                         ),
                       ),
-                      Text('NIC number',
+                      Text(
+                        'NIC number',
                         style: TextStyle(
                           fontSize: 15.0,
                           color: AppColors.lightBlack,
@@ -544,8 +580,10 @@ class _ProfileSetupOneScreenState extends State<ProfileSetupOneScreen> {
                     width: width,
                     isPrefixIcon: true,
                     prefixIcon: Padding(
-                      padding: const EdgeInsets.only(left: 0.0, top: 10.0, bottom: 10.0),
-                      child: SvgPicture.asset(AppImages.doctorIcon, color: AppColors.black),
+                      padding: const EdgeInsets.only(
+                          left: 0.0, top: 10.0, bottom: 10.0),
+                      child: SvgPicture.asset(AppImages.doctorIcon,
+                          color: AppColors.black),
                     ),
                     padding: const EdgeInsets.only(top: 4.0),
                   ),
@@ -556,14 +594,16 @@ class _ProfileSetupOneScreenState extends State<ProfileSetupOneScreen> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: const [
-                      Text('* ',
+                      Text(
+                        '* ',
                         style: TextStyle(
                           fontSize: 18.0,
                           color: Colors.red,
                           fontWeight: FontWeight.w500,
                         ),
                       ),
-                      Text('Your home location: City, Street name...',
+                      Text(
+                        'Your home location: City, Street name...',
                         style: TextStyle(
                           fontSize: 15.0,
                           color: AppColors.lightBlack,
@@ -579,8 +619,10 @@ class _ProfileSetupOneScreenState extends State<ProfileSetupOneScreen> {
                     width: width,
                     isPrefixIcon: true,
                     prefixIcon: Padding(
-                      padding: const EdgeInsets.only(left: 0.0, top: 10.0, bottom: 10.0),
-                      child: SvgPicture.asset(AppImages.locationIcon, color: AppColors.black),
+                      padding: const EdgeInsets.only(
+                          left: 0.0, top: 10.0, bottom: 10.0),
+                      child: SvgPicture.asset(AppImages.locationIcon,
+                          color: AppColors.black),
                     ),
                     padding: const EdgeInsets.only(top: 4.0),
                   ),
@@ -591,14 +633,16 @@ class _ProfileSetupOneScreenState extends State<ProfileSetupOneScreen> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: const [
-                      Text('* ',
+                      Text(
+                        '* ',
                         style: TextStyle(
                           fontSize: 18.0,
                           color: Colors.red,
                           fontWeight: FontWeight.w500,
                         ),
                       ),
-                      Text('SLMC number',
+                      Text(
+                        'SLMC number',
                         style: TextStyle(
                           fontSize: 15.0,
                           color: AppColors.lightBlack,
@@ -614,28 +658,31 @@ class _ProfileSetupOneScreenState extends State<ProfileSetupOneScreen> {
                     width: width,
                     isPrefixIcon: true,
                     prefixIcon: Padding(
-                      padding: const EdgeInsets.only(left: 0.0, top: 10.0, bottom: 10.0),
-                      child: SvgPicture.asset(AppImages.doctorIcon, color: AppColors.black),
+                      padding: const EdgeInsets.only(
+                          left: 0.0, top: 10.0, bottom: 10.0),
+                      child: SvgPicture.asset(AppImages.doctorIcon,
+                          color: AppColors.black),
                     ),
                     padding: const EdgeInsets.only(top: 4.0),
                   ),
 
-
                   const SizedBox(height: 24.0),
-                  const Text('SLMC Identity Card details \n(.jpg .png .pdf - max 5mb)',
-                  style: TextStyle(
-                    fontSize: 15.0,
-                    color: AppColors.lightBlack,
-                    fontWeight: FontWeight.w500,
-                  ),
+                  const Text(
+                    'SLMC Identity Card details \n(.jpg .png .pdf - max 5mb)',
+                    style: TextStyle(
+                      fontSize: 15.0,
+                      color: AppColors.lightBlack,
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
                   const SizedBox(height: 12.0),
                   Material(
                     child: InkWell(
-                      onTap: (){},
+                      onTap: () {},
                       borderRadius: BorderRadius.circular(4.0),
                       child: Ink(
-                        padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 12.0, vertical: 8.0),
                         decoration: BoxDecoration(
                           color: AppColors.white,
                           borderRadius: BorderRadius.circular(4.0),
@@ -649,14 +696,16 @@ class _ProfileSetupOneScreenState extends State<ProfileSetupOneScreen> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           mainAxisSize: MainAxisSize.min,
                           children: const [
-                            Icon(Icons.upload_outlined, color: AppColors.black, size: 20.0),
+                            Icon(Icons.upload_outlined,
+                                color: AppColors.black, size: 20.0),
                             SizedBox(width: 8.0),
-                            Text('Click to Upload',
-                            style: TextStyle(
-                              fontSize: 14.0,
-                              color: AppColors.black,
-                              fontWeight: FontWeight.w500,
-                            ),
+                            Text(
+                              'Click to Upload',
+                              style: TextStyle(
+                                fontSize: 14.0,
+                                color: AppColors.black,
+                                fontWeight: FontWeight.w500,
+                              ),
                             ),
                           ],
                         ),
@@ -668,7 +717,8 @@ class _ProfileSetupOneScreenState extends State<ProfileSetupOneScreen> {
                   const SizedBox(height: 12.0),
                   Container(
                     width: width,
-                    padding: const EdgeInsets.only(left: 8.0, bottom: 16.0, top: 16.0),
+                    padding: const EdgeInsets.only(
+                        left: 8.0, bottom: 16.0, top: 16.0),
                     decoration: BoxDecoration(
                       border: Border.all(
                         color: AppColors.primary,
@@ -680,24 +730,27 @@ class _ProfileSetupOneScreenState extends State<ProfileSetupOneScreen> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        Image.asset(AppImages.frontSideImage,
+                        Image.asset(
+                          AppImages.frontSideImage,
                           height: 40.0,
                           width: 60.0,
                           fit: BoxFit.fill,
                         ),
                         const SizedBox(width: 8.0),
                         const Expanded(
-                          child: Text('front.png',
-                          style: TextStyle(
-                            fontSize: 14.0,
-                            color: AppColors.secondary,
-                            fontWeight: FontWeight.w500,
-                          ),
+                          child: Text(
+                            'front.png',
+                            style: TextStyle(
+                              fontSize: 14.0,
+                              color: AppColors.secondary,
+                              fontWeight: FontWeight.w500,
+                            ),
                           ),
                         ),
                         IconButton(
-                          onPressed: (){},
-                          icon: const Icon(Icons.delete_outline, color: AppColors.primary),
+                          onPressed: () {},
+                          icon: const Icon(Icons.delete_outline,
+                              color: AppColors.primary),
                         ),
                       ],
                     ),
@@ -707,7 +760,8 @@ class _ProfileSetupOneScreenState extends State<ProfileSetupOneScreen> {
                   const SizedBox(height: 12.0),
                   Container(
                     width: width,
-                    padding: const EdgeInsets.only(left: 8.0, bottom: 16.0, top: 16.0),
+                    padding: const EdgeInsets.only(
+                        left: 8.0, bottom: 16.0, top: 16.0),
                     decoration: BoxDecoration(
                       border: Border.all(
                         color: AppColors.primary,
@@ -719,14 +773,16 @@ class _ProfileSetupOneScreenState extends State<ProfileSetupOneScreen> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        Image.asset(AppImages.frontSideImage,
+                        Image.asset(
+                          AppImages.frontSideImage,
                           height: 40.0,
                           width: 60.0,
                           fit: BoxFit.fill,
                         ),
                         const SizedBox(width: 8.0),
                         const Expanded(
-                          child: Text('back.png',
+                          child: Text(
+                            'back.png',
                             style: TextStyle(
                               fontSize: 14.0,
                               color: AppColors.secondary,
@@ -735,8 +791,9 @@ class _ProfileSetupOneScreenState extends State<ProfileSetupOneScreen> {
                           ),
                         ),
                         IconButton(
-                          onPressed: (){},
-                          icon: const Icon(Icons.delete_outline, color: AppColors.primary),
+                          onPressed: () {},
+                          icon: const Icon(Icons.delete_outline,
+                              color: AppColors.primary),
                         ),
                       ],
                     ),
@@ -748,7 +805,7 @@ class _ProfileSetupOneScreenState extends State<ProfileSetupOneScreen> {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       CustomButton(
-                        onTap: (){},
+                        onTap: () {},
                         btnText: 'Cancel',
                         width: 80.0,
                         height: 36.0,
@@ -759,7 +816,7 @@ class _ProfileSetupOneScreenState extends State<ProfileSetupOneScreen> {
                       ),
                       const SizedBox(width: 16.0),
                       CustomButton(
-                        onTap: (){
+                        onTap: () {
                           Get.to(const ProfileSetupTwoScreen());
                         },
                         btnText: 'Next',
@@ -783,45 +840,47 @@ class _ProfileSetupOneScreenState extends State<ProfileSetupOneScreen> {
   }
 
   Widget menuButton() => TextButton(
-    onPressed: (){
-      _scaffoldKey.currentState!.openEndDrawer();
-    },
-    child: Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: const [
-        Text('Menu',
-          style: TextStyle(
-            fontSize: 16.0,
-            fontWeight: FontWeight.w500,
-            color: AppColors.primary,
-          ),
+        onPressed: () {
+          _scaffoldKey.currentState!.openEndDrawer();
+        },
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: const [
+            Text(
+              'Menu',
+              style: TextStyle(
+                fontSize: 16.0,
+                fontWeight: FontWeight.w500,
+                color: AppColors.primary,
+              ),
+            ),
+            SizedBox(width: 5.0),
+            Icon(Icons.menu, color: AppColors.black, size: 28.0),
+            SizedBox(width: 12.0),
+          ],
         ),
-        SizedBox(width: 5.0),
-        Icon(Icons.menu, color: AppColors.black, size: 28.0),
-        SizedBox(width: 12.0),
-      ],
-    ),
-  );
+      );
 
   Widget bottomBar(width) => Container(
-    height: 50.0,
-    width: width,
-    color: AppColors.white,
-    child: Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        const Text('@2022 EMED Limited - Company number 123456789',
-          style: TextStyle(
-            fontSize: 12.0,
-            color: AppColors.black,
-            fontWeight: FontWeight.w500,
-          ),
+        height: 50.0,
+        width: width,
+        color: AppColors.white,
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Text(
+              '@2022 EMED Limited - Company number 123456789',
+              style: TextStyle(
+                fontSize: 12.0,
+                color: AppColors.black,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+            const SizedBox(width: 8.0),
+            SvgPicture.asset(AppImages.eMedIcon, height: 20.0, width: 20.0),
+          ],
         ),
-        const SizedBox(width: 8.0),
-        SvgPicture.asset(AppImages.eMedIcon, height: 20.0, width: 20.0),
-      ],
-    ),
-  );
+      );
 }
