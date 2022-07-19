@@ -110,6 +110,10 @@ class _CalendarScreenState extends State<CalendarScreen> {
           showDatePickerButton: true,
           allowViewNavigation: true,
           timeSlotViewSettings: const TimeSlotViewSettings(),
+          scheduleViewSettings: const ScheduleViewSettings(
+            monthHeaderSettings:
+                MonthHeaderSettings(backgroundColor: AppColors.redColor),
+          ),
           allowedViews: const <CalendarView>[
             CalendarView.day,
             CalendarView.week,
