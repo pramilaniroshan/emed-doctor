@@ -704,12 +704,12 @@ class _ProfileSetupOneScreenState extends State<ProfileSetupOneScreen> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        Image.asset(
-                          AppImages.frontSideImage,
-                          height: 40.0,
-                          width: 60.0,
-                          fit: BoxFit.fill,
-                        ),
+                        // Image.file(
+                        //   frontFile ?? File(AppImages.frontSideImage),
+                        //   height: 40.0,
+                        //   width: 60.0,
+                        //   fit: BoxFit.fill,
+                        // ),
                         const SizedBox(width: 8.0),
                         Expanded(
                           child: Text(
@@ -744,7 +744,7 @@ class _ProfileSetupOneScreenState extends State<ProfileSetupOneScreen> {
                             setState(() {
                               file = result.files.first;
                               frontFileName = file!.name;
-                              //frontFile = File(file!.path.toString());
+                              frontFile = File(file!.path.toString());
                             });
                             print(file!.name);
                             //print(file!.path);
@@ -807,7 +807,7 @@ class _ProfileSetupOneScreenState extends State<ProfileSetupOneScreen> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         // Image.file(
-                        //   frontFile ?? File(AppImages.frontSideImage),
+                        //   backFile ?? File(AppImages.frontSideImage),
                         //   height: 40.0,
                         //   width: 60.0,
                         //   fit: BoxFit.fill,
@@ -824,7 +824,11 @@ class _ProfileSetupOneScreenState extends State<ProfileSetupOneScreen> {
                           ),
                         ),
                         IconButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            setState(() {
+                              backFileName = null;
+                            });
+                          },
                           icon: const Icon(Icons.delete_outline,
                               color: AppColors.primary),
                         ),
