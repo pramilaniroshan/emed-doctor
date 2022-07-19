@@ -713,7 +713,7 @@ class _ProfileSetupOneScreenState extends State<ProfileSetupOneScreen> {
                         const SizedBox(width: 8.0),
                         Expanded(
                           child: Text(
-                            frontFileName ?? 'filename',
+                            frontFileName ?? 'front.png',
                             style: const TextStyle(
                               fontSize: 14.0,
                               color: AppColors.secondary,
