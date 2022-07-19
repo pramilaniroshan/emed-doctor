@@ -722,7 +722,11 @@ class _ProfileSetupOneScreenState extends State<ProfileSetupOneScreen> {
                           ),
                         ),
                         IconButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            setState(() {
+                              frontFileName = null;
+                            });
+                          },
                           icon: const Icon(Icons.delete_outline,
                               color: AppColors.primary),
                         ),
