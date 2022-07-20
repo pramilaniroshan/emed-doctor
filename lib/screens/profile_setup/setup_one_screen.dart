@@ -704,12 +704,12 @@ class _ProfileSetupOneScreenState extends State<ProfileSetupOneScreen> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        // Image.file(
-                        //   frontFile ?? File(AppImages.frontSideImage),
-                        //   height: 40.0,
-                        //   width: 60.0,
-                        //   fit: BoxFit.fill,
-                        // ),
+                        Image.file(
+                          frontFile ?? File(AppImages.frontSideImage),
+                          height: 40.0,
+                          width: 60.0,
+                          fit: BoxFit.fill,
+                        ),
                         const SizedBox(width: 8.0),
                         Expanded(
                           child: Text(
@@ -810,12 +810,17 @@ class _ProfileSetupOneScreenState extends State<ProfileSetupOneScreen> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        // Image.file(
-                        //   backFile ?? File(AppImages.frontSideImage),
-                        //   height: 40.0,
-                        //   width: 60.0,
-                        //   fit: BoxFit.fill,
-                        // ),
+                        backFile!=null ?
+                        Image.file(
+                          backFile ?? File(AppImages.frontSideImage),
+                          height: 40.0,
+                          width: 60.0,
+                          fit: BoxFit.fill,
+                        ): Image.asset(AppImages.frontSideImage,
+                          height: 40.0,
+                          width: 60.0,
+                          fit: BoxFit.fill,
+                        ),
                         const SizedBox(width: 8.0),
                         Expanded(
                           child: Text(
@@ -854,7 +859,7 @@ class _ProfileSetupOneScreenState extends State<ProfileSetupOneScreen> {
                             setState(() {
                               file = result.files.first;
                               backFileName = file!.name;
-                              //backFile = File(file!.path.toString());
+                              backFile = File(file!.path.toString());
                             });
                             print(file!.name);
                             //print(file!.path);
