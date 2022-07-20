@@ -836,6 +836,7 @@ class _ProfileSetupOneScreenState extends State<ProfileSetupOneScreen> {
                           onPressed: () {
                             setState(() {
                               backFileName = null;
+                              backFile = null;
                             });
                           },
                           icon: const Icon(Icons.delete_outline,
