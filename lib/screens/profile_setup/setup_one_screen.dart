@@ -727,6 +727,7 @@ class _ProfileSetupOneScreenState extends State<ProfileSetupOneScreen> {
                           ),
                         ),
                         IconButton(
+                          // Clear upload state
                           onPressed: () {
                             setState(() {
                               frontFileName = null;
