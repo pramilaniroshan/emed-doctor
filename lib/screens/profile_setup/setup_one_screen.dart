@@ -704,12 +704,17 @@ class _ProfileSetupOneScreenState extends State<ProfileSetupOneScreen> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
+                        frontFile != null ?
                         Image.file(
                           frontFile ?? File(AppImages.frontSideImage),
                           height: 40.0,
                           width: 60.0,
                           fit: BoxFit.fill,
-                        ),
+                        ) : Image.asset(AppImages.frontSideImage,
+              height: 40.0,
+              width: 60.0,
+              fit: BoxFit.fill,
+            ),
                         const SizedBox(width: 8.0),
                         Expanded(
                           child: Text(
