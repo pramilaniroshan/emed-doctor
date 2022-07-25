@@ -85,13 +85,13 @@ class _HomeScreenState extends State<HomeScreen> {
       if (e.response != null) {
         EasyLoading.dismiss();
         var t = e.response!.data["Error"];
-        showErrorToast(
-            fToast: fToast, isError: true, msg: e.response!.data["Error"]);
+        //showErrorToast(
+        //fToast: fToast, isError: true, msg: e.response!.data["Error"]);
         setState(() {
           error = t;
         });
       } else {
-        showErrorToast(fToast: fToast, isError: true, msg: e.message);
+        //showErrorToast(fToast: fToast, isError: true, msg: e.message);
       }
     }
   }
@@ -108,7 +108,7 @@ class _HomeScreenState extends State<HomeScreen> {
         "Application": 1
       }).then((res) {
         if (res.statusCode == 200) {
-          showErrorToast(fToast: fToast, isError: false, msg: 'Code sent');
+          //showErrorToast(fToast: fToast, isError: false, msg: 'Code sent');
         }
       });
     } on DioError catch (e) {
@@ -116,13 +116,13 @@ class _HomeScreenState extends State<HomeScreen> {
       // that falls out of the range of 2xx and is also not 304.
       if (e.response != null) {
         var t = e.response!.data["Error"];
-        showErrorToast(
-            fToast: fToast, isError: true, msg: e.response!.data["Error"]);
+        //showErrorToast(
+        //fToast: fToast, isError: true, msg: e.response!.data["Error"]);
         setState(() {
           error = t;
         });
       } else {
-        showErrorToast(fToast: fToast, isError: true, msg: e.message);
+        //showErrorToast(fToast: fToast, isError: true, msg: e.message);
       }
     }
   }
@@ -136,7 +136,7 @@ class _HomeScreenState extends State<HomeScreen> {
         "Otp": codeController.text,
         "DeviceId": "210"
       }).then((res) async {
-        showErrorToast(fToast: fToast, isError: false, msg: 'Done');
+        //showErrorToast(fToast: fToast, isError: false, msg: 'Done');
         final body = res.data["Data"];
         prefs = await SharedPreferences.getInstance();
         prefs.setString('token', body["AccessToken"]);
@@ -150,8 +150,8 @@ class _HomeScreenState extends State<HomeScreen> {
           'Remaining' +
           '${e.response!.data['Data']}' +
           'Attempts';
-      showErrorToast(
-          fToast: fToast, isError: true, msg: e.response!.data['Error']);
+      //showErrorToast(
+      //fToast: fToast, isError: true, msg: e.response!.data['Error']);
     }
   }
 
