@@ -157,6 +157,7 @@ class _HomeScreenState extends State<HomeScreen> {
           'Remaining' +
           '${e.response!.data['Data']}' +
           'Attempts';
+      EasyLoading.showInfo(error);
       //showErrorToast(
       //fToast: fToast, isError: true, msg: e.response!.data['Error']);
     }
