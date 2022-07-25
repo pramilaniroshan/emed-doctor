@@ -42,12 +42,12 @@ class _SProfileScreenState extends State<SProfileScreen> {
         "ProfilePicture": 'null',
       }).then((res) {
         getDoctorProfile();
-        showErrorToast(fToast: fToast, isError: false, msg: 'Done');
+        //showErrorToast(fToast: fToast, isError: false, msg: 'Done');
         print(res.data);
       });
     } on DioError catch (e) {
-      showErrorToast(
-          fToast: fToast, isError: true, msg: e.response!.data['Error']);
+      //showErrorToast(
+      // fToast: fToast, isError: true, msg: e.response!.data['Error']);
       print(e.response!.data['Error']);
     }
   }
