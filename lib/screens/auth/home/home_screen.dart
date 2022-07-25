@@ -71,6 +71,7 @@ class _HomeScreenState extends State<HomeScreen> {
         if (res.statusCode == 200) {
           EasyLoading.dismiss();
           //showErrorToast(fToast: fToast, isError: false, msg: 'Code sent');
+          EasyLoading.showInfo('Code sent');
           Get.defaultDialog(
             backgroundColor: AppColors.lightBackground,
             radius: 2.0,
@@ -85,12 +86,14 @@ class _HomeScreenState extends State<HomeScreen> {
       if (e.response != null) {
         EasyLoading.dismiss();
         var t = e.response!.data["Error"];
+        EasyLoading.showInfo(e.response!.data["Error"]);
         //showErrorToast(
         //fToast: fToast, isError: true, msg: e.response!.data["Error"]);
         setState(() {
           error = t;
         });
       } else {
+        EasyLoading.showInfo(e.message);
         //showErrorToast(fToast: fToast, isError: true, msg: e.message);
       }
     }
@@ -108,6 +111,7 @@ class _HomeScreenState extends State<HomeScreen> {
         "Application": 1
       }).then((res) {
         if (res.statusCode == 200) {
+          EasyLoading.showInfo('Code sent');
           //showErrorToast(fToast: fToast, isError: false, msg: 'Code sent');
         }
       });
@@ -118,11 +122,13 @@ class _HomeScreenState extends State<HomeScreen> {
         var t = e.response!.data["Error"];
         //showErrorToast(
         //fToast: fToast, isError: true, msg: e.response!.data["Error"]);
+        EasyLoading.showInfo(e.response!.data["Error"]);
         setState(() {
           error = t;
         });
       } else {
         //showErrorToast(fToast: fToast, isError: true, msg: e.message);
+        EasyLoading.showInfo(e.message);
       }
     }
   }
