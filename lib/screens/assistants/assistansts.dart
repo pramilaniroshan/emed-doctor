@@ -131,7 +131,12 @@ class _AssistantsScreen extends State<AssistantsScreen> {
                               : Column(
                                   children: List.generate(
                                   assistants.length,
-                                  (index) => assistantsList(),
+                                  (index) => assistantsList(
+                                    assistants[index]['Id'],
+                                    assistants[index]['FirstName'],
+                                    assistants[index]['LastName'],
+                                    assistants[index]['IsActive'],
+                                  ),
                                 )),
                           const SizedBox(height: 16.0),
                         ],
@@ -147,7 +152,9 @@ class _AssistantsScreen extends State<AssistantsScreen> {
     );
   }
 
-  Widget assistantsList() => Container(
+  Widget assistantsList(
+          String id, String firstName, String lastName, bool isActive) =>
+      Container(
         padding: const EdgeInsets.all(12.0),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(16.0),
@@ -166,8 +173,8 @@ class _AssistantsScreen extends State<AssistantsScreen> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children: const [
-                        Text(
+                      children: [
+                        const Text(
                           'ID',
                           style: TextStyle(
                             fontSize: 12.0,
@@ -175,10 +182,10 @@ class _AssistantsScreen extends State<AssistantsScreen> {
                             fontWeight: FontWeight.w400,
                           ),
                         ),
-                        SizedBox(height: 8.0),
+                        const SizedBox(height: 8.0),
                         Text(
-                          'AZ453D',
-                          style: TextStyle(
+                          id,
+                          style: const TextStyle(
                             fontSize: 14.0,
                             color: AppColors.redColor,
                             fontWeight: FontWeight.w500,
@@ -197,19 +204,19 @@ class _AssistantsScreen extends State<AssistantsScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.start,
-                    children: const [
-                      Text(
-                        'Name',
+                    children: [
+                      const Text(
+                        'First Name',
                         style: TextStyle(
                           fontSize: 12.0,
                           color: AppColors.primary,
                           fontWeight: FontWeight.w400,
                         ),
                       ),
-                      SizedBox(height: 8.0),
+                      const SizedBox(height: 8.0),
                       Text(
-                        'Pramila',
-                        style: TextStyle(
+                        firstName,
+                        style: const TextStyle(
                           fontSize: 14.0,
                           color: AppColors.black,
                           fontWeight: FontWeight.w600,
@@ -218,12 +225,19 @@ class _AssistantsScreen extends State<AssistantsScreen> {
                     ],
                   ),
                 ),
-                Image.asset(
-                  AppImages.eyeIcon,
-                  width: 50,
-                  height: 50,
-                  scale: 0.10,
-                ),
+                isActive
+                    ? Image.asset(
+                        AppImages.eyeIcon,
+                        width: 50,
+                        height: 50,
+                        scale: 0.10,
+                      )
+                    : Image.asset(
+                        AppImages.eyeClose,
+                        width: 50,
+                        height: 50,
+                        scale: 0.10,
+                      ),
               ],
             ),
             const SizedBox(height: 20),
@@ -235,8 +249,8 @@ class _AssistantsScreen extends State<AssistantsScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.start,
-                    children: const [
-                      Text(
+                    children: [
+                      const Text(
                         'Last name',
                         style: TextStyle(
                           fontSize: 12.0,
@@ -244,10 +258,10 @@ class _AssistantsScreen extends State<AssistantsScreen> {
                           fontWeight: FontWeight.w400,
                         ),
                       ),
-                      SizedBox(height: 8.0),
+                      const SizedBox(height: 8.0),
                       Text(
-                        'Niroshan',
-                        style: TextStyle(
+                        lastName,
+                        style: const TextStyle(
                           fontSize: 14.0,
                           color: AppColors.black,
                           fontWeight: FontWeight.w600,
