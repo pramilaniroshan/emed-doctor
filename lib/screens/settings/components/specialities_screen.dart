@@ -66,11 +66,11 @@ class _SpecialitiesScreenState extends State<SpecialitiesScreen> {
             "DoctorSpecializations": ["7"]
           }).then((res) {
         //setState(() {});
-        showErrorToast(fToast: fToast, isError: false, msg: 'Done');
+        //showErrorToast(fToast: fToast, isError: false, msg: 'Done');
       });
     } on DioError catch (e) {
       //print(e.response!.data);
-      showErrorToast(fToast: fToast, isError: true, msg: '');
+      //showErrorToast(fToast: fToast, isError: true, msg: '');
     }
   }
 
