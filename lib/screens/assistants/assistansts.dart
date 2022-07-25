@@ -226,17 +226,23 @@ class _AssistantsScreen extends State<AssistantsScreen> {
                   ),
                 ),
                 isActive
-                    ? Image.asset(
-                        AppImages.eyeIcon,
-                        width: 50,
-                        height: 50,
-                        scale: 0.10,
+                    ? TextButton(
+                        onPressed: () => {print('enable')},
+                        child: Image.asset(
+                          AppImages.eyeIcon,
+                          width: 50,
+                          height: 50,
+                          scale: 0.10,
+                        ),
                       )
-                    : Image.asset(
-                        AppImages.eyeClose,
-                        width: 50,
-                        height: 50,
-                        scale: 0.10,
+                    : TextButton(
+                        onPressed: () => {print('disable')},
+                        child: Image.asset(
+                          AppImages.eyeClose,
+                          width: 50,
+                          height: 50,
+                          scale: 0.10,
+                        ),
                       ),
               ],
             ),
