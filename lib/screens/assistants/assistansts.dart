@@ -46,6 +46,22 @@ class _AssistantsScreen extends State<AssistantsScreen> {
     }
   }
 
+  void enableAssistant(String id, bool isEnbled) async {
+    var prefs = await SharedPreferences.getInstance();
+    String token = prefs.getString("token") ?? '';
+    try {
+      var dio = Dio();
+      dio.options.headers["authorization"] = "Bearer " + token;
+      await dio.post(
+          Constants().getBaseUrl() + '/Doctor/DisableEnableAssistant',
+          data: {"AssistantId": id, "IsEnabled": !isEnbled}).then((res) {
+        setState(() {});
+      });
+    } on DioError catch (e) {
+      print(e.response!.data);
+    }
+  }
+
   @override
   void initState() {
     // TODO: implement initState
