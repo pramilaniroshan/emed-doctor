@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:emedassistantmobile/screens/assistants/components/add_assistants.dart';
 import 'package:emedassistantmobile/widgets/drawer.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_svg/svg.dart';
 
 import 'package:emedassistantmobile/config/app_colors.dart';
@@ -40,6 +41,25 @@ class _AssistantsScreen extends State<AssistantsScreen> {
           assistants = res.data['Data']['Data'];
         });
         print(assistants[0]);
+      });
+    } on DioError catch (e) {
+      print(e.response!.data);
+    }
+  }
+
+  void enableAssistant(String id, bool isEnbled) async {
+    EasyLoading.show();
+    var prefs = await SharedPreferences.getInstance();
+    String token = prefs.getString("token") ?? '';
+    try {
+      var dio = Dio();
+      dio.options.headers["authorization"] = "Bearer " + token;
+      await dio.post(
+          Constants().getBaseUrl() + '/Doctor/DisableEnableAssistant',
+          data: {"AssistantId": id, "IsEnabled": !isEnbled}).then((res) {
+        getAssistants();
+        EasyLoading.dismiss();
+        EasyLoading.showSuccess('done');
       });
     } on DioError catch (e) {
       print(e.response!.data);
@@ -226,17 +246,45 @@ class _AssistantsScreen extends State<AssistantsScreen> {
                   ),
                 ),
                 isActive
-                    ? Image.asset(
-                        AppImages.eyeIcon,
-                        width: 50,
-                        height: 50,
-                        scale: 0.10,
+                    ? TextButton(
+                        onPressed: () => {
+                          Get.defaultDialog(
+                              title: "Are you sure?",
+                              textConfirm: "Confirm",
+                              textCancel: "Cancel",
+                              radius: 0,
+                              middleText: '',
+                              buttonColor: AppColors.secondary,
+                              onConfirm: () => {
+                                    enableAssistant(id, isActive),
+                                    Get.back(),
+                                  }),
+                        },
+                        child: Image.asset(
+                          AppImages.eyeIcon,
+                          width: 50,
+                          height: 50,
+                          scale: 0.10,
+                        ),
                       )
-                    : Image.asset(
-                        AppImages.eyeClose,
-                        width: 50,
-                        height: 50,
-                        scale: 0.10,
+                    : TextButton(
+                        onPressed: () => {
+                          Get.defaultDialog(
+                              title: "Are you sure?",
+                              textConfirm: "Confirm",
+                              textCancel: "Cancel",
+                              radius: 0,
+                              middleText: '',
+                              buttonColor: AppColors.secondary,
+                              onConfirm: () =>
+                                  {enableAssistant(id, isActive), Get.back()}),
+                        },
+                        child: Image.asset(
+                          AppImages.eyeClose,
+                          width: 50,
+                          height: 50,
+                          scale: 0.10,
+                        ),
                       ),
               ],
             ),
@@ -271,11 +319,24 @@ class _AssistantsScreen extends State<AssistantsScreen> {
                   ),
                 ),
                 //SvgPicture.asset(AppImages.deleteDisableIcon),
-                Image.asset(
-                  AppImages.deleteBlue,
-                  width: 50,
-                  height: 50,
-                  scale: 0.10,
+                TextButton(
+                  onPressed: () => {
+                    Get.defaultDialog(
+                        title: "Are you sure?",
+                        textConfirm: "Confirm",
+                        textCancel: "Cancel",
+                        barrierDismissible: false,
+                        radius: 0,
+                        middleText: '',
+                        buttonColor: AppColors.secondary,
+                        onConfirm: () => {print('delete')}),
+                  },
+                  child: Image.asset(
+                    AppImages.deleteBlue,
+                    width: 50,
+                    height: 50,
+                    scale: 0.10,
+                  ),
                 ),
               ],
             ),
@@ -310,11 +371,14 @@ class _AssistantsScreen extends State<AssistantsScreen> {
                   ),
                 ),
                 //SvgPicture.asset(AppImages.deleteDisableIcon),
-                Image.asset(
-                  AppImages.editIcon,
-                  width: 50,
-                  height: 50,
-                  scale: 0.10,
+                TextButton(
+                  onPressed: () => {print('edit')},
+                  child: Image.asset(
+                    AppImages.editIcon,
+                    width: 50,
+                    height: 50,
+                    scale: 0.10,
+                  ),
                 ),
               ],
             ),
