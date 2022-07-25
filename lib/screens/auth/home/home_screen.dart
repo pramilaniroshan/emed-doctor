@@ -143,6 +143,7 @@ class _HomeScreenState extends State<HomeScreen> {
         "DeviceId": "210"
       }).then((res) async {
         //showErrorToast(fToast: fToast, isError: false, msg: 'Done');
+        EasyLoading.showInfo('Done');
         final body = res.data["Data"];
         prefs = await SharedPreferences.getInstance();
         prefs.setString('token', body["AccessToken"]);
