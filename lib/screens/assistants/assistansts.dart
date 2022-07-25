@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:emedassistantmobile/screens/assistants/components/add_assistants.dart';
 import 'package:emedassistantmobile/widgets/drawer.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_svg/svg.dart';
 
 import 'package:emedassistantmobile/config/app_colors.dart';
@@ -47,6 +48,7 @@ class _AssistantsScreen extends State<AssistantsScreen> {
   }
 
   void enableAssistant(String id, bool isEnbled) async {
+    EasyLoading.show();
     var prefs = await SharedPreferences.getInstance();
     String token = prefs.getString("token") ?? '';
     try {
@@ -55,7 +57,9 @@ class _AssistantsScreen extends State<AssistantsScreen> {
       await dio.post(
           Constants().getBaseUrl() + '/Doctor/DisableEnableAssistant',
           data: {"AssistantId": id, "IsEnabled": !isEnbled}).then((res) {
-        setState(() {});
+        getAssistants();
+        EasyLoading.dismiss();
+        EasyLoading.showSuccess('done');
       });
     } on DioError catch (e) {
       print(e.response!.data);
@@ -248,11 +252,13 @@ class _AssistantsScreen extends State<AssistantsScreen> {
                               title: "Are you sure?",
                               textConfirm: "Confirm",
                               textCancel: "Cancel",
-                              barrierDismissible: false,
                               radius: 0,
                               middleText: '',
                               buttonColor: AppColors.secondary,
-                              onConfirm: () => {print('enable')}),
+                              onConfirm: () => {
+                                    enableAssistant(id, isActive),
+                                    Get.back(),
+                                  }),
                         },
                         child: Image.asset(
                           AppImages.eyeIcon,
@@ -267,11 +273,11 @@ class _AssistantsScreen extends State<AssistantsScreen> {
                               title: "Are you sure?",
                               textConfirm: "Confirm",
                               textCancel: "Cancel",
-                              barrierDismissible: false,
                               radius: 0,
                               middleText: '',
                               buttonColor: AppColors.secondary,
-                              onConfirm: () => {print('disable')}),
+                              onConfirm: () =>
+                                  {enableAssistant(id, isActive), Get.back()}),
                         },
                         child: Image.asset(
                           AppImages.eyeClose,
