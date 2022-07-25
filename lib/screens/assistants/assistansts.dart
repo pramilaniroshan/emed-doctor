@@ -277,11 +277,14 @@ class _AssistantsScreen extends State<AssistantsScreen> {
                   ),
                 ),
                 //SvgPicture.asset(AppImages.deleteDisableIcon),
-                Image.asset(
-                  AppImages.deleteBlue,
-                  width: 50,
-                  height: 50,
-                  scale: 0.10,
+                TextButton(
+                  onPressed: () => {print('delete')},
+                  child: Image.asset(
+                    AppImages.deleteBlue,
+                    width: 50,
+                    height: 50,
+                    scale: 0.10,
+                  ),
                 ),
               ],
             ),
