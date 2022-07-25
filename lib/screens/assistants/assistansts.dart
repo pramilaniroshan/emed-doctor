@@ -352,195 +352,195 @@ class _AssistantsScreen extends State<AssistantsScreen> {
         ),
       );
 
-  Widget assistantsDisableList() => Container(
-        padding: const EdgeInsets.all(12.0),
-        //margin: const EdgeInsets.symmetric(horizontal: 16.0),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(16.0),
-          color: AppColors.white,
-          border: Border.all(
-            color: AppColors.lightBlue.withOpacity(0.8),
-          ),
-        ),
-        child: Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Expanded(
-                    flex: 1,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: const [
-                        Text(
-                          'ID',
-                          style: TextStyle(
-                            fontSize: 12.0,
-                            color: AppColors.primary,
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                        SizedBox(height: 8.0),
-                        Text(
-                          'AZ453D',
-                          style: TextStyle(
-                            fontSize: 14.0,
-                            color: AppColors.redColor,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                      ],
-                    )),
-              ],
-            ),
-            const SizedBox(height: 10),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: const [
-                      Text(
-                        'Name',
-                        style: TextStyle(
-                          fontSize: 12.0,
-                          color: AppColors.primary,
-                          fontWeight: FontWeight.w400,
-                        ),
-                      ),
-                      SizedBox(height: 8.0),
-                      Text(
-                        'Pramila',
-                        style: TextStyle(
-                          fontSize: 14.0,
-                          color: AppColors.primary,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Image.asset(
-                  AppImages.eyeClose,
-                  width: 50,
-                  height: 50,
-                  scale: 0.10,
-                ),
-              ],
-            ),
-            const SizedBox(height: 20),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: const [
-                      Text(
-                        'Last name',
-                        style: TextStyle(
-                          fontSize: 12.0,
-                          color: AppColors.primary,
-                          fontWeight: FontWeight.w400,
-                        ),
-                      ),
-                      SizedBox(height: 8.0),
-                      Text(
-                        'Niroshan',
-                        style: TextStyle(
-                          fontSize: 14.0,
-                          color: AppColors.primary,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                //SvgPicture.asset(AppImages.deleteDisableIcon),
-                Image.asset(
-                  AppImages.deleteBlue,
-                  width: 50,
-                  height: 50,
-                  scale: 0.10,
-                ),
-              ],
-            ),
-            const SizedBox(height: 20),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: const [
-                      Text(
-                        'Email',
-                        style: TextStyle(
-                          fontSize: 12.0,
-                          color: AppColors.primary,
-                          fontWeight: FontWeight.w400,
-                        ),
-                      ),
-                      SizedBox(height: 8.0),
-                      Text(
-                        'pramila@dota2.com',
-                        style: TextStyle(
-                          fontSize: 14.0,
-                          color: AppColors.primary,
-                          fontWeight: FontWeight.w400,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                //SvgPicture.asset(AppImages.deleteDisableIcon),
-                Image.asset(
-                  AppImages.editIcon,
-                  width: 50,
-                  height: 50,
-                  scale: 0.10,
-                ),
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Expanded(
-                    flex: 1,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: const [
-                        Text(
-                          'Mobile n°',
-                          style: TextStyle(
-                            fontSize: 12.0,
-                            color: AppColors.primary,
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                        SizedBox(height: 8.0),
-                        Text(
-                          '0711844200',
-                          style: TextStyle(
-                            fontSize: 14.0,
-                            color: AppColors.primary,
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                      ],
-                    )),
-              ],
-            ),
-          ],
-        ),
-      );
+  // Widget assistantsDisableList() => Container(
+  //       padding: const EdgeInsets.all(12.0),
+  //       //margin: const EdgeInsets.symmetric(horizontal: 16.0),
+  //       decoration: BoxDecoration(
+  //         borderRadius: BorderRadius.circular(16.0),
+  //         color: AppColors.white,
+  //         border: Border.all(
+  //           color: AppColors.lightBlue.withOpacity(0.8),
+  //         ),
+  //       ),
+  //       child: Column(
+  //         children: [
+  //           Row(
+  //             mainAxisAlignment: MainAxisAlignment.start,
+  //             children: [
+  //               Expanded(
+  //                   flex: 1,
+  //                   child: Column(
+  //                     mainAxisAlignment: MainAxisAlignment.start,
+  //                     crossAxisAlignment: CrossAxisAlignment.start,
+  //                     children: const [
+  //                       Text(
+  //                         'ID',
+  //                         style: TextStyle(
+  //                           fontSize: 12.0,
+  //                           color: AppColors.primary,
+  //                           fontWeight: FontWeight.w400,
+  //                         ),
+  //                       ),
+  //                       SizedBox(height: 8.0),
+  //                       Text(
+  //                         'AZ453D',
+  //                         style: TextStyle(
+  //                           fontSize: 14.0,
+  //                           color: AppColors.redColor,
+  //                           fontWeight: FontWeight.w500,
+  //                         ),
+  //                       ),
+  //                     ],
+  //                   )),
+  //             ],
+  //           ),
+  //           const SizedBox(height: 10),
+  //           Row(
+  //             crossAxisAlignment: CrossAxisAlignment.center,
+  //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //             children: [
+  //               Expanded(
+  //                 child: Column(
+  //                   crossAxisAlignment: CrossAxisAlignment.start,
+  //                   mainAxisAlignment: MainAxisAlignment.start,
+  //                   children: const [
+  //                     Text(
+  //                       'Name',
+  //                       style: TextStyle(
+  //                         fontSize: 12.0,
+  //                         color: AppColors.primary,
+  //                         fontWeight: FontWeight.w400,
+  //                       ),
+  //                     ),
+  //                     SizedBox(height: 8.0),
+  //                     Text(
+  //                       'Pramila',
+  //                       style: TextStyle(
+  //                         fontSize: 14.0,
+  //                         color: AppColors.primary,
+  //                         fontWeight: FontWeight.w600,
+  //                       ),
+  //                     ),
+  //                   ],
+  //                 ),
+  //               ),
+  //               Image.asset(
+  //                 AppImages.eyeClose,
+  //                 width: 50,
+  //                 height: 50,
+  //                 scale: 0.10,
+  //               ),
+  //             ],
+  //           ),
+  //           const SizedBox(height: 20),
+  //           Row(
+  //             crossAxisAlignment: CrossAxisAlignment.center,
+  //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //             children: [
+  //               Expanded(
+  //                 child: Column(
+  //                   crossAxisAlignment: CrossAxisAlignment.start,
+  //                   mainAxisAlignment: MainAxisAlignment.start,
+  //                   children: const [
+  //                     Text(
+  //                       'Last name',
+  //                       style: TextStyle(
+  //                         fontSize: 12.0,
+  //                         color: AppColors.primary,
+  //                         fontWeight: FontWeight.w400,
+  //                       ),
+  //                     ),
+  //                     SizedBox(height: 8.0),
+  //                     Text(
+  //                       'Niroshan',
+  //                       style: TextStyle(
+  //                         fontSize: 14.0,
+  //                         color: AppColors.primary,
+  //                         fontWeight: FontWeight.w600,
+  //                       ),
+  //                     ),
+  //                   ],
+  //                 ),
+  //               ),
+  //               //SvgPicture.asset(AppImages.deleteDisableIcon),
+  //               Image.asset(
+  //                 AppImages.deleteBlue,
+  //                 width: 50,
+  //                 height: 50,
+  //                 scale: 0.10,
+  //               ),
+  //             ],
+  //           ),
+  //           const SizedBox(height: 20),
+  //           Row(
+  //             crossAxisAlignment: CrossAxisAlignment.center,
+  //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //             children: [
+  //               Expanded(
+  //                 child: Column(
+  //                   crossAxisAlignment: CrossAxisAlignment.start,
+  //                   mainAxisAlignment: MainAxisAlignment.start,
+  //                   children: const [
+  //                     Text(
+  //                       'Email',
+  //                       style: TextStyle(
+  //                         fontSize: 12.0,
+  //                         color: AppColors.primary,
+  //                         fontWeight: FontWeight.w400,
+  //                       ),
+  //                     ),
+  //                     SizedBox(height: 8.0),
+  //                     Text(
+  //                       'pramila@dota2.com',
+  //                       style: TextStyle(
+  //                         fontSize: 14.0,
+  //                         color: AppColors.primary,
+  //                         fontWeight: FontWeight.w400,
+  //                       ),
+  //                     ),
+  //                   ],
+  //                 ),
+  //               ),
+  //               //SvgPicture.asset(AppImages.deleteDisableIcon),
+  //               Image.asset(
+  //                 AppImages.editIcon,
+  //                 width: 50,
+  //                 height: 50,
+  //                 scale: 0.10,
+  //               ),
+  //             ],
+  //           ),
+  //           Row(
+  //             mainAxisAlignment: MainAxisAlignment.start,
+  //             children: [
+  //               Expanded(
+  //                   flex: 1,
+  //                   child: Column(
+  //                     mainAxisAlignment: MainAxisAlignment.start,
+  //                     crossAxisAlignment: CrossAxisAlignment.start,
+  //                     children: const [
+  //                       Text(
+  //                         'Mobile n°',
+  //                         style: TextStyle(
+  //                           fontSize: 12.0,
+  //                           color: AppColors.primary,
+  //                           fontWeight: FontWeight.w400,
+  //                         ),
+  //                       ),
+  //                       SizedBox(height: 8.0),
+  //                       Text(
+  //                         '0711844200',
+  //                         style: TextStyle(
+  //                           fontSize: 14.0,
+  //                           color: AppColors.primary,
+  //                           fontWeight: FontWeight.w400,
+  //                         ),
+  //                       ),
+  //                     ],
+  //                   )),
+  //             ],
+  //           ),
+  //         ],
+  //       ),
+  //     );
 }
