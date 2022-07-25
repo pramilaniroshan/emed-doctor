@@ -227,7 +227,17 @@ class _AssistantsScreen extends State<AssistantsScreen> {
                 ),
                 isActive
                     ? TextButton(
-                        onPressed: () => {print('enable')},
+                        onPressed: () => {
+                          Get.defaultDialog(
+                              title: "Are you sure?",
+                              textConfirm: "Confirm",
+                              textCancel: "Cancel",
+                              barrierDismissible: false,
+                              radius: 0,
+                              middleText: '',
+                              buttonColor: AppColors.secondary,
+                              onConfirm: () => {print('enable')}),
+                        },
                         child: Image.asset(
                           AppImages.eyeIcon,
                           width: 50,
@@ -236,7 +246,17 @@ class _AssistantsScreen extends State<AssistantsScreen> {
                         ),
                       )
                     : TextButton(
-                        onPressed: () => {print('disable')},
+                        onPressed: () => {
+                          Get.defaultDialog(
+                              title: "Are you sure?",
+                              textConfirm: "Confirm",
+                              textCancel: "Cancel",
+                              barrierDismissible: false,
+                              radius: 0,
+                              middleText: '',
+                              buttonColor: AppColors.secondary,
+                              onConfirm: () => {print('disable')}),
+                        },
                         child: Image.asset(
                           AppImages.eyeClose,
                           width: 50,
@@ -278,7 +298,17 @@ class _AssistantsScreen extends State<AssistantsScreen> {
                 ),
                 //SvgPicture.asset(AppImages.deleteDisableIcon),
                 TextButton(
-                  onPressed: () => {print('delete')},
+                  onPressed: () => {
+                    Get.defaultDialog(
+                        title: "Are you sure?",
+                        textConfirm: "Confirm",
+                        textCancel: "Cancel",
+                        barrierDismissible: false,
+                        radius: 0,
+                        middleText: '',
+                        buttonColor: AppColors.secondary,
+                        onConfirm: () => {print('delete')}),
+                  },
                   child: Image.asset(
                     AppImages.deleteBlue,
                     width: 50,
