@@ -1,6 +1,5 @@
 import 'dart:typed_data';
 
-import 'package:bitmap/bitmap.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -27,7 +26,7 @@ class _ScanQrScreenState extends State<ScanQrScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final DoctorController doctorController = Get.put(DoctorController());
   Uint8List? qrData;
-  Bitmap? bitmap;
+  //Bitmap? bitmap;
 
   void getQrCode() async {
     print('Qr code');
@@ -44,7 +43,7 @@ class _ScanQrScreenState extends State<ScanQrScreen> {
       )
           .then((res) {
         setState(() {
-          bitmap = res.data;
+          //bitmap = res.data;
           qrData = res.data;
         });
       });
