@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:universal_html/html.dart' as html;
 
 import 'package:emedassistantmobile/config/app_colors.dart';
 import 'package:emedassistantmobile/config/app_images.dart';
@@ -27,6 +28,9 @@ class _ScanQrScreenState extends State<ScanQrScreen> {
   final DoctorController doctorController = Get.put(DoctorController());
   Uint8List? qrData;
   //Bitmap? bitmap;
+  String? profile;
+
+  html.Blob? blob;
 
   void getQrCode() async {
     print('Qr code');
@@ -36,16 +40,24 @@ class _ScanQrScreenState extends State<ScanQrScreen> {
       var dio = Dio();
       dio.options.headers["authorization"] = "Bearer " + token;
       await dio
+          //     .get(
+          //   Constants().getBaseUrl() +
+          //       '/Doctor/Availability/Qr?AvailabilityId=' +
+          //       'e68ec0e9-4a19-4d8a-a831-f0445908a1f2',
+          // )
           .get(
         Constants().getBaseUrl() +
-            '/Doctor/Availability/Qr?AvailabilityId=' +
-            'e68ec0e9-4a19-4d8a-a831-f0445908a1f2',
+            '/Doctor/c9b58d66-c817-4068-b330-0562d414d4b1/ProfilePicture',
       )
           .then((res) {
         setState(() {
+          //blob = html.Blob(res.data, 'image/jpeg ');
+
           //bitmap = res.data;
-          qrData = res.data;
+          // qrData = res.data;
+          profile = res.data;
         });
+        //print(html.Url.createObjectUrlFromBlob(blob!));
       });
     } on DioError catch (e) {
       print(e.response!.data);
@@ -84,6 +96,7 @@ class _ScanQrScreenState extends State<ScanQrScreen> {
         child: Stack(
           children: [
             Image.asset(AppImages.backTopImage),
+            Image.asset(profile!),
             Padding(
               padding:
                   const EdgeInsets.only(left: 40.0, right: 20.0, top: 12.0),
