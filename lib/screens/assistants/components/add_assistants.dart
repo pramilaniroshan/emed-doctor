@@ -295,7 +295,7 @@ class _AddAssistantsDialog extends State<AddAssistantsDialog> {
                     padding: const EdgeInsets.symmetric(vertical: 5.0),
                     child: CustomButton(
                       onTap: () {
-                        Get.to(const SettingsScreen());
+                        //Get.to(const SettingsScreen());
                       },
                       btnText: 'Publish',
                       width: 80.0,
