@@ -40,7 +40,7 @@ class _AssistantsScreen extends State<AssistantsScreen> {
         setState(() {
           assistants = res.data['Data']['Data'];
         });
-        print(assistants[0]);
+        //print(assistants[0]);
       });
     } on DioError catch (e) {
       print(e.response!.data);
