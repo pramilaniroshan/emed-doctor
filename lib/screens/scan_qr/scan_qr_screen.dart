@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:dio/dio.dart';
@@ -31,6 +32,8 @@ class _ScanQrScreenState extends State<ScanQrScreen> {
   String? profile;
 
   html.Blob? blob;
+  List<int>? list;
+  var image;
 
   void getQrCode() async {
     print('Qr code');
@@ -51,13 +54,17 @@ class _ScanQrScreenState extends State<ScanQrScreen> {
       )
           .then((res) {
         setState(() {
-          //blob = html.Blob(res.data, 'image/jpeg ');
-
           //bitmap = res.data;
           // qrData = res.data;
           profile = res.data;
+          list = utf8.encode(profile!);
+          Uint8List bytes = Uint8List.fromList(list!);
+          var image = base64Decode(profile ?? '');
+          blob = html.Blob([bytes], 'image/jpeg ');
         });
-        //print(html.Url.createObjectUrlFromBlob(blob!));
+        final url = html.Url.createObjectUrlFromBlob(blob!);
+        print(html.Url.createObjectUrlFromBlob(blob!));
+        html.Url.revokeObjectUrl(url);
       });
     } on DioError catch (e) {
       print(e.response!.data);
@@ -68,6 +75,7 @@ class _ScanQrScreenState extends State<ScanQrScreen> {
   void initState() {
     // TODO: implement initState
     getQrCode();
+    //list = utf8.encoder('profile');
   }
 
   @override
@@ -96,7 +104,8 @@ class _ScanQrScreenState extends State<ScanQrScreen> {
         child: Stack(
           children: [
             Image.asset(AppImages.backTopImage),
-            Image.asset(profile!),
+            //Text(blob. ?? 'QR code'),
+            list == null ? CircularProgressIndicator() : Image.memory(image),
             Padding(
               padding:
                   const EdgeInsets.only(left: 40.0, right: 20.0, top: 12.0),
