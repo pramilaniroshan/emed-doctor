@@ -29,7 +29,7 @@ class _ProLocationWidgetState extends State<ProLocationWidget> {
       _markers.add(
         const Marker(
           markerId: MarkerId('id-1'),
-          position: LatLng(30.587968, 60.814708),
+          position: LatLng(6.9271, 79.8612),
         ),
       );
     });
@@ -63,8 +63,8 @@ class _ProLocationWidgetState extends State<ProLocationWidget> {
                 onMapCreated: _onMapCreated,
                 markers: _markers,
                 initialCameraPosition: const CameraPosition(
-                  target: LatLng(30.587968, 60.814708),
-                  //zoom: 5,
+                  target: LatLng(6.9271, 79.8612),
+                  zoom: 12,
                 ),
               ),
             ),

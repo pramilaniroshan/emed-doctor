@@ -23,245 +23,247 @@ class DoctorDrawer extends StatelessWidget {
     return Drawer(
       backgroundColor: AppColors.white,
       elevation: 0.0,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          const SizedBox(height: 40.0),
-          Align(
-            alignment: Alignment.bottomRight,
-            child: IconButton(
-              onPressed: () {
-                Get.back();
+      child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            const SizedBox(height: 40.0),
+            Align(
+              alignment: Alignment.bottomRight,
+              child: IconButton(
+                onPressed: () {
+                  Get.back();
+                },
+                icon: SvgPicture.asset(
+                  AppImages.closeIcon,
+                ),
+              ),
+            ),
+            const SizedBox(height: 20.0),
+            ListTile(
+              onTap: () {
+                Get.to(const DoctorAppointmentScreen());
               },
-              icon: SvgPicture.asset(
-                AppImages.closeIcon,
-              ),
-            ),
-          ),
-          const SizedBox(height: 20.0),
-          ListTile(
-            onTap: () {
-              Get.to(const DoctorAppointmentScreen());
-            },
-            leading: Padding(
-              padding: const EdgeInsets.only(top: 6.0, left: 12.0),
-              child: Image.asset(AppImages.calendar),
-            ),
-            title: const Align(
-              alignment: Alignment(-1.4, 0),
-              child: Text(
-                'Appointments',
-                style: TextStyle(
-                  fontSize: 21.0,
-                  color: AppColors.black,
-                  fontWeight: FontWeight.w400,
-                ),
-              ),
-            ),
-          ),
-          ListTile(
-            onTap: () {
-              Get.to(CalendarScreen());
-            },
-            leading: Padding(
+              leading: Padding(
                 padding: const EdgeInsets.only(top: 6.0, left: 12.0),
-                child: Image.asset(AppImages.calendar)),
-            title: const Align(
-              alignment: Alignment(-1.3, 0),
-              child: Text(
-                'Planner',
-                style: TextStyle(
-                  fontSize: 21.0,
-                  color: AppColors.black,
-                  fontWeight: FontWeight.w400,
+                child: Image.asset(AppImages.calendar),
+              ),
+              title: const Align(
+                alignment: Alignment(-1.4, 0),
+                child: Text(
+                  'Appointments',
+                  style: TextStyle(
+                    fontSize: 21.0,
+                    color: AppColors.black,
+                    fontWeight: FontWeight.w400,
+                  ),
                 ),
               ),
             ),
-          ),
-          ListTile(
-            onTap: () {
-              Get.to(ScanQrScreen());
-            },
-            leading: Padding(
-              padding: const EdgeInsets.only(top: 6.0, left: 12.0),
-              child: Image.asset(AppImages.qr),
-            ),
-            title: const Align(
-              alignment: Alignment(-1.3, 0),
-              child: Text(
-                'My QRcode',
-                style: TextStyle(
-                  fontSize: 21.0,
-                  color: AppColors.black,
-                  fontWeight: FontWeight.w400,
+            ListTile(
+              onTap: () {
+                Get.to(CalendarScreen());
+              },
+              leading: Padding(
+                  padding: const EdgeInsets.only(top: 6.0, left: 12.0),
+                  child: Image.asset(AppImages.calendar)),
+              title: const Align(
+                alignment: Alignment(-1.3, 0),
+                child: Text(
+                  'Planner',
+                  style: TextStyle(
+                    fontSize: 21.0,
+                    color: AppColors.black,
+                    fontWeight: FontWeight.w400,
+                  ),
                 ),
               ),
             ),
-          ),
-          ListTile(
-            onTap: () {},
-            leading: Padding(
-              padding: const EdgeInsets.only(top: 6.0, left: 12.0),
-              child: Image.asset(AppImages.reports),
-            ),
-            title: const Align(
-              alignment: Alignment(-1.3, 0),
-              child: Text(
-                'Reports',
-                style: TextStyle(
-                  fontSize: 21.0,
-                  color: AppColors.black,
-                  fontWeight: FontWeight.w400,
+            ListTile(
+              onTap: () {
+                Get.to(ScanQrScreen());
+              },
+              leading: Padding(
+                padding: const EdgeInsets.only(top: 6.0, left: 12.0),
+                child: Image.asset(AppImages.qr),
+              ),
+              title: const Align(
+                alignment: Alignment(-1.3, 0),
+                child: Text(
+                  'My QRcode',
+                  style: TextStyle(
+                    fontSize: 21.0,
+                    color: AppColors.black,
+                    fontWeight: FontWeight.w400,
+                  ),
                 ),
               ),
             ),
-          ),
-          ListTile(
-            onTap: () {
-              Get.to(const AssistantsScreen());
-            },
-            leading: Padding(
-              padding: const EdgeInsets.only(top: 6.0, left: 12.0),
-              child: Image.asset(AppImages.assistants),
-            ),
-            title: const Align(
-              alignment: Alignment(-1.3, 0),
-              child: Text(
-                'Assistants',
-                style: TextStyle(
-                  fontSize: 21.0,
-                  color: AppColors.black,
-                  fontWeight: FontWeight.w400,
+            ListTile(
+              onTap: () {},
+              leading: Padding(
+                padding: const EdgeInsets.only(top: 6.0, left: 12.0),
+                child: Image.asset(AppImages.reports),
+              ),
+              title: const Align(
+                alignment: Alignment(-1.3, 0),
+                child: Text(
+                  'Reports',
+                  style: TextStyle(
+                    fontSize: 21.0,
+                    color: AppColors.black,
+                    fontWeight: FontWeight.w400,
+                  ),
                 ),
               ),
             ),
-          ),
-          ListTile(
-            onTap: () {},
-            leading: Padding(
-              padding: const EdgeInsets.only(top: 6.0, left: 12.0),
-              child: Image.asset(AppImages.doctors),
-            ),
-            title: const Align(
-              alignment: Alignment(-1.3, 0),
-              child: Text(
-                'Doctors',
-                style: TextStyle(
-                  fontSize: 21.0,
-                  color: AppColors.black,
-                  fontWeight: FontWeight.w400,
+            ListTile(
+              onTap: () {
+                Get.to(const AssistantsScreen());
+              },
+              leading: Padding(
+                padding: const EdgeInsets.only(top: 6.0, left: 12.0),
+                child: Image.asset(AppImages.assistants),
+              ),
+              title: const Align(
+                alignment: Alignment(-1.3, 0),
+                child: Text(
+                  'Assistants',
+                  style: TextStyle(
+                    fontSize: 21.0,
+                    color: AppColors.black,
+                    fontWeight: FontWeight.w400,
+                  ),
                 ),
               ),
             ),
-          ),
-          ListTile(
-            onTap: () {},
-            leading: Padding(
-              padding: const EdgeInsets.only(top: 6.0, left: 12.0),
-              child: Image.asset(AppImages.location),
-            ),
-            title: const Align(
-              alignment: Alignment(-1.3, 0),
-              child: Text(
-                'Locations',
-                style: TextStyle(
-                  fontSize: 21.0,
-                  color: AppColors.black,
-                  fontWeight: FontWeight.w400,
+            ListTile(
+              onTap: () {},
+              leading: Padding(
+                padding: const EdgeInsets.only(top: 6.0, left: 12.0),
+                child: Image.asset(AppImages.doctors),
+              ),
+              title: const Align(
+                alignment: Alignment(-1.3, 0),
+                child: Text(
+                  'Doctors',
+                  style: TextStyle(
+                    fontSize: 21.0,
+                    color: AppColors.black,
+                    fontWeight: FontWeight.w400,
+                  ),
                 ),
               ),
             ),
-          ),
-          ListTile(
-            onTap: () {},
-            leading: Padding(
-              padding: const EdgeInsets.only(top: 6.0, left: 12.0),
-              child: Image.asset(AppImages.messages),
-            ),
-            title: const Align(
-              alignment: Alignment(-1.3, 0),
-              child: Text(
-                'Messages',
-                style: TextStyle(
-                  fontSize: 21.0,
-                  color: AppColors.black,
-                  fontWeight: FontWeight.w400,
+            ListTile(
+              onTap: () {},
+              leading: Padding(
+                padding: const EdgeInsets.only(top: 6.0, left: 12.0),
+                child: Image.asset(AppImages.location),
+              ),
+              title: const Align(
+                alignment: Alignment(-1.3, 0),
+                child: Text(
+                  'Locations',
+                  style: TextStyle(
+                    fontSize: 21.0,
+                    color: AppColors.black,
+                    fontWeight: FontWeight.w400,
+                  ),
                 ),
               ),
             ),
-          ),
-          ListTile(
-            onTap: () {
-              Get.to(const SettingsScreen());
-            },
-            leading: Padding(
-              padding: const EdgeInsets.only(top: 6.0, left: 12.0),
-              child: Image.asset(AppImages.settings),
-            ),
-            title: const Align(
-              alignment: Alignment(-1.3, 0),
-              child: Text(
-                'Settings',
-                style: TextStyle(
-                  fontSize: 21.0,
-                  color: AppColors.black,
-                  fontWeight: FontWeight.w400,
+            ListTile(
+              onTap: () {},
+              leading: Padding(
+                padding: const EdgeInsets.only(top: 6.0, left: 12.0),
+                child: Image.asset(AppImages.messages),
+              ),
+              title: const Align(
+                alignment: Alignment(-1.3, 0),
+                child: Text(
+                  'Messages',
+                  style: TextStyle(
+                    fontSize: 21.0,
+                    color: AppColors.black,
+                    fontWeight: FontWeight.w400,
+                  ),
                 ),
               ),
             ),
-          ),
-          ListTile(
-            onTap: () async {
-              prefs = await SharedPreferences.getInstance();
-              prefs.clear();
-              EasyLoading.showSuccess('Done');
-              Get.to(const HomeScreen());
-            },
-            leading: Padding(
-              padding: const EdgeInsets.only(top: 6.0, left: 12.0),
-              child: Image.asset(AppImages.signOut),
-            ),
-            title: const Align(
-              alignment: Alignment(-1.3, 0),
-              child: Text(
-                'Sign off',
-                style: TextStyle(
-                  fontSize: 21.0,
-                  color: AppColors.black,
-                  fontWeight: FontWeight.w400,
+            ListTile(
+              onTap: () {
+                Get.to(const SettingsScreen());
+              },
+              leading: Padding(
+                padding: const EdgeInsets.only(top: 6.0, left: 12.0),
+                child: Image.asset(AppImages.settings),
+              ),
+              title: const Align(
+                alignment: Alignment(-1.3, 0),
+                child: Text(
+                  'Settings',
+                  style: TextStyle(
+                    fontSize: 21.0,
+                    color: AppColors.black,
+                    fontWeight: FontWeight.w400,
+                  ),
                 ),
               ),
             ),
-          ),
-          SizedBox(height: height * 0.06),
-          ListTile(
-            onTap: () {},
-            leading: Padding(
-              padding: const EdgeInsets.only(top: 6.0, left: 12.0),
-              child: SvgPicture.asset(
-                AppImages.globeIcon,
-                height: 13.0,
-                width: 13.0,
-                fit: BoxFit.scaleDown,
-                color: AppColors.secondary,
+            ListTile(
+              onTap: () async {
+                prefs = await SharedPreferences.getInstance();
+                prefs.clear();
+                EasyLoading.showSuccess('Done');
+                Get.to(const HomeScreen());
+              },
+              leading: Padding(
+                padding: const EdgeInsets.only(top: 6.0, left: 12.0),
+                child: Image.asset(AppImages.signOut),
               ),
-            ),
-            title: const Align(
-              alignment: Alignment(-1.1, 0),
-              child: Text(
-                'English',
-                style: TextStyle(
-                  fontSize: 16.0,
-                  color: AppColors.black,
-                  fontWeight: FontWeight.w400,
+              title: const Align(
+                alignment: Alignment(-1.3, 0),
+                child: Text(
+                  'Sign off',
+                  style: TextStyle(
+                    fontSize: 21.0,
+                    color: AppColors.black,
+                    fontWeight: FontWeight.w400,
+                  ),
                 ),
               ),
             ),
-            trailing: const Icon(Icons.keyboard_arrow_down_outlined,
-                color: AppColors.black),
-          ),
-        ],
+            SizedBox(height: height * 0.06),
+            ListTile(
+              onTap: () {},
+              leading: Padding(
+                padding: const EdgeInsets.only(top: 6.0, left: 12.0),
+                child: SvgPicture.asset(
+                  AppImages.globeIcon,
+                  height: 13.0,
+                  width: 13.0,
+                  fit: BoxFit.scaleDown,
+                  color: AppColors.secondary,
+                ),
+              ),
+              title: const Align(
+                alignment: Alignment(-1.1, 0),
+                child: Text(
+                  'English',
+                  style: TextStyle(
+                    fontSize: 16.0,
+                    color: AppColors.black,
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
+              ),
+              trailing: const Icon(Icons.keyboard_arrow_down_outlined,
+                  color: AppColors.black),
+            ),
+          ],
+        ),
       ),
     );
   }
