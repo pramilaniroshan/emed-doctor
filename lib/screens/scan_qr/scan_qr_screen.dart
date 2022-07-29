@@ -59,7 +59,7 @@ class _ScanQrScreenState extends State<ScanQrScreen> {
           profile = res.data;
           list = utf8.encode(profile!);
           Uint8List bytes = Uint8List.fromList(list!);
-          var image = base64Decode(profile ?? '');
+          //var image = base64Decode(profile ?? '');
           blob = html.Blob([bytes], 'image/jpeg ');
         });
         final url = html.Url.createObjectUrlFromBlob(blob!);
@@ -109,104 +109,106 @@ class _ScanQrScreenState extends State<ScanQrScreen> {
             Padding(
               padding:
                   const EdgeInsets.only(left: 40.0, right: 20.0, top: 12.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      SvgPicture.asset(
-                        AppImages.eMedLogo,
-                        color: AppColors.white,
-                        width: width * 0.3,
-                      ),
-                      const SizedBox(width: 16.0),
-                      const Text(
-                        'Your medical assistant solution',
-                        style: TextStyle(
-                          fontSize: 12.0,
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        SvgPicture.asset(
+                          AppImages.eMedLogo,
                           color: AppColors.white,
+                          width: width * 0.3,
                         ),
+                        const SizedBox(width: 16.0),
+                        const Text(
+                          'Your medical assistant solution',
+                          style: TextStyle(
+                            fontSize: 12.0,
+                            color: AppColors.white,
+                          ),
+                        ),
+                      ],
+                    ),
+
+                    /// doctor name
+                    const SizedBox(height: 20.0),
+                    //Image.memory(qrData!),
+                    Text(
+                      'Dr ' +
+                          doctorController.firstName +
+                          ' ' +
+                          doctorController.lastName!,
+                      style: const TextStyle(
+                        fontSize: 28.0,
+                        color: AppColors.white,
+                        fontWeight: FontWeight.w400,
                       ),
-                    ],
-                  ),
-
-                  /// doctor name
-                  const SizedBox(height: 20.0),
-                  //Image.memory(qrData!),
-                  Text(
-                    'Dr ' +
-                        doctorController.firstName +
-                        ' ' +
-                        doctorController.lastName!,
-                    style: const TextStyle(
-                      fontSize: 28.0,
-                      color: AppColors.white,
-                      fontWeight: FontWeight.w400,
                     ),
-                  ),
-                  const SizedBox(height: 3.0),
-                  Text(
-                    doctorController.description!,
-                    style: const TextStyle(
-                      fontSize: 10.0,
-                      color: AppColors.white,
-                    ),
-                  ),
-
-                  /// specialist
-                  const SizedBox(height: 10.0),
-                  Text(
-                    doctorController.address!,
-                    style: const TextStyle(
-                      fontSize: 14.0,
-                      color: AppColors.white,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                  const SizedBox(height: 3.0),
-                  Text(
-                    doctorController.address!,
-                    style: const TextStyle(
-                      fontSize: 10.0,
-                      color: AppColors.white,
-                    ),
-                  ),
-
-                  /// qr code image
-                  const SizedBox(height: 20.0),
-                  Image.asset(
-                    AppImages.qrCodeImage,
-                    width: width,
-                    height: height * 0.44,
-                    fit: BoxFit.fill,
-                  ),
-
-                  /// use camera text
-                  const SizedBox(height: 20.0),
-                  const Text(
-                    'Use the camera of your mobile phone to scan the QRcode above '
-                    'to easily book an appointment.',
-                    style: TextStyle(
-                      fontSize: 13.0,
-                      color: AppColors.lightBlack,
-                    ),
-                  ),
-
-                  /// powered by text
-                  const SizedBox(height: 20.0),
-                  const Align(
-                    alignment: Alignment.centerRight,
-                    child: Text(
-                      'Powered by emedassistant.com',
-                      style: TextStyle(
+                    const SizedBox(height: 3.0),
+                    Text(
+                      doctorController.description!,
+                      style: const TextStyle(
                         fontSize: 10.0,
+                        color: AppColors.white,
+                      ),
+                    ),
+
+                    /// specialist
+                    const SizedBox(height: 10.0),
+                    Text(
+                      doctorController.address!,
+                      style: const TextStyle(
+                        fontSize: 14.0,
+                        color: AppColors.white,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    const SizedBox(height: 3.0),
+                    Text(
+                      doctorController.address!,
+                      style: const TextStyle(
+                        fontSize: 10.0,
+                        color: AppColors.white,
+                      ),
+                    ),
+
+                    /// qr code image
+                    const SizedBox(height: 20.0),
+                    Image.asset(
+                      AppImages.qrCodeImage,
+                      width: width,
+                      height: height * 0.44,
+                      fit: BoxFit.fill,
+                    ),
+
+                    /// use camera text
+                    const SizedBox(height: 20.0),
+                    const Text(
+                      'Use the camera of your mobile phone to scan the QRcode above '
+                      'to easily book an appointment.',
+                      style: TextStyle(
+                        fontSize: 13.0,
                         color: AppColors.lightBlack,
                       ),
                     ),
-                  ),
-                ],
+
+                    /// powered by text
+                    const SizedBox(height: 20.0),
+                    const Align(
+                      alignment: Alignment.centerRight,
+                      child: Text(
+                        'Powered by emedassistant.com',
+                        style: TextStyle(
+                          fontSize: 10.0,
+                          color: AppColors.lightBlack,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ],
