@@ -62,7 +62,7 @@ void getDoctorProfile() async {
         // prefs.setInt('CityId', res.data['Data']['CityId'] ?? 0);
         // prefs.setString('user', jsonEncode(res.data['Data']).toString());
         //print(jsonEncode(res.data['Data']));
-        print(res.data['Data']);
+      //  print(res.data['Data']);
       }
     });
   } on DioError catch (e) {

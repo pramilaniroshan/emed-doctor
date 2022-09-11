@@ -104,6 +104,27 @@ class _DoctorAppointmentScreenState extends State<DoctorAppointmentScreen> {
         setState(() {
           Appointments = res.data['Data']['Data'];
         });
+       // print(res.data);
+      });
+    } on DioError catch (e) {
+      print(e.response!.data);
+    }
+  }
+
+  void checkAvai() async {
+    print('Doctor Availability');
+    prefs = await SharedPreferences.getInstance();
+    String token = prefs.getString("token") ?? '';
+    try {
+      var dio = Dio();
+      dio.options.headers["authorization"] = "Bearer " + token;
+      await dio
+          .get(
+        Constants().getBaseUrl() + '/Doctor/Availability?StartTime=2022-09-6',
+        
+      )
+          .then((res) {
+        print(res.data);
       });
     } on DioError catch (e) {
       print(e.response!.data);
@@ -115,6 +136,7 @@ class _DoctorAppointmentScreenState extends State<DoctorAppointmentScreen> {
     super.initState();
     getDoctorProfile();
     getApp();
+    checkAvai();
   }
 
   @override
@@ -174,7 +196,7 @@ class _DoctorAppointmentScreenState extends State<DoctorAppointmentScreen> {
                   child: CustomButton(
                     onTap: () {
                       //Get.dialog(PlannerAddDialog(DateTime.now()));
-                      doctorController.setFirstname('Niroshan');
+                      //doctorController.setFirstname('Niroshan');
                     },
                     btnText: 'Today',
                     btnColor: AppColors.white,

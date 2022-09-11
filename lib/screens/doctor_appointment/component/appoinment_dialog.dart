@@ -1,9 +1,14 @@
+import 'package:dio/dio.dart';
 import 'package:emedassistantmobile/screens/settings/setting_screen.dart';
 import 'package:emedassistantmobile/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 
 import 'package:emedassistantmobile/config/app_colors.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../../config/constants.dart';
 
 class AppointmentDialog extends StatefulWidget {
   const AppointmentDialog({Key? key}) : super(key: key);
@@ -13,8 +18,37 @@ class AppointmentDialog extends StatefulWidget {
 }
 
 class _AppointmentDialogState extends State<AppointmentDialog> {
-
   TextEditingController customMessageController = TextEditingController();
+  late SharedPreferences prefs;
+  String lateBy = '00:00:00';
+
+  void doctorDelayNotification() async {
+    print('Doctor Late');
+    prefs = await SharedPreferences.getInstance();
+    String token = prefs.getString("token") ?? '';
+    try {
+      EasyLoading.show();
+      print(lateBy);
+      var dio = Dio();
+      dio.options.headers["authorization"] = "Bearer " + token;
+      await dio.post(
+          Constants().getBaseUrl() + '/Doctor/AppointmentDelayNotification',
+          data: {
+            "AvailabilityId": "c4cb592d-69e2-4883-9b00-fb137d5ec045",
+            "DelayedBy": lateBy,
+            "Note": customMessageController.text,
+          }).then((res) {
+        EasyLoading.dismiss();
+        EasyLoading.showSuccess('Done');
+        Get.back();
+      });
+    } on DioError catch (e) {
+      EasyLoading.dismiss();
+     // print(e.response!.data);
+      EasyLoading.showError(
+          e.response?.data["Error"] ?? 'Something went wrong');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +71,8 @@ class _AppointmentDialogState extends State<AppointmentDialog> {
               const Center(
                 child: Padding(
                   padding: EdgeInsets.symmetric(vertical: 16.0),
-                  child: Text('Late announcement',
+                  child: Text(
+                    'Late announcement',
                     style: TextStyle(
                       fontSize: 17.0,
                       color: AppColors.black,
@@ -58,31 +93,57 @@ class _AppointmentDialogState extends State<AppointmentDialog> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-
                       /// set the delay
-                      const Text('Set the delay',
-                      style: TextStyle(
-                        fontSize: 15.0,
-                        color: AppColors.lightBlack,
-                        fontWeight: FontWeight.w500,
-                      ),
+                      const Text(
+                        'Set the delay',
+                        style: TextStyle(
+                          fontSize: 15.0,
+                          color: AppColors.lightBlack,
+                          fontWeight: FontWeight.w500,
+                        ),
                       ),
                       const SizedBox(height: 8.0),
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          delayBox(AppColors.secondary, '10 min', AppColors.secondary),
-                          delayBox(AppColors.primary, '20 min', AppColors.black),
-                          delayBox(AppColors.primary, '30 min', AppColors.black),
-                          delayBox(AppColors.primary, '45 min', AppColors.black),
-                          delayBox(AppColors.primary, '60 min', AppColors.black),
+                          delayBox(lateBy == '00:00:10' ? AppColors.secondary : AppColors.primary, '10 min',
+                              lateBy == '00:00:45' ? AppColors.secondary : lateBy == '00:00:10' ? AppColors.secondary : AppColors.black, ()=>{
+                                setState(() {
+                                  lateBy = '00:00:10';
+                                })
+                              }),
+                          delayBox(
+                              lateBy == '00:00:20' ? AppColors.secondary : AppColors.primary, '20 min', lateBy == '00:00:20' ? AppColors.secondary : AppColors.black,()=>{
+                                setState(() {
+                                  lateBy = '00:00:20';
+                                })
+                              }),
+                          delayBox(
+                              lateBy == '00:00:30' ? AppColors.secondary : AppColors.primary, '30 min' ,lateBy == '00:00:30' ? AppColors.secondary : AppColors.black,()=>{
+                                setState(() {
+                                  lateBy = '00:00:30';
+                                })
+                              }),
+                          delayBox(
+                              lateBy == '00:00:45' ? AppColors.secondary : AppColors.primary, '45 min', lateBy == '00:00:45' ? AppColors.secondary : AppColors.black,()=>{
+                               setState(() {
+                                  lateBy = '00:00:45';
+                                })
+                              }),
+                          delayBox(
+                              lateBy == '00:01:00' ? AppColors.secondary : AppColors.primary, '60 min', lateBy == '00:01:00' ? AppColors.secondary : AppColors.black,()=>{
+                                setState(() {
+                                  lateBy = '00:01:00';
+                                })
+                              }),
                         ],
                       ),
 
                       /// select a preset message
                       const SizedBox(height: 24.0),
-                      const Text('Select a preset message',
+                      const Text(
+                        'Select a preset message',
                         style: TextStyle(
                           fontSize: 15.0,
                           color: AppColors.lightBlack,
@@ -106,7 +167,8 @@ class _AppointmentDialogState extends State<AppointmentDialog> {
                           children: const [
                             Text(''),
                             Spacer(),
-                            Icon(Icons.keyboard_arrow_down_rounded, color: AppColors.primary),
+                            Icon(Icons.keyboard_arrow_down_rounded,
+                                color: AppColors.primary),
                             SizedBox(width: 8.0),
                           ],
                         ),
@@ -114,7 +176,8 @@ class _AppointmentDialogState extends State<AppointmentDialog> {
 
                       /// or create a custom message
                       const SizedBox(height: 24.0),
-                      const Text('or create a custom message',
+                      const Text(
+                        'or create a custom message',
                         style: TextStyle(
                           fontSize: 15.0,
                           color: AppColors.lightBlack,
@@ -140,7 +203,8 @@ class _AppointmentDialogState extends State<AppointmentDialog> {
                           decoration: const InputDecoration(
                             border: InputBorder.none,
                             contentPadding: EdgeInsets.only(
-                              left: 16.0, top: 16.0,
+                              left: 16.0,
+                              top: 16.0,
                             ),
                           ),
                         ),
@@ -158,7 +222,7 @@ class _AppointmentDialogState extends State<AppointmentDialog> {
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 5.0),
                     child: CustomButton(
-                      onTap: (){
+                      onTap: () {
                         Get.back();
                       },
                       btnText: 'Cancel',
@@ -172,8 +236,8 @@ class _AppointmentDialogState extends State<AppointmentDialog> {
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 5.0),
                     child: CustomButton(
-                      onTap: (){
-                        Get.to(const SettingsScreen());
+                      onTap: () {
+                        doctorDelayNotification();
                       },
                       btnText: 'Publish',
                       width: 80.0,
@@ -189,19 +253,24 @@ class _AppointmentDialogState extends State<AppointmentDialog> {
     );
   }
 
-  Widget delayBox(borderColor, minText, textColor) => Container(
-    padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
-    decoration: BoxDecoration(
-      border: Border.all(
-        color: borderColor,
-        width: 1.0,
-      ),
-    ),
-    child: Text(minText,
-      style: TextStyle(
-        fontSize: 14.0,
-        color: textColor,
-      ),
-    ),
-  );
+  Widget delayBox(borderColor, minText, textColor, OnTap) => Container(
+    
+        padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
+        decoration: BoxDecoration(
+          border: Border.all(
+            color: borderColor,
+            width: 1.0,
+          ),
+        ),
+        child: InkWell(
+          onTap: OnTap,
+          child: Text(
+            minText,
+            style: TextStyle(
+              fontSize: 14.0,
+              color: textColor,
+            ),
+          ),
+        ),
+      );
 }

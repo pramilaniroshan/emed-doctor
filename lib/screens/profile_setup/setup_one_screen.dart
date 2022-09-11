@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:dropdown_button2/dropdown_button2.dart';
+import 'package:emedassistantmobile/screens/auth/home/home_screen.dart';
 import 'package:emedassistantmobile/screens/profile_setup/setup_two_screen.dart';
 import 'package:emedassistantmobile/screens/settings/setting_screen.dart';
 import 'package:file_picker/file_picker.dart';
@@ -49,6 +50,10 @@ class _ProfileSetupOneScreenState extends State<ProfileSetupOneScreen> {
   File? frontFile;
   String? frontFileName;
   File? backFile;
+  File? nicBackFile;
+   String? nicFrontFileName;
+  File? nicFrontFile;
+  String? nicBackFileName;
   String? backFileName;
   @override
   Widget build(BuildContext context) {
@@ -912,13 +917,242 @@ class _ProfileSetupOneScreenState extends State<ProfileSetupOneScreen> {
                     ),
                   ),
                   const SizedBox(height: 24.0),
-
+//                   const Text(
+//                     'Goverment Identity Card details \n(.jpg .png .pdf - max 5mb)',
+//                     style: TextStyle(
+//                       fontSize: 15.0,
+//                       color: AppColors.lightBlack,
+//                       fontWeight: FontWeight.w500,
+//                     ),
+//                   ),
+//                   const SizedBox(height: 12.0),
+//                   Container(
+//                     width: width,
+//                     padding: const EdgeInsets.only(
+//                         left: 8.0, bottom: 16.0, top: 16.0),
+//                     decoration: BoxDecoration(
+//                       border: Border.all(
+//                         color: AppColors.primary,
+//                         width: 1.5,
+//                       ),
+//                       borderRadius: BorderRadius.circular(4.0),
+//                     ),
+//                     child: Row(
+//                       crossAxisAlignment: CrossAxisAlignment.center,
+//                       mainAxisAlignment: MainAxisAlignment.start,
+//                       children: [
+//                         nicFrontFile != null ?
+//                         Image.file(
+//                           nicFrontFile ?? File(AppImages.frontSideImage),
+//                           height: 40.0,
+//                           width: 60.0,
+//                           fit: BoxFit.fill,
+//                         ) : Image.asset(AppImages.frontSideImage,
+//               height: 40.0,
+//               width: 60.0,
+//               fit: BoxFit.fill,
+//             ),
+//                         const SizedBox(width: 8.0),
+//                         Expanded(
+//                           child: Text(
+//                             nicFrontFileName ?? 'front.png',
+//                             style: const TextStyle(
+//                               fontSize: 14.0,
+//                               color: AppColors.secondary,
+//                               fontWeight: FontWeight.w500,
+//                             ),
+//                           ),
+//                         ),
+//                         IconButton(
+//                           // Clear upload state
+//                           onPressed: () {
+//                             setState(() {
+//                               nicFrontFileName = null;
+//                               nicBackFileName = null;
+//                             });
+//                           },
+//                           icon: const Icon(Icons.delete_outline,
+//                               color: AppColors.primary),
+//                         ),
+//                       ],
+//                     ),
+//                   ),
+//                   const SizedBox(height: 24.0),
+//                   Material(
+//                     child: InkWell(
+//                       onTap: () async {
+//                         try {
+//                           FilePickerResult? result =
+//                               await FilePicker.platform.pickFiles(
+//                             type: FileType.custom,
+//                             allowedExtensions: ['jpg', 'png'],
+//                           );
+//                           if (result != null) {
+//                             setState(() {
+//                               file = result.files.first;
+//                               nicBackFileName = file!.name;
+//                               nicBackFile = File(file!.path.toString());
+//                             });
+//                             //print(file!.path);
+//                           } else {
+//                             // User canceled the picker
+//                           }
+//                         } catch (e) {
+//                           print(e);
+//                         }
+//                       },
+//                       borderRadius: BorderRadius.circular(4.0),
+//                       child: Ink(
+//                         padding: const EdgeInsets.symmetric(
+//                             horizontal: 12.0, vertical: 8.0),
+//                         decoration: BoxDecoration(
+//                           color: AppColors.white,
+//                           borderRadius: BorderRadius.circular(4.0),
+//                           border: Border.all(
+//                             color: AppColors.primary,
+//                             width: 1.5,
+//                           ),
+//                         ),
+//                         child: Row(
+//                           crossAxisAlignment: CrossAxisAlignment.center,
+//                           mainAxisAlignment: MainAxisAlignment.start,
+//                           mainAxisSize: MainAxisSize.min,
+//                           children: const [
+//                             Icon(Icons.upload_outlined,
+//                                 color: AppColors.black, size: 20.0),
+//                             SizedBox(width: 8.0),
+//                             Text(
+//                               'Click to Upload',
+//                               style: TextStyle(
+//                                 fontSize: 14.0,
+//                                 color: AppColors.black,
+//                                 fontWeight: FontWeight.w500,
+//                               ),
+//                             ),
+//                           ],
+//                         ),
+//                       ),
+//                     ),
+//                   ),
+// const SizedBox(height: 24.0),
+// Container(
+//                     width: width,
+//                     padding: const EdgeInsets.only(
+//                         left: 8.0, bottom: 16.0, top: 16.0),
+//                     decoration: BoxDecoration(
+//                       border: Border.all(
+//                         color: AppColors.primary,
+//                         width: 1.5,
+//                       ),
+//                       borderRadius: BorderRadius.circular(4.0),
+//                     ),
+//                     child: Row(
+//                       crossAxisAlignment: CrossAxisAlignment.center,
+//                       mainAxisAlignment: MainAxisAlignment.start,
+//                       children: [
+//                         frontFile != null ?
+//                         Image.file(
+//                           nicBackFile ?? File(AppImages.frontSideImage),
+//                           height: 40.0,
+//                           width: 60.0,
+//                           fit: BoxFit.fill,
+//                         ) : Image.asset(AppImages.frontSideImage,
+//               height: 40.0,
+//               width: 60.0,
+//               fit: BoxFit.fill,
+//             ),
+//                         const SizedBox(width: 8.0),
+//                         Expanded(
+//                           child: Text(
+//                             nicBackFileName ?? 'front.png',
+//                             style: const TextStyle(
+//                               fontSize: 14.0,
+//                               color: AppColors.secondary,
+//                               fontWeight: FontWeight.w500,
+//                             ),
+//                           ),
+//                         ),
+//                         IconButton(
+//                           // Clear upload state
+//                           onPressed: () {
+//                             setState(() {
+//                               nicBackFile = null;
+//                               nicBackFileName = null;
+//                             });
+//                           },
+//                           icon: const Icon(Icons.delete_outline,
+//                               color: AppColors.primary),
+//                         ),
+//                       ],
+//                     ),
+//                   ),
+//                   const SizedBox(height: 24.0),
+//                   Material(
+//                     child: InkWell(
+//                       onTap: () async {
+//                         try {
+//                           FilePickerResult? result =
+//                               await FilePicker.platform.pickFiles(
+//                             type: FileType.custom,
+//                             allowedExtensions: ['jpg', 'png'],
+//                           );
+//                           if (result != null) {
+//                             setState(() {
+//                               file = result.files.first;
+//                               frontFileName = file!.name;
+//                               nicFrontFile = File(file!.path.toString());
+//                             });
+//                             print(file!.name);
+//                             //print(file!.path);
+//                           } else {
+//                             // User canceled the picker
+//                           }
+//                         } catch (e) {
+//                           print(e);
+//                         }
+//                       },
+//                       borderRadius: BorderRadius.circular(4.0),
+//                       child: Ink(
+//                         padding: const EdgeInsets.symmetric(
+//                             horizontal: 12.0, vertical: 8.0),
+//                         decoration: BoxDecoration(
+//                           color: AppColors.white,
+//                           borderRadius: BorderRadius.circular(4.0),
+//                           border: Border.all(
+//                             color: AppColors.primary,
+//                             width: 1.5,
+//                           ),
+//                         ),
+//                         child: Row(
+//                           crossAxisAlignment: CrossAxisAlignment.center,
+//                           mainAxisAlignment: MainAxisAlignment.start,
+//                           mainAxisSize: MainAxisSize.min,
+//                           children: const [
+//                             Icon(Icons.upload_outlined,
+//                                 color: AppColors.black, size: 20.0),
+//                             SizedBox(width: 8.0),
+//                             Text(
+//                               'Click to Upload',
+//                               style: TextStyle(
+//                                 fontSize: 14.0,
+//                                 color: AppColors.black,
+//                                 fontWeight: FontWeight.w500,
+//                               ),
+//                             ),
+//                           ],
+//                         ),
+//                       ),
+//                     ),
+//                   ),
+                  const SizedBox(height: 24.0),
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       CustomButton(
-                        onTap: () {},
+                        onTap: () {
+                          Get.to(const HomeScreen());
+                        },
                         btnText: 'Cancel',
                         width: 80.0,
                         height: 36.0,
@@ -930,7 +1164,7 @@ class _ProfileSetupOneScreenState extends State<ProfileSetupOneScreen> {
                       const SizedBox(width: 16.0),
                       CustomButton(
                         onTap: () {
-                          Get.to(const ProfileSetupTwoScreen());
+                          Get.to(ProfileSetupTwoScreen(nameController.text,lastNameController.text,emailController.text ,selectedCountryCode ,mobileNumberController.text,frontFile,backFile, double.parse(slmcNumberController.text),nicNumberController.text));
                         },
                         btnText: 'Next',
                         width: 80.0,
