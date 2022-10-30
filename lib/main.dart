@@ -1,6 +1,6 @@
-import 'package:emedassistantmobile/config/app_images.dart';
-import 'package:emedassistantmobile/screens/auth/home/home_screen.dart';
-import 'package:emedassistantmobile/screens/doctor_appointment/doctor_appointment_screen.dart';
+import 'package:emedDoctor/config/app_images.dart';
+import 'package:emedDoctor/screens/auth/home/home_screen.dart';
+import 'package:emedDoctor/screens/doctor_appointment/doctor_appointment_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';

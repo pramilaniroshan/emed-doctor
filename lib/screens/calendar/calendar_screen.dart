@@ -1,8 +1,8 @@
 import 'package:dio/dio.dart';
-import 'package:emedassistantmobile/config/app_colors.dart';
-import 'package:emedassistantmobile/screens/calendar/component/plannerAdd.dart';
-import 'package:emedassistantmobile/widgets/drawer.dart';
-import 'package:emedassistantmobile/widgets/user_avatar.dart';
+import 'package:emedDoctor/config/app_colors.dart';
+import 'package:emedDoctor/screens/calendar/component/plannerAdd.dart';
+import 'package:emedDoctor/widgets/drawer.dart';
+import 'package:emedDoctor/widgets/user_avatar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';

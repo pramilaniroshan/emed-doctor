@@ -1,17 +1,17 @@
-import 'package:emedassistantmobile/screens/assistants/assistansts.dart';
-import 'package:emedassistantmobile/screens/auth/home/home_screen.dart';
-import 'package:emedassistantmobile/screens/calendar/calendar_screen.dart';
-import 'package:emedassistantmobile/screens/doctor_appointment/doctor_appointment_screen.dart';
-import 'package:emedassistantmobile/screens/scan_qr/scan_qr_screen.dart';
-import 'package:emedassistantmobile/screens/settings/setting_screen.dart';
+import 'package:emedDoctor/screens/assistants/assistansts.dart';
+import 'package:emedDoctor/screens/auth/home/home_screen.dart';
+import 'package:emedDoctor/screens/calendar/calendar_screen.dart';
+import 'package:emedDoctor/screens/doctor_appointment/doctor_appointment_screen.dart';
+import 'package:emedDoctor/screens/scan_qr/scan_qr_screen.dart';
+import 'package:emedDoctor/screens/settings/setting_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'package:emedassistantmobile/config/app_colors.dart';
-import 'package:emedassistantmobile/config/app_images.dart';
+import 'package:emedDoctor/config/app_colors.dart';
+import 'package:emedDoctor/config/app_images.dart';
 
 class DoctorDrawer extends StatelessWidget {
   late SharedPreferences prefs;
@@ -217,7 +217,7 @@ class DoctorDrawer extends StatelessWidget {
                 prefs = await SharedPreferences.getInstance();
                 prefs.clear();
                 EasyLoading.showSuccess('Done');
-                Get.to(const HomeScreen());
+                Get.offAll(const HomeScreen());
               },
               leading: Padding(
                 padding: const EdgeInsets.only(top: 6.0, left: 12.0),

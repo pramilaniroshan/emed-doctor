@@ -1,5 +1,5 @@
 
-import 'package:emedassistantmobile/config/app_colors.dart';
+import 'package:emedDoctor/config/app_colors.dart';
 import 'package:flutter/material.dart';
 
 class CustomButton extends StatelessWidget {

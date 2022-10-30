@@ -1,7 +1,7 @@
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 
-import 'package:emedassistantmobile/config/app_colors.dart';
+import 'package:emedDoctor/config/app_colors.dart';
 import 'date_row.dart';
 
 class ExpandDates extends StatefulWidget {

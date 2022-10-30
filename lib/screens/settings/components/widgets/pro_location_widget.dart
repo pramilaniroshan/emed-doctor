@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 
-import 'package:emedassistantmobile/config/app_colors.dart';
-import 'package:emedassistantmobile/widgets/custom_button.dart';
+import 'package:emedDoctor/config/app_colors.dart';
+import 'package:emedDoctor/widgets/custom_button.dart';
 
 class ProLocationWidget extends StatefulWidget {
   final String? locationNameText;

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import 'package:emedassistantmobile/config/app_colors.dart';
-import 'package:emedassistantmobile/screens/book_an_appointment/patient_booking_screen.dart';
+import 'package:emedDoctor/config/app_colors.dart';
+import 'package:emedDoctor/screens/book_an_appointment/patient_booking_screen.dart';
 
 class DateRow extends StatelessWidget {
   final String? dayText;

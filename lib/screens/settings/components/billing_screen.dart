@@ -1,7 +1,7 @@
-import 'package:emedassistantmobile/widgets/custom_button.dart';
+import 'package:emedDoctor/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
 
-import 'package:emedassistantmobile/config/app_colors.dart';
+import 'package:emedDoctor/config/app_colors.dart';
 
 class BillingScreen extends StatefulWidget {
   const BillingScreen({Key? key}) : super(key: key);

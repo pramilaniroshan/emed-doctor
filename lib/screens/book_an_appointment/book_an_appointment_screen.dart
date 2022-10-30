@@ -1,6 +1,6 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
-import 'package:emedassistantmobile/screens/scan_qr/scan_qr_screen.dart';
-import 'package:emedassistantmobile/widgets/custom_button.dart';
+import 'package:emedDoctor/screens/scan_qr/scan_qr_screen.dart';
+import 'package:emedDoctor/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -9,8 +9,8 @@ import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:dio/dio.dart';
 
-import 'package:emedassistantmobile/config/app_colors.dart';
-import 'package:emedassistantmobile/config/app_images.dart';
+import 'package:emedDoctor/config/app_colors.dart';
+import 'package:emedDoctor/config/app_images.dart';
 import '../../config/constants.dart';
 import '../../widgets/custom_field.dart';
 import 'components/doctor_availability_dialog.dart';

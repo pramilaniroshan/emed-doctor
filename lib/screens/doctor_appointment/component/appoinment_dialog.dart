@@ -1,11 +1,11 @@
 import 'package:dio/dio.dart';
-import 'package:emedassistantmobile/screens/settings/setting_screen.dart';
-import 'package:emedassistantmobile/widgets/custom_button.dart';
+import 'package:emedDoctor/screens/settings/setting_screen.dart';
+import 'package:emedDoctor/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 
-import 'package:emedassistantmobile/config/app_colors.dart';
+import 'package:emedDoctor/config/app_colors.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../config/constants.dart';

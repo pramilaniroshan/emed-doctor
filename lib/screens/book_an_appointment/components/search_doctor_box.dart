@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 
-import 'package:emedassistantmobile/config/app_colors.dart';
-import 'package:emedassistantmobile/config/app_images.dart';
+import 'package:emedDoctor/config/app_colors.dart';
+import 'package:emedDoctor/config/app_images.dart';
 import 'expand_dates.dart';
 
 class SearchDoctorBox extends StatelessWidget {

@@ -1,10 +1,10 @@
-import 'package:emedassistantmobile/screens/settings/components/widgets/map_box.dart';
+import 'package:emedDoctor/screens/settings/components/widgets/map_box.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 
-import 'package:emedassistantmobile/config/app_colors.dart';
-import 'package:emedassistantmobile/config/app_images.dart';
+import 'package:emedDoctor/config/app_colors.dart';
+import 'package:emedDoctor/config/app_images.dart';
 import '../../../widgets/custom_button.dart';
 import '../../../widgets/custom_field.dart';
 import 'widgets/pro_location_widget.dart';

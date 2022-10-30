@@ -1,15 +1,15 @@
-import 'package:emedassistantmobile/screens/settings/components/locations_screen.dart';
-import 'package:emedassistantmobile/screens/settings/components/s_profile_screen.dart';
-import 'package:emedassistantmobile/screens/settings/components/specialities_screen.dart';
-import 'package:emedassistantmobile/widgets/drawer.dart';
+import 'package:emedDoctor/screens/settings/components/locations_screen.dart';
+import 'package:emedDoctor/screens/settings/components/s_profile_screen.dart';
+import 'package:emedDoctor/screens/settings/components/specialities_screen.dart';
+import 'package:emedDoctor/widgets/drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:dio/dio.dart';
 
-import 'package:emedassistantmobile/config/app_colors.dart';
-import 'package:emedassistantmobile/config/app_images.dart';
+import 'package:emedDoctor/config/app_colors.dart';
+import 'package:emedDoctor/config/app_images.dart';
 import '../../controller/doctorController.dart';
 import '../../widgets/user_avatar.dart';
 import 'components/billing_screen.dart';

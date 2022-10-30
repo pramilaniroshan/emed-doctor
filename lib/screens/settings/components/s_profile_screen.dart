@@ -1,13 +1,13 @@
-import 'package:emedassistantmobile/services/get_doctor_profile.dart';
-import 'package:emedassistantmobile/widgets/toast.dart';
+import 'package:emedDoctor/services/get_doctor_profile.dart';
+import 'package:emedDoctor/widgets/toast.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:dio/dio.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
-import 'package:emedassistantmobile/config/app_colors.dart';
-import 'package:emedassistantmobile/config/app_images.dart';
+import 'package:emedDoctor/config/app_colors.dart';
+import 'package:emedDoctor/config/app_images.dart';
 import '../../../config/constants.dart';
 import '../../../widgets/custom_button.dart';
 import '../../../widgets/toast.dart';

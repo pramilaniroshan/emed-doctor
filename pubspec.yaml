@@ -1,4 +1,4 @@
-name: emedassistantmobile
+name: emedDoctor
 description: A new Flutter project.
 
 # The following line prevents the package from being accidentally published to
@@ -74,6 +74,10 @@ dev_dependencies:
   # rules and activating additional ones.
   flutter_lints: ^1.0.0
 
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/icons/ic_launcher.png"
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 

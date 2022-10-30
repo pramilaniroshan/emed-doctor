@@ -1,8 +1,8 @@
-import 'package:emedassistantmobile/widgets/custom_button.dart';
+import 'package:emedDoctor/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import 'package:emedassistantmobile/config/app_colors.dart';
+import 'package:emedDoctor/config/app_colors.dart';
 
 class AddAssistantsDialog extends StatefulWidget {
   const AddAssistantsDialog({Key? key}) : super(key: key);

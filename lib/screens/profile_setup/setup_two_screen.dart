@@ -1,16 +1,16 @@
 import 'package:chips_choice/chips_choice.dart';
 import 'package:dio/dio.dart';
-import 'package:emedassistantmobile/screens/doctor_appointment/doctor_appointment_screen.dart';
-import 'package:emedassistantmobile/screens/profile/create_profile_screen.dart';
-import 'package:emedassistantmobile/screens/profile_setup/components/speciality_box.dart';
+import 'package:emedDoctor/screens/doctor_appointment/doctor_appointment_screen.dart';
+import 'package:emedDoctor/screens/profile/create_profile_screen.dart';
+import 'package:emedDoctor/screens/profile_setup/components/speciality_box.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_svg/svg.dart';
 import 'dart:io';
 import 'package:get/get.dart' hide FormData, MultipartFile;
 
-import 'package:emedassistantmobile/config/app_colors.dart';
-import 'package:emedassistantmobile/config/app_images.dart';
+import 'package:emedDoctor/config/app_colors.dart';
+import 'package:emedDoctor/config/app_images.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../config/constants.dart';
 import '../../widgets/custom_button.dart';
@@ -24,7 +24,7 @@ class ProfileSetupTwoScreen extends StatefulWidget {
   String? email;
   File? backFile;
   File? frontFile;
-  double ? regNo;
+  num ? regNo;
   String? nID;
   
   ProfileSetupTwoScreen(this.firstName,this.lastName,this.email ,this.countryCode, this.phoneNumber ,this.frontFile, this.backFile, this.regNo ,this.nID ,{Key? key}) : super(key: key);
@@ -72,7 +72,7 @@ class _ProfileSetupTwoScreenState extends State<ProfileSetupTwoScreen> {
  'CityId': null,
  'GovDoctorRegNo': widget.regNo,
  'NationalIdentificationNumber': widget.nID,
- 'NicFrontPic': await MultipartFile.fromFile(widget.backFile!.path,filename: widget.backFile!.path.split('/').last),
+ 'NicFrontPic': await MultipartFile.fromFile(widget.frontFile!.path,filename: widget.backFile!.path.split('/').last),
  'DoctorSpecializations': 'wendux',
  'GovDoctorIdentityPicFront': await MultipartFile.fromFile(widget.backFile!.path,filename: widget.backFile!.path.split('/').last),
  'Address': 'wendux',
@@ -86,11 +86,11 @@ class _ProfileSetupTwoScreenState extends State<ProfileSetupTwoScreen> {
 });
 
     prefs = await SharedPreferences.getInstance();
-    String token = prefs.getString("token") ?? '';
+    //String token = prefs.getString("token") ?? '';
     try {
       EasyLoading.show();
       var dio = Dio();
-      dio.options.headers["authorization"] = "Bearer " + token;
+      //dio.options.headers["authorization"] = "Bearer " + token;
       await dio
           .post(
         Constants().getBaseUrl() + '/Registration/Doctor',data: formData
@@ -98,14 +98,11 @@ class _ProfileSetupTwoScreenState extends State<ProfileSetupTwoScreen> {
           .then((res) {
             EasyLoading.dismiss();
             print(res.data);
-        // setState(() {
-        //   Appointments = res.data['Data']['Data'];
-        // });
         Get.defaultDialog(
             backgroundColor: AppColors.lightBackground,
             radius: 2.0,
             title: '',
-            content: bottomSheetColumn(widget),
+            content: bottomSheetColumn(width),
           );
       });
     } on DioError catch (e) {
@@ -144,6 +141,39 @@ class _ProfileSetupTwoScreenState extends State<ProfileSetupTwoScreen> {
          e.response!.data["Error"] ?? 'Something went wrong');
       // showErrorToast(
       //     fToast: fToast, isError: true, msg: e.response!.data['Error']);
+    }
+  }
+
+  void loginResend() async {
+    try {
+       EasyLoading.show();
+      var dio = Dio();
+      await dio
+          .post(Constants().getBaseUrl() + '/Authentication/Login-init', data: {
+        "Username": widget.email,
+        "UserLoginType": 0,
+        "CountryCode": 210,
+        "Application": 1
+      }).then((res) {
+        if (res.statusCode == 200) {
+          EasyLoading.dismiss();
+          // showErrorToast(fToast: fToast, isError: false, msg: 'Code sent');
+          EasyLoading.showSuccess('Code Sent');
+        }
+      });
+    } on DioError catch (e) {
+      EasyLoading.dismiss();
+      if (e.response != null) {
+        var t = e.response!.data["Error"];
+        // showErrorToast(
+        //     fToast: fToast, isError: true, msg: e.response!.data["Error"]);
+        EasyLoading.showError(
+            e.response!.data["Error"] ?? 'Something went wrong');
+        setState(() {});
+      } else {
+        EasyLoading.showError(
+            e.response!.data["Error"] ?? 'Something went wrong');
+      }
     }
   }
 
@@ -720,7 +750,7 @@ class _ProfileSetupTwoScreenState extends State<ProfileSetupTwoScreen> {
                     ),
                     TextButton(
                       onPressed: () {
-                        //loginResend();
+                        loginResend();
                       },
                       child: const Text(
                         'Send me again the verification code',

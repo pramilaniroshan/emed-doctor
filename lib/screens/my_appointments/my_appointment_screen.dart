@@ -1,15 +1,15 @@
 
-import 'package:emedassistantmobile/screens/auth/home/home_screen.dart';
-import 'package:emedassistantmobile/screens/book_an_appointment/book_an_appointment_screen.dart';
+import 'package:emedDoctor/screens/auth/home/home_screen.dart';
+import 'package:emedDoctor/screens/book_an_appointment/book_an_appointment_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:dio/dio.dart';
 
-import 'package:emedassistantmobile/widgets/custom_button.dart';
-import 'package:emedassistantmobile/config/app_colors.dart';
-import 'package:emedassistantmobile/config/app_images.dart';
+import 'package:emedDoctor/widgets/custom_button.dart';
+import 'package:emedDoctor/config/app_colors.dart';
+import 'package:emedDoctor/config/app_images.dart';
 
 class MyAppointmentsScreen extends StatefulWidget {
   const MyAppointmentsScreen({Key? key}) : super(key: key);

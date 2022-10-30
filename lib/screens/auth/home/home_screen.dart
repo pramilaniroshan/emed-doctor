@@ -1,10 +1,10 @@
-import 'package:emedassistantmobile/config/constants.dart';
-import 'package:emedassistantmobile/models/test_model.dart';
-import 'package:emedassistantmobile/screens/doctor_appointment/doctor_appointment_screen.dart';
-import 'package:emedassistantmobile/screens/my_appointments/my_appointment_screen.dart';
-import 'package:emedassistantmobile/screens/profile/create_profile_screen.dart';
-import 'package:emedassistantmobile/screens/profile_setup/setup_one_screen.dart';
-import 'package:emedassistantmobile/widgets/toast.dart';
+import 'package:emedDoctor/config/constants.dart';
+import 'package:emedDoctor/models/test_model.dart';
+import 'package:emedDoctor/screens/doctor_appointment/doctor_appointment_screen.dart';
+import 'package:emedDoctor/screens/my_appointments/my_appointment_screen.dart';
+import 'package:emedDoctor/screens/profile/create_profile_screen.dart';
+import 'package:emedDoctor/screens/profile_setup/setup_one_screen.dart';
+import 'package:emedDoctor/widgets/toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bounceable/flutter_bounceable.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -13,12 +13,12 @@ import 'package:get/get.dart';
 import 'package:form_validator/form_validator.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
-import 'package:emedassistantmobile/config/app_colors.dart';
-import 'package:emedassistantmobile/config/app_images.dart';
-import 'package:emedassistantmobile/widgets/clipper.dart';
-import 'package:emedassistantmobile/widgets/custom_button.dart';
-import 'package:emedassistantmobile/widgets/custom_field.dart';
-//import 'package:emedassistantmobile/screens/profile_setup/setup_one_screen.dart';
+import 'package:emedDoctor/config/app_colors.dart';
+import 'package:emedDoctor/config/app_images.dart';
+import 'package:emedDoctor/widgets/clipper.dart';
+import 'package:emedDoctor/widgets/custom_button.dart';
+import 'package:emedDoctor/widgets/custom_field.dart';
+//import 'package:emedDoctor/screens/profile_setup/setup_one_screen.dart';
 import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

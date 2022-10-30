@@ -1,4 +1,4 @@
-import 'package:emedassistantmobile/widgets/toast.dart';
+import 'package:emedDoctor/widgets/toast.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -6,7 +6,7 @@ import 'package:dio/dio.dart';
 import 'dart:convert';
 import 'package:chips_choice/chips_choice.dart';
 
-import 'package:emedassistantmobile/config/app_colors.dart';
+import 'package:emedDoctor/config/app_colors.dart';
 import '../../../config/constants.dart';
 import '../../../widgets/custom_button.dart';
 

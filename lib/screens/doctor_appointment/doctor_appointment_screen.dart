@@ -1,20 +1,22 @@
 import 'package:date_picker_timeline/date_picker_widget.dart';
-import 'package:emedassistantmobile/controller/doctorController.dart';
-import 'package:emedassistantmobile/screens/calendar/component/plannerAdd.dart';
-import 'package:emedassistantmobile/widgets/drawer.dart';
-import 'package:emedassistantmobile/widgets/user_avatar.dart';
+import 'package:emedDoctor/controller/doctorController.dart';
+import 'package:emedDoctor/screens/calendar/component/plannerAdd.dart';
+import 'package:emedDoctor/widgets/drawer.dart';
+import 'package:emedDoctor/widgets/user_avatar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:dio/dio.dart';
 
-import 'package:emedassistantmobile/config/app_colors.dart';
-import 'package:emedassistantmobile/config/app_images.dart';
+import 'package:emedDoctor/config/app_colors.dart';
+import 'package:emedDoctor/config/app_images.dart';
 import '../../config/constants.dart';
 import '../../services/get_doctor_profile.dart';
 import '../../widgets/custom_button.dart';
+import '../auth/home/home_screen.dart';
 import 'component/appoinment_dialog.dart';
 
 class DoctorAppointmentScreen extends StatefulWidget {
@@ -89,6 +91,11 @@ class _DoctorAppointmentScreenState extends State<DoctorAppointmentScreen> {
   //   }
   // }
 
+  Future<String> waitTask() async {
+  await Future.delayed(const Duration(seconds: 10));
+  return 'completed';
+}
+
   void getApp() async {
     print('Doctor Appointments');
     prefs = await SharedPreferences.getInstance();
@@ -108,6 +115,27 @@ class _DoctorAppointmentScreenState extends State<DoctorAppointmentScreen> {
       });
     } on DioError catch (e) {
       print(e.response!.data);
+      print('login error');
+      if (e.response!.statusCode == 401) {
+        prefs = await SharedPreferences.getInstance();
+                prefs.clear();
+                EasyLoading.showInfo('Auto sign out');
+                Get.off(const HomeScreen());
+      }
+      if (e.response!.statusCode == 403) {
+                EasyLoading.showInfo('Doctor not verifed yet. Auto sign off in 5s');
+  var result = await waitTask()
+      .timeout(const Duration(seconds: 5), onTimeout: () {
+        prefs.clear();
+                EasyLoading.showInfo('Auto sign out');
+                Get.off(const HomeScreen());
+                return 'login out';
+      });
+  print(result);
+               // print(waitTask());
+               // Get.off(const HomeScreen());
+      }
+      //print(e.response!.statusCode);
     }
   }
 

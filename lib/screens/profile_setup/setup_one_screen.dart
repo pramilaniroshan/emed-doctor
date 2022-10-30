@@ -1,16 +1,17 @@
 import 'dart:io';
 
 import 'package:dropdown_button2/dropdown_button2.dart';
-import 'package:emedassistantmobile/screens/auth/home/home_screen.dart';
-import 'package:emedassistantmobile/screens/profile_setup/setup_two_screen.dart';
-import 'package:emedassistantmobile/screens/settings/setting_screen.dart';
+import 'package:emedDoctor/screens/auth/home/home_screen.dart';
+import 'package:emedDoctor/screens/profile_setup/setup_two_screen.dart';
+import 'package:emedDoctor/screens/settings/setting_screen.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
-import 'package:emedassistantmobile/config/app_colors.dart';
-import 'package:emedassistantmobile/config/app_images.dart';
+import 'package:emedDoctor/config/app_colors.dart';
+import 'package:emedDoctor/config/app_images.dart';
 import '../../widgets/custom_button.dart';
 import '../../widgets/custom_field.dart';
 
@@ -51,7 +52,7 @@ class _ProfileSetupOneScreenState extends State<ProfileSetupOneScreen> {
   String? frontFileName;
   File? backFile;
   File? nicBackFile;
-   String? nicFrontFileName;
+  String? nicFrontFileName;
   File? nicFrontFile;
   String? nicBackFileName;
   String? backFileName;
@@ -97,7 +98,7 @@ class _ProfileSetupOneScreenState extends State<ProfileSetupOneScreen> {
             const SizedBox(height: 20.0),
             ListTile(
               onTap: () {
-                Get.to(SettingsScreen());
+                //Get.to(SettingsScreen());
               },
               leading: Padding(
                 padding: const EdgeInsets.only(top: 6.0, left: 12.0),
@@ -709,17 +710,19 @@ class _ProfileSetupOneScreenState extends State<ProfileSetupOneScreen> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        frontFile != null ?
-                        Image.file(
-                          frontFile ?? File(AppImages.frontSideImage),
-                          height: 40.0,
-                          width: 60.0,
-                          fit: BoxFit.fill,
-                        ) : Image.asset(AppImages.frontSideImage,
-              height: 40.0,
-              width: 60.0,
-              fit: BoxFit.fill,
-            ),
+                        frontFile != null
+                            ? Image.file(
+                                frontFile ?? File(AppImages.frontSideImage),
+                                height: 40.0,
+                                width: 60.0,
+                                fit: BoxFit.fill,
+                              )
+                            : Image.asset(
+                                AppImages.frontSideImage,
+                                height: 40.0,
+                                width: 60.0,
+                                fit: BoxFit.fill,
+                              ),
                         const SizedBox(width: 8.0),
                         Expanded(
                           child: Text(
@@ -822,17 +825,19 @@ class _ProfileSetupOneScreenState extends State<ProfileSetupOneScreen> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        backFile!=null ?
-                        Image.file(
-                          backFile ?? File(AppImages.frontSideImage),
-                          height: 40.0,
-                          width: 60.0,
-                          fit: BoxFit.fill,
-                        ): Image.asset(AppImages.frontSideImage,
-                          height: 40.0,
-                          width: 60.0,
-                          fit: BoxFit.fill,
-                        ),
+                        backFile != null
+                            ? Image.file(
+                                backFile ?? File(AppImages.frontSideImage),
+                                height: 40.0,
+                                width: 60.0,
+                                fit: BoxFit.fill,
+                              )
+                            : Image.asset(
+                                AppImages.frontSideImage,
+                                height: 40.0,
+                                width: 60.0,
+                                fit: BoxFit.fill,
+                              ),
                         const SizedBox(width: 8.0),
                         Expanded(
                           child: Text(
@@ -1164,7 +1169,34 @@ class _ProfileSetupOneScreenState extends State<ProfileSetupOneScreen> {
                       const SizedBox(width: 16.0),
                       CustomButton(
                         onTap: () {
-                          Get.to(ProfileSetupTwoScreen(nameController.text,lastNameController.text,emailController.text ,selectedCountryCode ,mobileNumberController.text,frontFile,backFile, double.parse(slmcNumberController.text),nicNumberController.text));
+                          var slmNum;
+                          if (slmcNumberController.text != '') {
+                            slmNum = int.parse(slmcNumberController.text);
+                          }
+
+                          if (nameController.text != '' &&
+                              lastNameController.text != '' &&
+                              emailController.text != '' &&
+                              selectedCountryCode != null &&
+                              mobileNumberController.text != '' &&
+                              frontFile != null &&
+                              backFile != null &&
+                              slmNum != null &&
+                              nicNumberController.text != '') {
+                            Get.to(ProfileSetupTwoScreen(
+                                nameController.text,
+                                lastNameController.text,
+                                emailController.text,
+                                selectedCountryCode,
+                                mobileNumberController.text,
+                                frontFile,
+                                backFile,
+                                slmNum,
+                                nicNumberController.text));
+                          } else {
+                            EasyLoading.showInfo(
+                                'Please fill all requred fields');
+                          }
                         },
                         btnText: 'Next',
                         width: 80.0,

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:emedassistantmobile/config/app_colors.dart';
+import 'package:emedDoctor/config/app_colors.dart';
 
 class SpecialityBox extends StatefulWidget {
   final String? text;

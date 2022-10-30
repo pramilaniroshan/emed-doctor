@@ -2,8 +2,8 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import 'package:emedassistantmobile/config/app_colors.dart';
-import 'package:emedassistantmobile/widgets/custom_button.dart';
+import 'package:emedDoctor/config/app_colors.dart';
+import 'package:emedDoctor/widgets/custom_button.dart';
 import 'package:intl/intl.dart';
 
 class PlannerAddDialog extends StatefulWidget {

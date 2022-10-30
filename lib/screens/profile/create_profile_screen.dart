@@ -1,14 +1,14 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
-import 'package:emedassistantmobile/config/app_colors.dart';
-import 'package:emedassistantmobile/config/app_images.dart';
-import 'package:emedassistantmobile/screens/doctor_appointment/doctor_appointment_screen.dart';
-import 'package:emedassistantmobile/screens/my_appointments/my_appointment_screen.dart';
-import 'package:emedassistantmobile/widgets/custom_field.dart';
+import 'package:emedDoctor/config/app_colors.dart';
+import 'package:emedDoctor/config/app_images.dart';
+import 'package:emedDoctor/screens/doctor_appointment/doctor_appointment_screen.dart';
+import 'package:emedDoctor/screens/my_appointments/my_appointment_screen.dart';
+import 'package:emedDoctor/widgets/custom_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:dio/dio.dart';
-import 'package:emedassistantmobile/widgets/custom_button.dart';
+import 'package:emedDoctor/widgets/custom_button.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class CreateProfileScreen extends StatefulWidget {

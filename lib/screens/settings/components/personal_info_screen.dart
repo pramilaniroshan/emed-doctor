@@ -1,14 +1,14 @@
 import 'package:country_code_picker/country_code.dart';
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
-import 'package:emedassistantmobile/screens/book_an_appointment/book_an_appointment_screen.dart';
+import 'package:emedDoctor/screens/book_an_appointment/book_an_appointment_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:get/get.dart';
 
-import 'package:emedassistantmobile/config/app_colors.dart';
-import 'package:emedassistantmobile/config/app_images.dart';
+import 'package:emedDoctor/config/app_colors.dart';
+import 'package:emedDoctor/config/app_images.dart';
 import '../../../widgets/custom_button.dart';
 import '../../../widgets/custom_field.dart';
 
