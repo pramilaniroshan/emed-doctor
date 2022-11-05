@@ -42,29 +42,21 @@ class _ScanQrScreenState extends State<ScanQrScreen> {
     try {
       var dio = Dio();
       dio.options.headers["authorization"] = "Bearer " + token;
+
       await dio
-          //     .get(
-          //   Constants().getBaseUrl() +
-          //       '/Doctor/Availability/Qr?AvailabilityId=' +
-          //       'e68ec0e9-4a19-4d8a-a831-f0445908a1f2',
-          // )
           .get(
-        Constants().getBaseUrl() +
-            '/Doctor/c9b58d66-c817-4068-b330-0562d414d4b1/ProfilePicture',
-      )
+              Constants().getBaseUrl() +
+                  '/Doctor/Availability/Qr?AvailabilityId=1960fcfe-51f1-46f1-8e1f-0f0e99bdc797',
+              options: Options(responseType: ResponseType.bytes))
           .then((res) {
-        setState(() {
-          //bitmap = res.data;
-          // qrData = res.data;
-          profile = res.data;
-          list = utf8.encode(profile!);
-          Uint8List bytes = Uint8List.fromList(list!);
-          //var image = base64Decode(profile ?? '');
-          blob = html.Blob([bytes], 'image/jpeg ');
-        });
-        final url = html.Url.createObjectUrlFromBlob(blob!);
-        print(html.Url.createObjectUrlFromBlob(blob!));
-        html.Url.revokeObjectUrl(url);
+        print(res);
+        image = Image.memory(
+          res.data,
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height * 0.44,
+          scale: 0.5,
+        );
+        setState(() {});
       });
     } on DioError catch (e) {
       print(e.response!.data);
@@ -105,7 +97,8 @@ class _ScanQrScreenState extends State<ScanQrScreen> {
           children: [
             Image.asset(AppImages.backTopImage),
             //Text(blob. ?? 'QR code'),
-            list == null ? CircularProgressIndicator() : Image.memory(image),
+
+            //Image.memory(image),
             Padding(
               padding:
                   const EdgeInsets.only(left: 40.0, right: 20.0, top: 12.0),
@@ -176,13 +169,23 @@ class _ScanQrScreenState extends State<ScanQrScreen> {
                     ),
 
                     /// qr code image
-                    const SizedBox(height: 20.0),
-                    Image.asset(
-                      AppImages.qrCodeImage,
-                      width: width,
-                      height: height * 0.44,
-                      fit: BoxFit.fill,
-                    ),
+                    image == null
+                        ? SizedBox(height: height / 4)
+                        : SizedBox(height: height / 6.5),
+                    // Image.asset(
+                    //   AppImages.qrCodeImage,
+                    //   width: width,
+                    //   height: height * 0.44,
+                    //   fit: BoxFit.fill,
+                    // ),
+                    image == null
+                        ? SizedBox(
+                            height: MediaQuery.of(context).size.height / 5,
+                            child: Center(
+                              child: CircularProgressIndicator(),
+                            ),
+                          )
+                        : image,
 
                     /// use camera text
                     const SizedBox(height: 20.0),
