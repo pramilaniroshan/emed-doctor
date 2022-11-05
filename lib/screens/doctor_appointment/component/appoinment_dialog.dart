@@ -7,11 +7,14 @@ import 'package:get/get.dart';
 
 import 'package:emedDoctor/config/app_colors.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 import '../../../config/constants.dart';
 
 class AppointmentDialog extends StatefulWidget {
-  const AppointmentDialog({Key? key}) : super(key: key);
+  List? appoinstments;
+
+  AppointmentDialog(this.appoinstments, {Key? key}) : super(key: key);
 
   @override
   State<AppointmentDialog> createState() => _AppointmentDialogState();
@@ -22,32 +25,49 @@ class _AppointmentDialogState extends State<AppointmentDialog> {
   late SharedPreferences prefs;
   String lateBy = '00:00:00';
 
-  void doctorDelayNotification() async {
-    print('Doctor Late');
+  void doctorDelayNotification(String id) async {
     prefs = await SharedPreferences.getInstance();
     String token = prefs.getString("token") ?? '';
     try {
-      EasyLoading.show();
-      print(lateBy);
+      
       var dio = Dio();
       dio.options.headers["authorization"] = "Bearer " + token;
+
+      print(id);
       await dio.post(
-          Constants().getBaseUrl() + '/Doctor/AppointmentDelayNotification',
+          Constants().getBaseUrl() + '/Doctor/AvailabilityDelayNotification/',
           data: {
-            "AvailabilityId": "c4cb592d-69e2-4883-9b00-fb137d5ec045",
+            "AvailabilityId": id,
             "DelayedBy": lateBy,
             "Note": customMessageController.text,
           }).then((res) {
-        EasyLoading.dismiss();
-        EasyLoading.showSuccess('Done');
-        Get.back();
+            print(res.data);
+            EasyLoading.showSuccess('Done');
       });
     } on DioError catch (e) {
       EasyLoading.dismiss();
-     // print(e.response!.data);
-      EasyLoading.showError(
-          e.response?.data["Error"] ?? 'Something went wrong');
+      print(e.response!.data);
+      EasyLoading.showError('Something went wrong');
     }
+  }
+
+  void sendDelays() {
+    Get.back();
+    EasyLoading.show();
+    widget.appoinstments!.forEach((element) => {
+      //print(element['Id']);
+      doctorDelayNotification(element['Id'])
+
+      
+      });
+      EasyLoading.dismiss();
+      
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
   }
 
   @override
@@ -107,36 +127,73 @@ class _AppointmentDialogState extends State<AppointmentDialog> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          delayBox(lateBy == '00:00:10' ? AppColors.secondary : AppColors.primary, '10 min',
-                              lateBy == '00:00:45' ? AppColors.secondary : lateBy == '00:00:10' ? AppColors.secondary : AppColors.black, ()=>{
-                                setState(() {
-                                  lateBy = '00:00:10';
-                                })
-                              }),
                           delayBox(
-                              lateBy == '00:00:20' ? AppColors.secondary : AppColors.primary, '20 min', lateBy == '00:00:20' ? AppColors.secondary : AppColors.black,()=>{
-                                setState(() {
-                                  lateBy = '00:00:20';
-                                })
-                              }),
+                              lateBy == '00:00:10'
+                                  ? AppColors.secondary
+                                  : AppColors.primary,
+                              '10 min',
+                              lateBy == '00:00:45'
+                                  ? AppColors.secondary
+                                  : lateBy == '00:00:10'
+                                      ? AppColors.secondary
+                                      : AppColors.black,
+                              () => {
+                                    setState(() {
+                                      lateBy = '00:00:10';
+                                    })
+                                  }),
                           delayBox(
-                              lateBy == '00:00:30' ? AppColors.secondary : AppColors.primary, '30 min' ,lateBy == '00:00:30' ? AppColors.secondary : AppColors.black,()=>{
-                                setState(() {
-                                  lateBy = '00:00:30';
-                                })
-                              }),
+                              lateBy == '00:00:20'
+                                  ? AppColors.secondary
+                                  : AppColors.primary,
+                              '20 min',
+                              lateBy == '00:00:20'
+                                  ? AppColors.secondary
+                                  : AppColors.black,
+                              () => {
+                                    setState(() {
+                                      lateBy = '00:00:20';
+                                    })
+                                  }),
                           delayBox(
-                              lateBy == '00:00:45' ? AppColors.secondary : AppColors.primary, '45 min', lateBy == '00:00:45' ? AppColors.secondary : AppColors.black,()=>{
-                               setState(() {
-                                  lateBy = '00:00:45';
-                                })
-                              }),
+                              lateBy == '00:00:30'
+                                  ? AppColors.secondary
+                                  : AppColors.primary,
+                              '30 min',
+                              lateBy == '00:00:30'
+                                  ? AppColors.secondary
+                                  : AppColors.black,
+                              () => {
+                                    setState(() {
+                                      lateBy = '00:00:30';
+                                    })
+                                  }),
                           delayBox(
-                              lateBy == '00:01:00' ? AppColors.secondary : AppColors.primary, '60 min', lateBy == '00:01:00' ? AppColors.secondary : AppColors.black,()=>{
-                                setState(() {
-                                  lateBy = '00:01:00';
-                                })
-                              }),
+                              lateBy == '00:00:45'
+                                  ? AppColors.secondary
+                                  : AppColors.primary,
+                              '45 min',
+                              lateBy == '00:00:45'
+                                  ? AppColors.secondary
+                                  : AppColors.black,
+                              () => {
+                                    setState(() {
+                                      lateBy = '00:00:45';
+                                    })
+                                  }),
+                          delayBox(
+                              lateBy == '00:01:00'
+                                  ? AppColors.secondary
+                                  : AppColors.primary,
+                              '60 min',
+                              lateBy == '00:01:00'
+                                  ? AppColors.secondary
+                                  : AppColors.black,
+                              () => {
+                                    setState(() {
+                                      lateBy = '00:01:00';
+                                    })
+                                  }),
                         ],
                       ),
 
@@ -237,7 +294,7 @@ class _AppointmentDialogState extends State<AppointmentDialog> {
                     padding: const EdgeInsets.symmetric(vertical: 5.0),
                     child: CustomButton(
                       onTap: () {
-                        doctorDelayNotification();
+                        sendDelays();
                       },
                       btnText: 'Publish',
                       width: 80.0,
@@ -254,7 +311,6 @@ class _AppointmentDialogState extends State<AppointmentDialog> {
   }
 
   Widget delayBox(borderColor, minText, textColor, OnTap) => Container(
-    
         padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
         decoration: BoxDecoration(
           border: Border.all(
