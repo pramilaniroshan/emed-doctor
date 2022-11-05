@@ -39,57 +39,9 @@ class _DoctorAppointmentScreenState extends State<DoctorAppointmentScreen> {
   List Appointments = [];
   final DoctorController doctorController = Get.put(DoctorController());
 
-  // void getDoctorProfile() async {
-  //   print('Doctor Profile');
-  //   prefs = await SharedPreferences.getInstance();
-  //   String token = prefs.getString("token") ?? '';
-  //   try {
-  //     var dio = Dio();
-  //     dio.options.headers["authorization"] = "Bearer " + token;
-  //     await dio
-  //         .get(
-  //       Constants().getBaseUrl() + '/Doctor',
-  //     )
-  //         .then((res) {
-  //       setState(() {
-  //         DoctorFirstName = res.data['Data']['FirstName'];
-  //       });
-  //       if (prefs.getString("token") != null) {
-  //         prefs.setString('FirstName', res.data['Data']['FirstName']);
-  //         prefs.setString('Id', res.data['Data']['Id']);
-  //         prefs.setString('Title', res.data['Data']['Title']);
-  //         prefs.setString('LastName', res.data['Data']['LastName']);
-  //         prefs.setString('NationalIdentificationNumber',
-  //             res.data['Data']['NationalIdentificationNumber']);
-  //         prefs.setString('Address', res.data['Data']['Address']);
-  //         prefs.setString('GovDoctorRegNo', res.data['Data']['GovDoctorRegNo']);
-  //         prefs.setString('NicFrontPicUrl', res.data['Data']['NicFrontPicUrl']);
-  //         prefs.setString('NicBackPicUrl', res.data['Data']['NicBackPicUrl']);
-  //         prefs.setString('GovDoctorIdentityPicFrontUrl',
-  //             res.data['Data']['GovDoctorIdentityPicFrontUrl']);
-  //         prefs.setString('GovDoctorIdentityPicBackUrl',
-  //             res.data['Data']['GovDoctorIdentityPicBackUrl']);
-  //         prefs.setString('VerifiedDate', res.data['Data']['VerifiedDate']);
-  //         prefs.setString('VerifiedById', res.data['Data']['VerifiedById']);
-  //         prefs.setString('PhoneNumber', res.data['Data']['PhoneNumber']);
-  //         prefs.setString('Email', res.data['Data']['Email']);
-  //         prefs.setString('Description', res.data['Data']['Description']);
-  //         //prefs.setString('DoctorSpecializations', res.data['Data']['DoctorSpecializations']);
-  //         prefs.setBool('IsVerified', res.data['Data']['IsVerified']);
-  //         prefs.setBool('IsActive', res.data['Data']['IsActive']);
-  //         prefs.setBool('IsPhoneNumberVerified',
-  //             res.data['Data']['IsPhoneNumberVerified']);
-  //         prefs.setBool('IsEmailVerified', res.data['Data']['IsEmailVerified']);
-  //         prefs.setBool('PhoneNumberVisibleToPatient',
-  //             res.data['Data']['PhoneNumberVisibleToPatient']);
-  //         prefs.setInt('CityId', res.data['Data']['CityId'] ?? 0);
-  //         print(prefs.getString('token'));
-  //       }
-  //     });
-  //   } on DioError catch (e) {
-  //     print(e.response!.data);
-  //   }
-  // }
+  List Availability = [];
+  num TotalSlotsCount = 0;
+  num TotalBookedSlotsCount = 0;
 
   Future<String> waitTask() async {
   await Future.delayed(const Duration(seconds: 10));
@@ -98,8 +50,10 @@ class _DoctorAppointmentScreenState extends State<DoctorAppointmentScreen> {
 
   void getApp() async {
     print('Doctor Appointments');
+   
     prefs = await SharedPreferences.getInstance();
     String token = prefs.getString("token") ?? '';
+    print(token);
     try {
       var dio = Dio();
       dio.options.headers["authorization"] = "Bearer " + token;
@@ -139,7 +93,7 @@ class _DoctorAppointmentScreenState extends State<DoctorAppointmentScreen> {
     }
   }
 
-  void checkAvai() async {
+  void checkAvai(String date) async {
     print('Doctor Availability');
     prefs = await SharedPreferences.getInstance();
     String token = prefs.getString("token") ?? '';
@@ -148,15 +102,28 @@ class _DoctorAppointmentScreenState extends State<DoctorAppointmentScreen> {
       dio.options.headers["authorization"] = "Bearer " + token;
       await dio
           .get(
-        Constants().getBaseUrl() + '/Doctor/Availability?StartTime=2022-09-6',
+        Constants().getBaseUrl() + '/Doctor/Availability?StartTime=' + date,
         
       )
           .then((res) {
-        print(res.data);
+            Availability = res.data['Data']['Data'];
+            calcBookedSlots();
       });
     } on DioError catch (e) {
       print(e.response!.data);
     }
+  }
+
+  void calcBookedSlots() {
+     Availability!.forEach((element) => {
+      //print(element['TotalBookedSlotsCount'])
+
+    setState(() {
+      TotalBookedSlotsCount = TotalBookedSlotsCount + element['TotalBookedSlotsCount'];
+      TotalSlotsCount = TotalSlotsCount + element['TotalSlotsCount'];
+    })
+
+     });
   }
 
   @override
@@ -164,7 +131,7 @@ class _DoctorAppointmentScreenState extends State<DoctorAppointmentScreen> {
     super.initState();
     getDoctorProfile();
     getApp();
-    checkAvai();
+    checkAvai(selectedValue.toString());
   }
 
   @override
@@ -172,6 +139,7 @@ class _DoctorAppointmentScreenState extends State<DoctorAppointmentScreen> {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       key: _scaffoldKey,
       backgroundColor: AppColors.lightBackground,
       appBar: AppBar(
@@ -238,7 +206,7 @@ class _DoctorAppointmentScreenState extends State<DoctorAppointmentScreen> {
                   child: CustomButton(
                     onTap: () {
                       Get.dialog(
-                        const AppointmentDialog(),
+                        AppointmentDialog(Appointments),
                       );
                     },
                     btnText: 'Late',
@@ -254,7 +222,7 @@ class _DoctorAppointmentScreenState extends State<DoctorAppointmentScreen> {
               color: AppColors.white,
               width: width,
               child: SingleChildScrollView(
-                padding: const EdgeInsets.only(bottom: 40.0),
+                padding: const EdgeInsets.only(bottom: 60.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -262,8 +230,8 @@ class _DoctorAppointmentScreenState extends State<DoctorAppointmentScreen> {
                     /// date picker timeline
                     DatePicker(
                       DateTime.now(),
-                      width: 45,
-                      height: 80,
+                      width: 50,
+                      height: 100,
                       controller: controller,
                       initialSelectedDate: DateTime.now(),
                       selectionColor: AppColors.redColor,
@@ -277,8 +245,10 @@ class _DoctorAppointmentScreenState extends State<DoctorAppointmentScreen> {
                         // New date selected
                         setState(() {
                           selectedValue = date;
+                          TotalBookedSlotsCount = 0;
+                          TotalSlotsCount = 0;
                         });
-                        print(selectedValue);
+                        checkAvai(selectedValue.toString());
                       },
                     ),
                     const SizedBox(height: 16.0),
@@ -299,7 +269,7 @@ class _DoctorAppointmentScreenState extends State<DoctorAppointmentScreen> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           timeNameRow(),
-                          const SizedBox(height: 8.0),
+                          const SizedBox(height: 15.0),
                           const Divider(
                             color: AppColors.primary,
                             thickness: 0.5,
@@ -307,7 +277,7 @@ class _DoctorAppointmentScreenState extends State<DoctorAppointmentScreen> {
                           const SizedBox(height: 16.0),
                           itemDetailRow(AppImages.calenderIcon, 'GT567ZX'),
                           const SizedBox(height: 10.0),
-                          itemDetailRow(AppImages.calenderIcon, '4/7 booked'),
+                          itemDetailRow(AppImages.calenderIcon, TotalBookedSlotsCount.toString().split('.')[0] + '/' + TotalSlotsCount.toString().split('.')[0] + ' booked'),
                           const SizedBox(height: 10.0),
                           itemDetailRow(AppImages.locationIcon, 'Room 6-205'),
                           const SizedBox(height: 10.0),
