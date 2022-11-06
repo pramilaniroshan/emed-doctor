@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:emedDoctor/config/constants.dart';
 import 'package:emedDoctor/models/test_model.dart';
 import 'package:emedDoctor/screens/doctor_appointment/doctor_appointment_screen.dart';
@@ -7,6 +9,7 @@ import 'package:emedDoctor/screens/profile_setup/setup_one_screen.dart';
 import 'package:emedDoctor/widgets/toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bounceable/flutter_bounceable.dart';
+import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -46,6 +49,8 @@ class _HomeScreenState extends State<HomeScreen> {
   final _otpFormKey = GlobalKey<FormState>();
   FToast? fToast;
 
+  int? endTime;
+
   void check_if_already_login() async {
     prefs = await SharedPreferences.getInstance();
 
@@ -72,11 +77,15 @@ class _HomeScreenState extends State<HomeScreen> {
           EasyLoading.dismiss();
           //showErrorToast(fToast: fToast, isError: false, msg: 'Code sent');
           EasyLoading.showInfo('Code sent');
+          setState(() {
+                        endTime = DateTime.now().millisecondsSinceEpoch + 10030 * 30;
+                      });
+
           Get.defaultDialog(
             backgroundColor: AppColors.lightBackground,
             radius: 2.0,
             title: '',
-            content: bottomSheetColumn(width),
+            content: bottomSheetColumn(width ),
           );
         }
       });
@@ -112,6 +121,9 @@ class _HomeScreenState extends State<HomeScreen> {
       }).then((res) {
         if (res.statusCode == 200) {
           EasyLoading.showInfo('Code sent');
+          setState(() {
+                        endTime = DateTime.now().millisecondsSinceEpoch + 10030 * 30;
+                      });
           //showErrorToast(fToast: fToast, isError: false, msg: 'Code sent');
         }
       });
@@ -436,10 +448,12 @@ class _HomeScreenState extends State<HomeScreen> {
                         //     login(width);
 
                         // }
+
+
                         if (_formKey.currentState!.validate()) {
-                          // If the form is valid, display a snackbar. In the real world,
-                          // you'd often call a server or save the information in a database.
+                   
                           login(width);
+
                         }
                       },
                       btnText: 'Submit',
@@ -699,7 +713,10 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       );
 
-  Widget bottomSheetColumn(width) => Column(
+  Widget bottomSheetColumn(
+    width,
+  ) =>
+      Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
@@ -734,13 +751,16 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                       ),
                       const SizedBox(height: 14.0),
-                      const Text(
-                        'Attention, the code will expire in 5',
+                      Text(
+                        'Attention, the code will expire in ',
                         style: TextStyle(
                           fontSize: 13.0,
                           color: AppColors.black,
                           fontWeight: FontWeight.w500,
                         ),
+                      ),
+                      CountdownTimer(
+                        endTime: endTime ?? 10,
                       ),
                       Container(
                         height: 35.0,
