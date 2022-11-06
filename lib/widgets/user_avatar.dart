@@ -19,10 +19,13 @@ class DoctorDrawerAction extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          const CircleAvatar(
-            radius: 14.0,
-            backgroundImage: AssetImage(AppImages.doctorImage),
-          ),
+          GetBuilder<DoctorController>(
+                builder: (s) => CircleAvatar(
+                radius: 14.0,
+                backgroundImage: s.profilePicture,
+              )
+           ),
+              
           const SizedBox(width: 8.0),
           GetBuilder<DoctorController>(
             builder: (s) => Text(

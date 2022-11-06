@@ -1,7 +1,10 @@
+import 'dart:io';
+
 import 'package:emedDoctor/services/get_doctor_profile.dart';
 import 'package:emedDoctor/widgets/toast.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:dio/dio.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -14,9 +17,8 @@ import '../../../widgets/toast.dart';
 
 class SProfileScreen extends StatefulWidget {
   final String? des;
-  final String? profPicUrl;
 
-  const SProfileScreen({Key? key, this.des, required this.profPicUrl})
+  const SProfileScreen({Key? key, this.des,})
       : super(key: key);
 
   @override
@@ -28,26 +30,54 @@ class _SProfileScreenState extends State<SProfileScreen> {
   late SharedPreferences prefs;
   FToast? fToast;
 
-  void doctorUpdateProfileInfo() async {
-    print('Search Doctor');
+  PlatformFile? file;
+  File? profilePic;
+  String? profilePicFileName;
+
+  void doctorUpdateProfileInfo(String id) async {
+ 
     prefs = await SharedPreferences.getInstance();
     String token = prefs.getString("token") ?? '';
-    print(token);
+
     try {
       var dio = Dio();
       dio.options.headers["authorization"] = "Bearer " + token;
       await dio
           .post(Constants().getBaseUrl() + '/Doctor/UpdateProfileInfo', data: {
-        "Description": profileDescController.text,
-        "ProfilePicture": 'null',
+        "Description": profileDescController.text ?? widget.des,
+        "ProfilePicture": id,
       }).then((res) {
         getDoctorProfile();
-        //showErrorToast(fToast: fToast, isError: false, msg: 'Done');
+        EasyLoading.dismiss();
+        EasyLoading.showSuccess('Done');
         print(res.data);
       });
     } on DioError catch (e) {
-      //showErrorToast(
-      // fToast: fToast, isError: true, msg: e.response!.data['Error']);
+      print(e.response!.data['Error']);
+    }
+  }
+
+  void doctorAddResource() async {
+
+    EasyLoading.show();
+    var formData = FormData.fromMap({
+      'File': await MultipartFile.fromFile(profilePic!.path,
+          filename: profilePic!.path.split('/').last),
+    });
+
+    prefs = await SharedPreferences.getInstance();
+    String token = prefs.getString("token") ?? '';
+    try {
+      var dio = Dio();
+      dio.options.headers["authorization"] = "Bearer " + token;
+      await dio
+          .post(Constants().getBaseUrl() + '/Doctor/AddDoctorResource',
+              data: formData)
+          .then((res) {
+        print(res.data['Data']);
+        doctorUpdateProfileInfo(res.data['Data']);
+      });
+    } on DioError catch (e) {
       print(e.response!.data['Error']);
     }
   }
@@ -113,13 +143,13 @@ class _SProfileScreenState extends State<SProfileScreen> {
                 keyboardType: TextInputType.text,
                 decoration: InputDecoration(
                   border: InputBorder.none,
-                  contentPadding: EdgeInsets.only(
+                  contentPadding: const EdgeInsets.only(
                     left: 16.0,
                     top: 16.0,
                     right: 16.0,
                   ),
                   hintText: widget.des,
-                  hintStyle: TextStyle(
+                  hintStyle: const TextStyle(
                     fontSize: 15.0,
                     color: AppColors.black,
                     fontWeight: FontWeight.w500,
@@ -153,9 +183,11 @@ class _SProfileScreenState extends State<SProfileScreen> {
                           allowedExtensions: ['jpg', 'png'],
                         );
                         if (result != null) {
-                          final file = result.files.first;
-
-                          print(file.name);
+                          setState(() {
+                            file = result.files.first;
+                            profilePicFileName = file!.name;
+                            profilePic = File(file!.path.toString());
+                          });
                         } else {
                           // User canceled the picker
                         }
@@ -216,17 +248,24 @@ class _SProfileScreenState extends State<SProfileScreen> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Image.asset(
-                    AppImages.frontSideImage,
-                    height: 40.0,
-                    width: 60.0,
-                    fit: BoxFit.fill,
-                  ),
+                  profilePic != null
+                      ? Image.file(
+                          profilePic ?? File(AppImages.frontSideImage),
+                          height: 40.0,
+                          width: 60.0,
+                          fit: BoxFit.fill,
+                        )
+                      : Image.asset(
+                          AppImages.frontSideImage,
+                          height: 40.0,
+                          width: 60.0,
+                          fit: BoxFit.fill,
+                        ),
                   const SizedBox(width: 8.0),
-                  const Expanded(
+                  Expanded(
                     child: Text(
-                      'me.png',
-                      style: TextStyle(
+                      profilePicFileName ?? 'me.png',
+                      style: const TextStyle(
                         fontSize: 14.0,
                         color: AppColors.secondary,
                         fontWeight: FontWeight.w500,
@@ -234,7 +273,12 @@ class _SProfileScreenState extends State<SProfileScreen> {
                     ),
                   ),
                   IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      setState(() {
+                        profilePic = null;
+                        profilePicFileName = null;
+                      });
+                    },
                     icon: const Icon(Icons.delete_outline,
                         color: AppColors.primary),
                   ),
@@ -260,7 +304,7 @@ class _SProfileScreenState extends State<SProfileScreen> {
                 const SizedBox(width: 16.0),
                 CustomButton(
                   onTap: () {
-                    doctorUpdateProfileInfo();
+                    doctorAddResource();
                   },
                   btnText: 'Update',
                   width: 80.0,
