@@ -13,6 +13,8 @@ import '../../config/constants.dart';
 import '../../widgets/custom_button.dart';
 import '../../widgets/user_avatar.dart';
 
+//import 'package:pull_to_refresh/pull_to_refresh.dart';
+
 class AssistantsScreen extends StatefulWidget {
   const AssistantsScreen({Key? key}) : super(key: key);
 
@@ -176,6 +178,7 @@ class _AssistantsScreen extends State<AssistantsScreen> {
           String id, String firstName, String lastName, bool isActive) =>
       Container(
         padding: const EdgeInsets.all(12.0),
+        margin: const EdgeInsets.only(bottom: 5.0),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(16.0),
           color: AppColors.white,
