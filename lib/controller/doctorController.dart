@@ -1,3 +1,6 @@
+import 'package:emedDoctor/config/app_images.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/services.dart';
 import 'package:get/state_manager.dart';
 
 class DoctorController extends GetxController {
@@ -23,7 +26,7 @@ class DoctorController extends GetxController {
   bool? isEmailVerified;
   List<Null>? doctorSpecializations;
   bool? phoneNumberVisibleToPatient;
-  Null? profilePicture;
+  var profilePicture = null;
   String? description;
 
   void setFirstname(String name) {
@@ -136,9 +139,8 @@ class DoctorController extends GetxController {
     update();
   }
 
-  void setprofilePicture(String profilePicture) {
-    this.profilePicture = profilePicture as Null?;
-    update();
+  void setprofilePicture(var profilePicture) {
+    this.profilePicture = profilePicture;
   }
 
   void setDescription(String description) {

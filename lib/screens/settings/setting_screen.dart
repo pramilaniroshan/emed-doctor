@@ -55,30 +55,6 @@ class _SettingsScreenState extends State<SettingsScreen>
 
   final DoctorController doctorController = Get.put(DoctorController());
 
-  // void getProfile() async {
-  //   prefs = await SharedPreferences.getInstance();
-  //   setState(() {
-  //     firstName = prefs.getString('FirstName') ?? '';
-  //     id = prefs.getString('Id');
-  //     title = prefs.getString('Title');
-  //     lastName = prefs.getString('LastName');
-  //     nationalIdentificationNumber =
-  //         prefs.getString('NationalIdentificationNumber');
-  //     address = prefs.getString('Address');
-  //     govDoctorRegNo = prefs.getString('GovDoctorRegNo');
-  //     nicFrontPicUrl = prefs.getString('NicFrontPicUrl');
-  //     nicBackPicUrl = prefs.getString('NicBackPicUrl');
-  //     govDoctorIdentityPicFrontUrl =
-  //         prefs.getString('GovDoctorIdentityPicFrontUrl');
-  //     govDoctorIdentityPicBackUrl =
-  //         prefs.getString('GovDoctorIdentityPicBackUrl');
-  //     phoneNumber = prefs.getString('PhoneNumber');
-  //     email = prefs.getString('Email');
-  //     description = prefs.getString('Description');
-  //     phoneNumberVisibleToPatient =
-  //         prefs.getBool('PhoneNumberVisibleToPatient') ?? false;
-  //   });
-  // }
 
   @override
   void initState() {
@@ -173,7 +149,6 @@ class _SettingsScreenState extends State<SettingsScreen>
                 const BillingScreen(),
                 SProfileScreen(
                   des: doctorController.description,
-                  profPicUrl: doctorController.profilePicture,
                 ),
                 const SpecialitiesScreen(),
                 const LocationsScreen(),

@@ -2,6 +2,7 @@ import 'package:country_code_picker/country_code.dart';
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:emedDoctor/screens/book_an_appointment/book_an_appointment_screen.dart';
+import 'package:emedDoctor/screens/settings/components/billing_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_switch/flutter_switch.dart';
@@ -680,9 +681,10 @@ class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
                 CustomButton(
                   onTap: () {
                     //Get.to(const ProfileSetupTwoScreen());
-                    Get.to(const BookAnAppointmentScreen());
+                    //Get.to(const BookAnAppointmentScreen());
+                    //Get.off(const BillingScreen());
                   },
-                  btnText: 'Next',
+                  btnText: 'Update',
                   width: 80.0,
                   height: 36.0,
                   btnColor: AppColors.secondary,
