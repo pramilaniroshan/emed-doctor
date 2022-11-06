@@ -50,7 +50,7 @@ class DoctorDrawer extends StatelessWidget {
                 child: Image.asset(AppImages.calendar),
               ),
               title: const Align(
-                alignment: Alignment(-1.4, 0),
+                alignment: Alignment(-1.5, 0),
                 child: Text(
                   'Appointments',
                   style: TextStyle(
@@ -89,7 +89,7 @@ class DoctorDrawer extends StatelessWidget {
                 child: Image.asset(AppImages.qr),
               ),
               title: const Align(
-                alignment: Alignment(-1.3, 0),
+                alignment: Alignment(-1.4, 0),
                 child: Text(
                   'My QRcode',
                   style: TextStyle(
@@ -127,7 +127,7 @@ class DoctorDrawer extends StatelessWidget {
                 child: Image.asset(AppImages.assistants),
               ),
               title: const Align(
-                alignment: Alignment(-1.3, 0),
+                alignment: Alignment(-1.4, 0),
                 child: Text(
                   'Assistants',
                   style: TextStyle(
@@ -163,7 +163,7 @@ class DoctorDrawer extends StatelessWidget {
                 child: Image.asset(AppImages.location),
               ),
               title: const Align(
-                alignment: Alignment(-1.3, 0),
+                alignment: Alignment(-1.4, 0),
                 child: Text(
                   'Locations',
                   style: TextStyle(
@@ -181,7 +181,7 @@ class DoctorDrawer extends StatelessWidget {
                 child: Image.asset(AppImages.messages),
               ),
               title: const Align(
-                alignment: Alignment(-1.3, 0),
+                alignment: Alignment(-1.4, 0),
                 child: Text(
                   'Messages',
                   style: TextStyle(
