@@ -1,4 +1,5 @@
 import 'package:date_picker_timeline/date_picker_widget.dart';
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:emedDoctor/controller/doctorController.dart';
 import 'package:emedDoctor/screens/calendar/component/plannerAdd.dart';
 import 'package:emedDoctor/widgets/drawer.dart';
@@ -8,6 +9,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:lottie/lottie.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:dio/dio.dart';
 
@@ -43,14 +45,28 @@ class _DoctorAppointmentScreenState extends State<DoctorAppointmentScreen> {
   num TotalSlotsCount = 0;
   num TotalBookedSlotsCount = 0;
 
+  List<String> status = [
+    'Active',
+    'UnPaid',
+    'Paid',
+    'Cancelled',
+    'Over',
+    'InProgress',
+  ];
+
+  String selectedState = 'Active';
+
   Future<String> waitTask() async {
-  await Future.delayed(const Duration(seconds: 10));
-  return 'completed';
-}
+    await Future.delayed(const Duration(seconds: 10));
+    return 'completed';
+  }
 
   void getApp() async {
     print('Doctor Appointments');
-   
+    print(Constants().getBaseUrl() +
+            '/Doctor/Appointment?Statuses=' +
+            status.indexOf(selectedState).toString());
+
     prefs = await SharedPreferences.getInstance();
     String token = prefs.getString("token") ?? '';
     print(token);
@@ -59,37 +75,92 @@ class _DoctorAppointmentScreenState extends State<DoctorAppointmentScreen> {
       dio.options.headers["authorization"] = "Bearer " + token;
       await dio
           .get(
-        Constants().getBaseUrl() + '/Doctor/Appointment',
+        Constants().getBaseUrl() +
+            '/Doctor/Appointment?Statuses=' +
+            status.indexOf(selectedState).toString(),
       )
           .then((res) {
         setState(() {
+          EasyLoading.dismiss();
           Appointments = res.data['Data']['Data'];
         });
-       // print(res.data);
+        // print(res.data);
       });
     } on DioError catch (e) {
       print(e.response!.data);
       print('login error');
       if (e.response!.statusCode == 401) {
         prefs = await SharedPreferences.getInstance();
-                prefs.clear();
-                EasyLoading.showInfo('Auto sign out');
-                Get.off(const HomeScreen());
+        prefs.clear();
+        EasyLoading.showInfo('Auto sign out');
+        Get.off(const HomeScreen());
       }
       if (e.response!.statusCode == 403) {
-                EasyLoading.showInfo('Doctor not verifed yet. Auto sign off in 5s');
-  var result = await waitTask()
-      .timeout(const Duration(seconds: 5), onTimeout: () {
-        prefs.clear();
-                EasyLoading.showInfo('Auto sign out');
-                Get.off(const HomeScreen());
-                return 'login out';
-      });
-  print(result);
-               // print(waitTask());
-               // Get.off(const HomeScreen());
+        EasyLoading.showInfo('Doctor not verifed yet. Auto sign off in 5s');
+        var result =
+            await waitTask().timeout(const Duration(seconds: 5), onTimeout: () {
+          prefs.clear();
+          EasyLoading.showInfo('Auto sign out');
+          Get.off(const HomeScreen());
+          return 'login out';
+        });
+        print(result);
       }
-      //print(e.response!.statusCode);
+    }
+  }
+
+  cancelApp(String id) async {
+    prefs = await SharedPreferences.getInstance();
+    String token = prefs.getString("token") ?? '';
+    try {
+      var dio = Dio();
+      dio.options.headers["authorization"] = "Bearer " + token;
+      await dio
+          .post(Constants().getBaseUrl() + '/Doctor/CancelAppointment', data: {
+        "AppointmentId": id,
+      }).then((res) {
+        setState(() {});
+        EasyLoading.showSuccess(' Appointment canceled');
+      });
+    } on DioError catch (e) {
+      EasyLoading.showError('Something went wrong');
+      print(e.response!.data);
+    }
+  }
+
+  markAppointmentInProgress(String id) async {
+    String token = prefs.getString("token") ?? '';
+    try {
+      var dio = Dio();
+      dio.options.headers["authorization"] = "Bearer " + token;
+      await dio
+          .post(Constants().getBaseUrl() + '/Doctor/MarkAppointmentInProgress', data: {
+        "AppointmentId": id,
+      }).then((res) {
+        setState(() {});
+        EasyLoading.showSuccess(' Appointment In Progress');
+      });
+    } on DioError catch (e) {
+      EasyLoading.showError('Something went wrong');
+      print(e.response!.data);
+    }
+  }
+
+    markAppointmentComplete(String id) async {
+    String token = prefs.getString("token") ?? '';
+    try {
+      var dio = Dio();
+      dio.options.headers["authorization"] = "Bearer " + token;
+      await dio
+          .post(Constants().getBaseUrl() + '/Doctor/MarkAppointmentComplete', data: {
+        "AppointmentId": id,
+      }).then((res) {
+        setState(() {});
+        EasyLoading.showSuccess(' Appointment Complete');
+      });
+    } on DioError catch (e) {
+      EasyLoading.showError('Something went wrong');
+      print(e.response!.data);
     }
   }
 
@@ -103,11 +174,10 @@ class _DoctorAppointmentScreenState extends State<DoctorAppointmentScreen> {
       await dio
           .get(
         Constants().getBaseUrl() + '/Doctor/Availability?StartTime=' + date,
-        
       )
           .then((res) {
-            Availability = res.data['Data']['Data'];
-            calcBookedSlots();
+        Availability = res.data['Data']['Data'];
+        calcBookedSlots();
       });
     } on DioError catch (e) {
       print(e.response!.data);
@@ -115,16 +185,23 @@ class _DoctorAppointmentScreenState extends State<DoctorAppointmentScreen> {
   }
 
   void calcBookedSlots() {
-     Availability!.forEach((element) => {
-      //print(element['TotalBookedSlotsCount'])
+    Availability!.forEach((element) => {
+          //print(element['TotalBookedSlotsCount'])
 
-    setState(() {
-      TotalBookedSlotsCount = TotalBookedSlotsCount + element['TotalBookedSlotsCount'];
-      TotalSlotsCount = TotalSlotsCount + element['TotalSlotsCount'];
-    })
-
-     });
+          setState(() {
+            TotalBookedSlotsCount =
+                TotalBookedSlotsCount + element['TotalBookedSlotsCount'];
+            TotalSlotsCount = TotalSlotsCount + element['TotalSlotsCount'];
+          })
+        });
   }
+
+  // @override
+  // void didChangeDependencies() {
+  //   //super.didChangeDependencies();
+  //   getApp();
+  //   print('change');
+  // }
 
   @override
   void initState() {
@@ -189,19 +266,61 @@ class _DoctorAppointmentScreenState extends State<DoctorAppointmentScreen> {
                   flex: 2,
                 ),
                 Expanded(
-                  child: CustomButton(
-                    onTap: () {
-                      //Get.dialog(PlannerAddDialog(DateTime.now()));
-                      //doctorController.setFirstname('Niroshan');
+                  // child: CustomButton(
+                  //   onTap: () {
+                  //     //Get.dialog(PlannerAddDialog(DateTime.now()));
+                  //     //doctorController.setFirstname('Niroshan');
+                  //   },
+                  //   btnText: 'Today',
+                  //   btnColor: AppColors.white,
+                  //   borderColor: AppColors.primary,
+                  //   width: 40.0,
+                  //   fontColor: AppColors.primary,
+                  // ),
+                  child: DropdownButton2(
+                    icon: const Icon(Icons.keyboard_arrow_down),
+                    hint: const Text(
+                      'Active',
+                      style: TextStyle(
+                        fontSize: 13.0,
+                        color: AppColors.lightBlack,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                    items: status
+                        .map(
+                          (item) => DropdownMenuItem<String>(
+                            value: item,
+                            child: Text(
+                              item,
+                              style: const TextStyle(
+                                fontSize: 15.0,
+                                color: AppColors.lightBlack,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ),
+                        )
+                        .toList(),
+                    value: selectedState,
+                    onChanged: (value) {
+                      EasyLoading.show();
+                      setState(() {
+                        selectedState = value as String;
+                      });
+                      getApp();
                     },
-                    btnText: 'Today',
-                    btnColor: AppColors.white,
-                    borderColor: AppColors.primary,
-                    width: 40.0,
-                    fontColor: AppColors.primary,
+                    buttonHeight: 40,
+                    buttonWidth: 100,
+                    itemHeight: 36.0,
+                    dropdownWidth: 115,
+                    buttonPadding: const EdgeInsets.symmetric(horizontal: 1.0),
+                    dropdownDecoration: const BoxDecoration(
+                      color: AppColors.lightBackground,
+                    ),
                   ),
                 ),
-                const SizedBox(width: 24.0),
+                const SizedBox(width: 40.0),
                 Expanded(
                   child: CustomButton(
                     onTap: () {
@@ -277,7 +396,12 @@ class _DoctorAppointmentScreenState extends State<DoctorAppointmentScreen> {
                           const SizedBox(height: 16.0),
                           itemDetailRow(AppImages.calenderIcon, 'GT567ZX'),
                           const SizedBox(height: 10.0),
-                          itemDetailRow(AppImages.calenderIcon, TotalBookedSlotsCount.toString().split('.')[0] + '/' + TotalSlotsCount.toString().split('.')[0] + ' booked'),
+                          itemDetailRow(
+                              AppImages.calenderIcon,
+                              TotalBookedSlotsCount.toString().split('.')[0] +
+                                  '/' +
+                                  TotalSlotsCount.toString().split('.')[0] +
+                                  ' booked'),
                           const SizedBox(height: 10.0),
                           itemDetailRow(AppImages.locationIcon, 'Room 6-205'),
                           const SizedBox(height: 10.0),
@@ -285,48 +409,49 @@ class _DoctorAppointmentScreenState extends State<DoctorAppointmentScreen> {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
-                              const CircleAvatar(
-                                radius: 10.0,
-                                backgroundImage:
-                                    AssetImage(AppImages.doctorImage),
-                              ),
-                              const SizedBox(width: 8.0),
-                              GetBuilder<DoctorController>(
-                                builder: (s) => Text(
-                                  s.firstName,
-                                  style: const TextStyle(
-                                    fontSize: 15.0,
-                                    color: AppColors.black,
-                                    fontWeight: FontWeight.w700,
-                                  ),
-                                ),
-                              ),
+                              // const CircleAvatar(
+                              //   radius: 10.0,
+                              //   backgroundImage:
+                              //       AssetImage(AppImages.doctorImage),
+                              // ),
+                              // const SizedBox(width: 8.0),
+                              // GetBuilder<DoctorController>(
+                              //   builder: (s) => Text(
+                              //     s.firstName,
+                              //     style: const TextStyle(
+                              //       fontSize: 15.0,
+                              //       color: AppColors.black,
+                              //       fontWeight: FontWeight.w700,
+                              //     ),
+                              //   ),
+                              // ),
                             ],
                           ),
                           const SizedBox(height: 24.0),
                           Container(
-                            width: width,
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 8.0, vertical: 16.0),
-                            decoration: BoxDecoration(
-                              color: AppColors.white,
-                              borderRadius: BorderRadius.circular(2.0),
-                              border: Border.all(
-                                color: AppColors.primary,
-                                width: 0.5,
-                              ),
-                            ),
+                            // width: width,
+                            // padding: const EdgeInsets.symmetric(
+                            //     horizontal: 8.0, vertical: 16.0),
+                            // decoration: BoxDecoration(
+                            //   color: AppColors.white,
+                            //   borderRadius: BorderRadius.circular(2.0),
+                            //   border: Border.all(
+                            //     color: AppColors.primary,
+                            //     width: 0.5,
+                            //   ),
+                            // ),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
                                 //Name row
                                 Appointments.isEmpty
-                                    ? Center(child: CircularProgressIndicator())
+                                    ? Center(child: Lottie.network('https://assets3.lottiefiles.com/private_files/lf30_mb1rkenn.json'))
                                     : Column(
                                         children: List.generate(
                                         Appointments.length,
                                         (index) => signleApp(
+                                          Appointments[index]['Id'],
                                           Appointments[index]['Patient']
                                                       ['FirstName'] +
                                                   ' ' +
@@ -433,100 +558,152 @@ class _DoctorAppointmentScreenState extends State<DoctorAppointmentScreen> {
         ],
       );
 
-  Widget signleApp(String name, String des, String phoneNumber, String email) =>
-      Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Expanded(
-            flex: 8,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Text(
-                  name,
-                  style: const TextStyle(
-                    fontSize: 20.0,
-                    color: AppColors.black,
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-                const SizedBox(height: 12.0),
-                Text(
-                  des,
-                  style: const TextStyle(
-                    fontSize: 13.0,
-                    color: AppColors.black,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-                const SizedBox(height: 12.0),
-                const Text(
-                  'M567854',
-                  style: TextStyle(
-                    fontSize: 18.0,
-                    color: AppColors.black,
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-                const SizedBox(height: 8.0),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    const Text(
-                      'tel. ',
-                      style: TextStyle(
-                        fontSize: 15.0,
-                        color: AppColors.lightBlack,
-                      ),
-                    ),
-                    Text(
-                      phoneNumber,
-                      style: const TextStyle(
-                        fontSize: 15.0,
-                        color: AppColors.secondary,
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 8.0),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    const Text(
-                      'email ',
-                      style: TextStyle(
-                        fontSize: 15.0,
-                        color: AppColors.lightBlack,
-                      ),
-                    ),
-                    Text(
-                      email,
-                      style: const TextStyle(
-                        fontSize: 15.0,
-                        color: AppColors.secondary,
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
+  Widget signleApp(String id, String name, String des, String phoneNumber,
+          String email) =>
+      Container(
+        margin: const EdgeInsets.only(bottom: 5.0),
+        //padding: const EdgeInsets.only(bottom: 40.0),
+
+        // width: width,
+        padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 16.0),
+        decoration: BoxDecoration(
+          color: AppColors.white,
+          borderRadius: BorderRadius.circular(16.0),
+          border: Border.all(
+            color: AppColors.primary,
+            width: 0.5,
           ),
-          Expanded(
-            flex: 2,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: const [
-                Image(image: AssetImage(AppImages.userGreen)),
-                SizedBox(height: 12.0),
-                Image(image: AssetImage(AppImages.deleteBlue)),
-              ],
+        ),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Expanded(
+              flex: 8,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Text(
+                    name,
+                    style: const TextStyle(
+                      fontSize: 20.0,
+                      color: AppColors.black,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                  const SizedBox(height: 12.0),
+                  Text(
+                    des,
+                    style: const TextStyle(
+                      fontSize: 13.0,
+                      color: AppColors.black,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                  const SizedBox(height: 12.0),
+                  const Text(
+                    'M567854',
+                    style: TextStyle(
+                      fontSize: 18.0,
+                      color: AppColors.black,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                  const SizedBox(height: 8.0),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      const Text(
+                        'tel. ',
+                        style: TextStyle(
+                          fontSize: 15.0,
+                          color: AppColors.lightBlack,
+                        ),
+                      ),
+                      Text(
+                        phoneNumber,
+                        style: const TextStyle(
+                          fontSize: 15.0,
+                          color: AppColors.secondary,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 8.0),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      const Text(
+                        'email ',
+                        style: TextStyle(
+                          fontSize: 15.0,
+                          color: AppColors.lightBlack,
+                        ),
+                      ),
+                      Text(
+                        email,
+                        style: const TextStyle(
+                          fontSize: 15.0,
+                          color: AppColors.secondary,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
-          ),
-        ],
+            Expanded(
+              flex: 1,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  InkWell(
+                    child: SvgPicture.asset(AppImages.arrivedIcon),
+                    onTap: () => {Get.defaultDialog(
+                          title: "Are you sure?",
+                          textConfirm: "Confirm",
+                          textCancel: "Cancel",
+                          radius: 16,
+                          middleText: 'Complete Appointment',
+                          buttonColor: AppColors.secondary,
+                          onConfirm: () => {markAppointmentComplete(id), Get.back()}),},
+                  ),
+                  SizedBox(height: 12.0),
+                  InkWell(
+                    child: Image(image: AssetImage(AppImages.userGreen)),
+                    onTap: () => {
+                      Get.defaultDialog(
+                          title: "Are you sure?",
+                          textConfirm: "Confirm",
+                          textCancel: "Cancel",
+                          radius: 16,
+                          middleText: 'Start Appointment',
+                          buttonColor: AppColors.secondary,
+                          onConfirm: () => {markAppointmentInProgress(id), Get.back()}),
+                    },
+                  ),
+                  SizedBox(height: 12.0),
+                  InkWell(
+                    child: Image(image: AssetImage(AppImages.deleteBlue)),
+                    onTap: () => {
+                      Get.defaultDialog(
+                          title: "Are you sure?",
+                          textConfirm: "Confirm",
+                          textCancel: "Cancel",
+                          radius: 16,
+                          middleText: 'Cancel Appointment',
+                          buttonColor: AppColors.secondary,
+                          onConfirm: () => {cancelApp(id), Get.back()}),
+                    },
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       );
 }
