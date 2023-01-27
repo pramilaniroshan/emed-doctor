@@ -35,7 +35,10 @@ class _ScanQrScreenState extends State<ScanQrScreen> {
   List<int>? list;
   var image;
 
-  void getQrCode() async {
+  List Availability = [];
+  late SharedPreferences prefs;
+
+  void getQrCode(String id) async {
     print('Qr code');
     var prefs = await SharedPreferences.getInstance();
     String token = prefs.getString("token") ?? '';
@@ -46,7 +49,8 @@ class _ScanQrScreenState extends State<ScanQrScreen> {
       await dio
           .get(
               Constants().getBaseUrl() +
-                  '/Doctor/Availability/Qr?AvailabilityId=1960fcfe-51f1-46f1-8e1f-0f0e99bdc797',
+                  '/Doctor/Availability/Qr?AvailabilityId=' +
+                  id,
               options: Options(responseType: ResponseType.bytes))
           .then((res) {
         print(res);
@@ -63,11 +67,30 @@ class _ScanQrScreenState extends State<ScanQrScreen> {
     }
   }
 
+  void checkAvai() async {
+    print('Doctor Availability');
+    prefs = await SharedPreferences.getInstance();
+    String token = prefs.getString("token") ?? '';
+    try {
+      var dio = Dio();
+      dio.options.headers["authorization"] = "Bearer " + token;
+      await dio
+          .get(Constants().getBaseUrl() + '/Doctor/Availability')
+          .then((res) {
+        Availability = res.data['Data']['Data'];
+
+        if (Availability.isNotEmpty) {
+          getQrCode(Availability[0]['Id']);
+        }
+      });
+    } on DioError catch (e) {
+      print(e.response!.data);
+    }
+  }
+
   @override
   void initState() {
-    // TODO: implement initState
-    getQrCode();
-    //list = utf8.encoder('profile');
+    checkAvai();
   }
 
   @override
@@ -182,7 +205,11 @@ class _ScanQrScreenState extends State<ScanQrScreen> {
                         ? SizedBox(
                             height: MediaQuery.of(context).size.height / 5,
                             child: Center(
-                              child: CircularProgressIndicator(),
+                              child: CircularProgressIndicator(
+                                color: AppColors.secondary,
+                                semanticsLabel: 'Loading...',
+                                semanticsValue: 'Loading...',
+                              ),
                             ),
                           )
                         : image,
