@@ -68,6 +68,24 @@ class _AssistantsScreen extends State<AssistantsScreen> {
     }
   }
 
+  void deleteAssistant(String id) async {
+    EasyLoading.show();
+    var prefs = await SharedPreferences.getInstance();
+    String token = prefs.getString("token") ?? '';
+    try {
+      var dio = Dio();
+      dio.options.headers["authorization"] = "Bearer " + token;
+      await dio.delete(
+          Constants().getBaseUrl() + '/Doctor/Assistant/' + id,).then((res) {
+        getAssistants();
+        EasyLoading.dismiss();
+        EasyLoading.showSuccess('done');
+      });
+    } on DioError catch (e) {
+      print(e.response!.data);
+    }
+  }
+
   @override
   void initState() {
     // TODO: implement initState
@@ -149,7 +167,7 @@ class _AssistantsScreen extends State<AssistantsScreen> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           assistants.isEmpty
-                              ? const Center(child: CircularProgressIndicator())
+                              ? const Center(child: Text("No Assistants"))
                               : Column(
                                   children: List.generate(
                                   assistants.length,
@@ -332,7 +350,10 @@ class _AssistantsScreen extends State<AssistantsScreen> {
                         radius: 0,
                         middleText: '',
                         buttonColor: AppColors.secondary,
-                        onConfirm: () => {print('delete')}),
+                        onConfirm: () => {
+                          deleteAssistant(id),
+                          Get.back()
+                        }),
                   },
                   child: Image.asset(
                     AppImages.deleteBlue,
@@ -363,7 +384,7 @@ class _AssistantsScreen extends State<AssistantsScreen> {
                       ),
                       SizedBox(height: 8.0),
                       Text(
-                        'pramila@dota2.com',
+                        'no email',
                         style: TextStyle(
                           fontSize: 14.0,
                           color: AppColors.black,
@@ -404,7 +425,7 @@ class _AssistantsScreen extends State<AssistantsScreen> {
                         ),
                         SizedBox(height: 8.0),
                         Text(
-                          '0711844200',
+                          'no mobile',
                           style: TextStyle(
                             fontSize: 14.0,
                             color: AppColors.black,
