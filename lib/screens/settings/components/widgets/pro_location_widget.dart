@@ -8,12 +8,16 @@ import 'package:emedDoctor/widgets/custom_button.dart';
 class ProLocationWidget extends StatefulWidget {
   final String? locationNameText;
   final String? addressText;
+  final double? latitude;
+  final double?  longitude;
   final Function()? onTap;
 
   const ProLocationWidget({Key? key,
     required this.onTap,
     this.locationNameText = 'Colombo center',
     this.addressText = 'Address text',
+    this.latitude = 0.0,
+    this.longitude = 0.0
 }) : super(key: key);
 
   @override
@@ -27,9 +31,9 @@ class _ProLocationWidgetState extends State<ProLocationWidget> {
   void _onMapCreated(GoogleMapController controller) {
     setState(() {
       _markers.add(
-        const Marker(
-          markerId: MarkerId('id-1'),
-          position: LatLng(6.9271, 79.8612),
+         Marker(
+          markerId: const MarkerId('id-1'),
+          position: LatLng( widget.latitude ?? 0, widget.longitude ?? 0),
         ),
       );
     });
@@ -62,9 +66,9 @@ class _ProLocationWidgetState extends State<ProLocationWidget> {
                 zoomControlsEnabled: false,
                 onMapCreated: _onMapCreated,
                 markers: _markers,
-                initialCameraPosition: const CameraPosition(
-                  target: LatLng(6.9271, 79.8612),
-                  zoom: 12,
+                initialCameraPosition:  CameraPosition(
+                  target: LatLng(widget.latitude ?? 0, widget.longitude ?? 0),
+                  zoom: 8,
                 ),
               ),
             ),
