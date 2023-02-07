@@ -16,7 +16,10 @@ import 'components/billing_screen.dart';
 import 'components/personal_info_screen.dart';
 
 class SettingsScreen extends StatefulWidget {
-  const SettingsScreen({Key? key}) : super(key: key);
+
+  int ? index;
+
+  SettingsScreen(this.index,{Key? key}) : super(key: key);
 
   @override
   State<SettingsScreen> createState() => _SettingsScreenState();
@@ -60,12 +63,14 @@ class _SettingsScreenState extends State<SettingsScreen>
   void initState() {
     tabController = TabController(length: 5, vsync: this);
     super.initState();
+    tabController!.animateTo(widget.index ?? 0);
   }
 
   @override
   void dispose() {
     super.dispose();
     tabController!.dispose();
+  
   }
 
   @override
