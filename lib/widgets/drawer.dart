@@ -157,7 +157,9 @@ class DoctorDrawer extends StatelessWidget {
               ),
             ),
             ListTile(
-              onTap: () {},
+              onTap: () {
+                 Get.to( SettingsScreen(4));
+              },
               leading: Padding(
                 padding: const EdgeInsets.only(top: 6.0, left: 12.0),
                 child: Image.asset(AppImages.location),
@@ -194,7 +196,7 @@ class DoctorDrawer extends StatelessWidget {
             ),
             ListTile(
               onTap: () {
-                Get.to(const SettingsScreen());
+                Get.to( SettingsScreen(0));
               },
               leading: Padding(
                 padding: const EdgeInsets.only(top: 6.0, left: 12.0),
