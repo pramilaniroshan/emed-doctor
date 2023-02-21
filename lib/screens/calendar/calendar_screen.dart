@@ -9,6 +9,7 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
+import 'dart:math' as math;
 
 import '../../config/app_images.dart';
 import '../../config/constants.dart';
@@ -25,6 +26,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
   late SharedPreferences prefs;
   List<Appointment> appointmentList = [];
   List doctorAvailabilities = [];
+  List locations = [];
 
   void getAvailability() async {
     print('Doctor Availabilities');
@@ -46,6 +48,27 @@ class _CalendarScreenState extends State<CalendarScreen> {
       });
     } on DioError catch (e) {
       print(e.response!.data);
+    }
+  }
+
+  void getLocations() async {
+    var prefs = await SharedPreferences.getInstance();
+    String token = prefs.getString("token") ?? '';
+
+    try {
+      var dio = Dio();
+      dio.options.headers["authorization"] = "Bearer " + token;
+      await dio
+          .get(
+        Constants().getBaseUrl() + '/Doctor/Location',
+      )
+          .then((res) {
+        setState(() {
+          locations = res.data['Data']['Data'];
+        });
+      });
+    } on DioError catch (e) {
+      print(e.response!.data['Error']);
     }
   }
 
@@ -71,19 +94,26 @@ class _CalendarScreenState extends State<CalendarScreen> {
           subject: doctorAvailabilities[i]['Location']['LocationAddress'] +
               " " +
               " $i",
-          color: Colors.blue.withOpacity(0.1)));
+          color: Color((math.Random().nextDouble() * 0xFFFFFF).toInt())
+              .withOpacity(1.0)));
     }
 
-    resources.add(
-        CalendarResource(displayName: 'John', id: '0001', color: Colors.red));
+    // resources.add(
+    //     CalendarResource(displayName: 'John', id: '0001', color: Colors.red));
 
     return meetings;
+  }
+
+  refresh() {
+    setState(() {});
+    getAvailability();
   }
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    getLocations();
     getAvailability();
   }
 
@@ -109,26 +139,25 @@ class _CalendarScreenState extends State<CalendarScreen> {
           view: CalendarView.day,
           showDatePickerButton: true,
           allowViewNavigation: true,
-          timeSlotViewSettings: const TimeSlotViewSettings(),
-          scheduleViewSettings: const ScheduleViewSettings(
-            monthHeaderSettings:
-                MonthHeaderSettings(backgroundColor: AppColors.redColor),
+          allowDragAndDrop: true,
+          timeSlotViewSettings: const TimeSlotViewSettings(
+            timeIntervalHeight: 80,
           ),
+          scheduleViewSettings: const ScheduleViewSettings(
+            hideEmptyScheduleWeek: false,
+            monthHeaderSettings:
+                MonthHeaderSettings(backgroundColor: AppColors.lightBackground),
+          ),
+          scheduleViewMonthHeaderBuilder: scheduleViewHeaderBuilder,
           allowedViews: const <CalendarView>[
-            CalendarView.day,
-            CalendarView.week,
-            CalendarView.month,
-            CalendarView.timelineWorkWeek,
-            CalendarView.timelineDay,
-            CalendarView.timelineMonth,
+            //CalendarView.timelineDay,
             CalendarView.schedule,
           ],
           onTap: (CalendarTapDetails details) {
             DateTime date = details.date!;
             if (details.appointments == null) {
-              Get.dialog(PlannerAddDialog(date));
+              Get.dialog(PlannerAddDialog(date, locations , refresh));
             }
-            print(date);
           },
           dataSource: MeetingDataSource(appointmentList),
           appointmentBuilder: appointmentBuilder,
@@ -146,23 +175,23 @@ class _CalendarScreenState extends State<CalendarScreen> {
         Container(
           width: calendarAppointmentDetails.bounds.width,
           height: calendarAppointmentDetails.bounds.height / 2,
-          color: appointment.color,
-          child: const Icon(
-            Icons.group,
-            color: Colors.black,
-          ),
+          color: AppColors.redColor,
+          // child: const Icon(
+          //   Icons.access_time,
+          //   color: Colors.black,
+          // ),
         ),
         Container(
           width: calendarAppointmentDetails.bounds.width,
           height: calendarAppointmentDetails.bounds.height / 2,
-          color: appointment.color,
+          color: AppColors.redColor,
           child: Text(
-            appointment.subject +
+            appointment.location! +
                 DateFormat(' (hh:mm a').format(appointment.startTime) +
                 '-' +
                 DateFormat('hh:mm a)').format(appointment.endTime),
             textAlign: TextAlign.center,
-            style: const TextStyle(fontSize: 10),
+            style: const TextStyle(color: AppColors.white, fontSize: 15),
           ),
         )
       ],
@@ -173,6 +202,58 @@ class _CalendarScreenState extends State<CalendarScreen> {
 class MeetingDataSource extends CalendarDataSource {
   MeetingDataSource(List<Appointment> source) {
     appointments = source;
+  }
+}
+
+Widget scheduleViewHeaderBuilder(
+    BuildContext buildContext, ScheduleViewMonthHeaderDetails details) {
+  final String monthName = _getMonthName(details.date.month);
+  return Stack(
+    children: [
+      Image(
+          image: ExactAssetImage('assets/images/' + monthName + '.png'),
+          fit: BoxFit.cover,
+          width: details.bounds.width,
+          height: details.bounds.height),
+      Positioned(
+        left: 55,
+        right: 0,
+        top: 20,
+        bottom: 0,
+        child: Text(
+          monthName + ' ' + details.date.year.toString(),
+          style: TextStyle(fontSize: 18),
+        ),
+      )
+    ],
+  );
+}
+
+String _getMonthName(int month) {
+  if (month == 01) {
+    return 'January';
+  } else if (month == 02) {
+    return 'February';
+  } else if (month == 03) {
+    return 'March';
+  } else if (month == 04) {
+    return 'April';
+  } else if (month == 05) {
+    return 'May';
+  } else if (month == 06) {
+    return 'June';
+  } else if (month == 07) {
+    return 'July';
+  } else if (month == 08) {
+    return 'August';
+  } else if (month == 09) {
+    return 'September';
+  } else if (month == 10) {
+    return 'October';
+  } else if (month == 11) {
+    return 'November';
+  } else {
+    return 'December';
   }
 }
 
